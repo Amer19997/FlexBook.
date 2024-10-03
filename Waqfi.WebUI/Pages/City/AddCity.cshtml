@@ -1,0 +1,127 @@
+﻿@page
+@model WebUI.Pages.City.AddCityModel
+@{
+}
+
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-success="addProductUnitSuccess"
+      data-ajax-failure="addProductUnitFailed"
+      id="addProductUnitform">
+    <div class="app-heading">
+        <div class="app-title">
+            <a href="/City/Index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <h3 class="m-0">إضافة مدينة جديدة </h3>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-tertiary">اضافة</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+        </div>
+    </div>
+    <div class="app-form">
+        <div class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">اسم المدينة بالعربية</label> <span class="text-danger">*</span>
+                                <input type="text" asp-for="@Model.CityModel.NameAr" class="form-control" placeholder="اكتب اسم المدينة بالعربية" />
+                                <span class="text-danger" asp-validation-for="@Model.CityModel.NameAr" class="text-error">
+                                </span>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">اسم المدينة  بالإنجليزية</label> <span class="text-danger">*</span>
+                                <input type="text" asp-for="@Model.CityModel.NameEn" class="form-control" placeholder="اكتب اسم المدينة بالإنجليزية" />
+                                <span class="text-danger" asp-validation-for="@Model.CityModel.NameEn" class="text-error">
+                                </span>
+                            </div>
+
+                            <div  class="col-lg-6 col-md-6 col-12  mb-3" id="productbannerId">
+                                <label for=""> اسم المنطقة </label><span class="text-danger">*</span>
+                                <select asp-for="@Model.CityModel.CountryId" id="productbannerid" class="selectpicker form-select ps-5" data-show-subtext="false" data-live-search="true" aria-label="Default select example" onchange="getproductname()" asp-items="@(new SelectList(Model.RegtionList,"Id","NameAr"))">
+                                    <option value="" selected></option>
+
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.CityModel.CountryId" class="text-error"></span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</form>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء إضافة مدينة؟  </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/City/Index">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end delete modal-->
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/City.js?version=@(DateTime.Now.Ticks)"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js"></script>
+
+}

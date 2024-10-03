@@ -1,0 +1,730 @@
+﻿@page
+@using WebUI.Enums;
+@using WebUI.IntegrationServices;
+@model WebUI.Pages.ApprovedProvider.SocietyDetailsModel
+@{
+    var bankindex = 1;
+    var delegator = 1;
+    var member = 1;
+    var OtherAttachmentIndex = 1;
+}
+<div class="row">
+    <div class="col-12">
+        <!-- heading  -->
+        <div class="app-heading">
+            <div class="app-title">
+                <a href="/ApprovedProvider/index" class="ps-1">
+                    <img class="rotated"
+                         src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                         alt="details-icon"
+                         class="icons" />
+                </a>
+                <h3 class="m-0">بيانات تسجيل الجهة</h3>
+            </div>
+            @if ((int)Model.SocietyDetails.Status == (int)RequestStatusEnum.Pending)
+            {
+
+                    <div class="form-buttons">
+                        <a class="btn btn-tertiary"
+                   data-bs-toggle="modal"
+                   data-bs-target="#accept-Modal">قبول الطلب</a>
+                    @if (User.IsInRole(SystemRoles.ViewProvidersApprovalList) || User.IsInRole(SystemRoles.SuperAdmin))
+                    {
+                                <a class="btn btn-light-primary" href="" onclick="AccessModal()" data-bs-toggle="modal" data-bs-target="#reject-Modal">رفض الطلب</a>
+                    }
+                    @if (User.IsInRole(SystemRoles.ViewProvidersApprovalList) || User.IsInRole(SystemRoles.SuperAdmin))
+                    {
+                                <a class="btn btn-transparent" href="" onclick="OpenReturnModal()" data-bs-toggle="modal" data-bs-target="#edit-Modal">
+                                    <img src="~/Cms_Lib/img/icons/back-arrow.svg"
+                         alt="search-icon" />اعادة للتعديل
+                                </a>
+                    }
+                    </div>
+            }
+            @if ((int)Model.SocietyDetails.Status == (int)RequestStatusEnum.Rejected)
+            { }
+            @if ((int)Model.SocietyDetails.Status == (int)RequestStatusEnum.New)
+            { }
+
+        </div>
+
+        <div class="app-form">
+            <!-- form content -->
+
+            <form class="form-wrapper">
+                <div class="accordion" id="accordionExample">
+                    <!-- ===========first=========== -->
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingOne">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                <h3 class="accordion-header">البيانات الأساسية</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+
+                        <div id="collapseOne"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                نوع الجهة
+                                            </label>
+
+                                            <div class="d-flex align-items-center">
+
+                                                <p class="">جمعيه أهلية</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                درجة الحوكمة
+                                            </label>
+                                            <div class="d-flex align-items-center">
+
+                                                <p class="">محوكمة</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> رقم التسجيل</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.AssociationNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> اسم الجهة</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.AssociationName ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> معيار الشفافية والاصلاح</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.TransparencyStandard ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> تاريخ التسجيل بالهجري</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.LicenseStartDate ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />تاريخ نهاية التسجيل بالهجري</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.LicenseEndDate ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> تصنيف الحوكمة</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.GovernanceClassification ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />الجنس المخدوم</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.Gender ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> التصنيف النوعى</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.QualitativeClassification ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> التصنيف الفرعى الأول</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.FirstSubclass ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> التصنيف الفرعى التانى</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.SecondSubclass ?? "لايوجد")</p>
+                                        </div>
+
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />رقم 700</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.CommercialRegisterNo ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> الحالة</label>
+
+                                            <p class="">@(Model.SocietyDetails.StatusAsString)</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />تاريخ الأنضمام للبوابة</label>
+
+                                            <p class="">@(Model.SocietyDetails.BasicInfoDto.JoiningDate ?? "لايوجد")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ==========2en======= -->
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingTwo">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo"
+                                    aria-expanded="true"
+                                    aria-controls="collapseTwo">
+                                <h3 class="accordion-header">بيانات الاتصال</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+
+                        <div id="collapseTwo"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingTwo"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> رقم الجوال</label>
+
+                                            <p class="">@(Model.SocietyDetails.ContactInfo.MobileNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> رقم الهاتف</label>
+
+                                            <p class="">@(Model.SocietyDetails.ContactInfo.LandLineNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> البريد الإلكتروني</label>
+
+                                            <p class="">@(Model.SocietyDetails.ContactInfo.Email ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> الموقع الإلكتروني </label>
+
+                                            <p class="">@(Model.SocietyDetails.ContactInfo.Website ?? "لايوجد")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ==========3rd======= -->
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingThree">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree"
+                                    aria-expanded="true"
+                                    aria-controls="collapseThree">
+                                <h3 class="accordion-header">بيانات العنوان</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+                        <div id="collapseThree"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingThree"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> المنطقة</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.Regoin ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> المدينة</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.City ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> العنوان</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.DetailedAddress ?? "لايوجد")</p>
+                                        </div>
+
+                                        <p>العنوان الوطني</p>
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> العنوان المختصر</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.BriefAddress ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> رقم المبنى</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.BuildingNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> الشارع</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.Street ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> الرقم الفرعي</label>
+
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.SideNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> الحي</label>
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.District ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> الرمز البريدي</label>
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.PostalCode ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> المدينة</label>
+                                            <p class="">@(Model.SocietyDetails.AddressInfo.CityLookUp ?? "لايوجد")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 4th -->
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingFour">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour"
+                                    aria-expanded="true"
+                                    aria-controls="collapseFour">
+                                <h3 class="accordion-header">
+                                    بيانات مجلس النظارة
+                                </h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+                        <div id="collapseFour"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingFour"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="d-flex">
+                                            <span>
+                                                <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                            </span>
+                                            <p class="me-1">بيانات رئيس مجلس الإدارة</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> تاريخ تشكيل مجلس الإدارة بالهجري</label>
+
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.BoardPresident.StartDate ?? "لايوجد")</p>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> تاريخ نهاية مجلس الإدارة بالهجري</label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.BoardPresident.EndDate ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> اسم رئيس مجلس الإدارة</label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.BoardPresident.Name ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                رقم هوية رئيس مجلس الإدارة
+                                            </label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.BoardPresident.IdentityNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                رقم التواصل لرئيس مجلس الإدارة
+                                            </label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.BoardPresident.MobileNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                البريد الألكترونى لرئيس مجلس الإدارة
+                                            </label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.BoardPresident.Email ?? "لايوجد")</p>
+                                        </div>
+
+                                        <div class="d-flex">
+                                            <span>
+                                                <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                            </span>
+                                            <p class="me-1">بيانات المدير التنفيدي</p>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> اسم المدير التنفيذي</label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.Ceo.Name ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> رقم هوية المدير التنفيذي</label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.Ceo.IdentityNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                رقم التواصل للمدير التنفيذي
+                                            </label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.Ceo.MobileNumber ?? "لايوجد")</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                البريد الالكتروني للمدير التنفيذي
+                                            </label>
+                                            <p class="">@(Model.SocietyDetails.DirectorsBoard.Ceo.Email ?? "لايوجد")</p>
+                                        </div>
+                                        @if (Model.SocietyDetails.DirectorsBoard.Delegators.Count > 0)
+                                        {
+                                            <div class="d-flex">
+                                                <span>
+                                                    <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                                </span>
+                                                <p class="me-1">بيانات المفوضين</p>
+                                            </div>
+
+                                            <div class="col-10 m-auto">
+                                                <!--strat table -->
+                                                <div class="app-table table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr class="table-header">
+                                                                <th scope="col">م</th>
+                                                                <th scope="col">اسم المفوض</th>
+                                                                <th scope="col">رقم الهوية</th>
+                                                                <th scope="col">رقم التواصل</th>
+                                                                <th scope="col">البريد الالكتروني</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in @Model.SocietyDetails.DirectorsBoard.Delegators)
+                                                            {
+                                                                <tr>
+                                                                    <td>@(delegator++)</td>
+                                                                    <td>@(item.Name ?? "لايوجد") </td>
+                                                                    <td>@(item.IdentityNumber ?? "لايوجد") </td>
+                                                                    <td class="phoneNumber">@(item.MobileNumber ?? "لايوجد")</td>
+                                                                    <td>@(item.Email ?? "لايوجد") </td>
+                                                                </tr>
+                                                            }
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 5th -->
+                    @if (@Model.SocietyDetails.BankInfoList.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingFive">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive"
+                                    aria-expanded="true"
+                                    aria-controls="collapseFive">
+                                    <h3 class="accordion-header">البيانات المالية</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseFive"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingFive"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="d-flex">
+                                        <span>
+                                            <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                             alt=""
+                                             width="13px"
+                                             height="13px" />
+                                        </span>
+                                        <p class="me-1">بيانات الحسابات البنكية للجهة</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10 m-auto">
+
+                                                <!--strat table -->
+                                                <div class="app-table table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr class="table-header">
+                                                                <th scope="col">م</th>
+                                                                <th scope="col">اسم البنك</th>
+                                                                <th scope="col">رقم الحساب البنكي</th>
+                                                                <th scope="col">
+                                                                    رقم حساب الآيبان البنكي
+                                                                </th>
+                                                                <th scope="col">
+                                                                    اسم حساب الجمعية بالبنك
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in @Model.SocietyDetails.BankInfoList)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @(
+                                                                            bankindex++
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.BankName ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.BankAccountNumber ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.IbanAccountNumber ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.BeneficiaryName
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- 6th -->
+                    @if (Model.SocietyDetails.SocialInfo != default)
+                    {
+                        <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingSix">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix"
+                                    aria-expanded="true"
+                                    aria-controls="collapseSix">
+                                    <h3 class="accordion-header">حسابات التواصل</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseSix"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingSix"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> حساب تويتر</label>
+
+                                                <p class="">@(Model.SocietyDetails.SocialInfo.Twitter ?? "لايوجد")</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> حساب الانستغرام</label>
+
+                                                <p class="">@(Model.SocietyDetails.SocialInfo.Instgram ?? "لايوجد")</p>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> حساب تيك توك</label>
+
+                                                <p class="">@(Model.SocietyDetails.SocialInfo.TickTok ?? "لايوجد")</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> حساب يوتيوب</label>
+
+                                                <p class="">@(Model.SocietyDetails.SocialInfo.Youtube ?? "لايوجد")</p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""><img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" /> حساب سناب شات</label>
+
+                                                <p class="">@(Model.SocietyDetails.SocialInfo.Snapchat ?? "لايوجد")</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- 7th -->
+                    @if (Model.SocietyDetails.FileInfo.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingSeven">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSeven"
+                                    aria-expanded="true"
+                                    aria-controls="collapseSeven">
+                                    <h3 class="accordion-header">المرفقات</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseSeven"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingSeven"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            @foreach (var item in Model.SocietyDetails.FileInfo)
+                                            {
+                                                @if (!item.OtherAttachmentFlage)
+                                                {
+                                                    <div class="col-lg-2 col-md-4 col-12">
+
+
+
+                                                        <label for=""> @item.Type</label>
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                            <div class="p-2 m-1">
+                                                                <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt="" />
+                                                            </div>
+                                                            <span class="w-75 text-center">
+                                                                <p>@item.FileName</p>
+                                                                <span cal>@item.Size M.B</span>
+                                                                <img onclick="dowenloadFile('@item.FileId')"
+                                                         class="me-4"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                                <img onclick="previewFile('@item.FileId')"
+                                                         class=""
+                                                         src="~/Cms_Lib/img/icons/preview.png"
+                                                         alt=""
+                                                         srcset="" />
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                            }
+                                            @foreach (var item in Model.SocietyDetails.FileInfo)
+                                            {
+                                                @if (item.OtherAttachmentFlage)
+                                                {
+                                                    <div class="col-lg-2 col-md-4 col-12">
+                                                        @if (item.OtherAttachmentFlage && OtherAttachmentIndex <= 1)
+                                                        {
+                                                            OtherAttachmentIndex = OtherAttachmentIndex + 1;
+                                                            <label for=""> @item.Type</label>
+                                                        }
+                                                        @if (item.OtherAttachmentFlage && OtherAttachmentIndex > 1)
+                                                        {
+                                                            <label for="">  </label>
+                                                        }
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                            <div class="p-2 m-1">
+                                                                <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt="" />
+                                                            </div>
+                                                            <span class="w-75 text-center">
+                                                                <p>@item.FileName</p>
+                                                                <span cal>@item.Size M.B</span>
+                                                                <img onclick="dowenloadFile('@item.FileId')"
+                                                         class="me-4"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                                <img onclick="previewFile('@item.FileId')"
+                                                         class=""
+                                                         src="~/Cms_Lib/img/icons/preview.png"
+                                                         alt=""
+                                                         srcset="" />
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            }
+
+
+                        </div>
+
+                    }
+
+            </form>
+        </div>
+    </div>
+    <div class="col-12">
+        <!-- Add your content here -->
+    </div>
+    <input id="RequestId" value="@Model.SocietyId" type="hidden" />
+</div>
+
+
+
+@section scripts {
+            <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+            <script src="~/js/returnaction.js"></script>
+            <script src="~/js/downloadattachment.js"></script>
+            <script src="~/js/provider/providerscript.js?version=@(DateTime.Now.Ticks)"></script>
+}

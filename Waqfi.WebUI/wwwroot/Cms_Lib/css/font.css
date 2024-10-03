@@ -1,0 +1,31 @@
+/**Regular **/
+@font-face {
+  font-family: "DINNextLTArabic-Regular";
+  src: url("../fonts/regular/DINNextLTArabic-Regular_0.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+/**Meduim**/
+@font-face {
+  font-family: "DINNextLTArabic-Medium";
+  src: url("../fonts/meduim/DINNextLTArabic-Medium.ttf") format("truetype");
+  font-weight: 400;
+}
+/**Bold**/
+@font-face {
+  font-family: "DINNextLTArabic-Bold";
+  src: url("../fonts/bold/DINNextLTArabic-Bold_0.ttf") format("truetype");
+  font-weight: bold;
+  font-style: bold;
+}
+
+/****fonts***/
+.font-regular {
+  font-family: "DINNextLTArabic-Regular";
+}
+.font-medium {
+  font-family: "DINNextLTArabic-Medium";
+}
+.font-bold {
+  font-family: "DINNextLTArabic-Bold";
+}

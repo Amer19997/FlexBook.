@@ -1,0 +1,147 @@
+﻿@page
+@model WebUI.Pages.QualitativeClassfication.EditModel
+@{
+}
+
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="BeforeSubmit"
+      data-ajax-success="addSuccess"
+      data-ajax-failure="addFailed"
+      id="addform"
+      enctype="multipart/form-data">
+    <div class="app-heading">
+        <div class="app-title">
+            <a href="/QualitativeClassfication/Index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <h3 class="m-0">تعديل تصنيف نوعى جديد </h3>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" id="saveNewsbutton" class="btn btn-tertiary" onclick="Trim()">تعديل</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+        </div>
+    </div>
+    <div class="app-form">
+        <div class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+                            <input asp-for="@Model.item.Id" hidden />
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">الأسم بالعربية </label><span class="text-danger">*</span>
+                                        <input id="editModelNameArId" asp-for="@Model.item.NameAr" type="text" class="form-control" maxlength="50" placeholder="اكتب الأسم بالعربية " />
+                                        <span class="text-danger" asp-validation-for="@Model.item.NameAr" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">الأسم بالانجليزية </label><span class="text-danger">*</span>
+                                        <input id="editModelNameEnId" asp-for="@Model.item.NameEn" type="text" class="form-control" maxlength="50" placeholder="اكتب الأسم بالأنجليزية" />
+                                        <span class="text-danger" asp-validation-for="@Model.item.NameEn" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء تعديل التصنيف؟  </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/QualitativeClassfication/Index">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        function addSuccess(result) {
+
+            if (result.success && result.errors.length == 0) {
+                swal.fire({
+                    title: 'تمت عملية الحفظ بنجاح',
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer: 5000
+                }).then(() => {
+                    $("#saveNewsbutton").attr("disabled", false);
+                    window.location.replace("/QualitativeClassfication/Index"
+                    );
+                });
+            }
+            else {
+
+                $("#saveNewsbutton").attr("disabled", false);
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: result.errors[0],
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+            }
+        }
+        function addFailed(result) {
+            $("#saveNewsbutton").attr("disabled", false);
+
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: "حدث خطأ ما",
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+        function BeforeSubmit() {
+            $("#saveNewsbutton").attr("disabled", true);
+        }
+
+        function Trim() {
+            $("#editModelNameArId").val($("#editModelNameArId").val().trim())
+            $("#editModelNameEnId").val($("#editModelNameEnId").val().trim())
+        }
+    </script>
+
+}

@@ -1,0 +1,121 @@
+﻿@using WebUI.IntegrationServices;
+@using WebUI.Models.OfflineDonation;
+@model OfflineDonationsDto
+@{
+
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="col-12">
+        <!--strat table -->
+        <div class="app-table table-responsive">
+            <table id="Questiontable" class="table fagtable table-bordered">
+                <thead>
+                    <tr class="table-header">
+                        <th scope="col">م</th>
+                        <th scope="col">اسم المنتج</th>
+                        <th scope="col"> الجهة</th>
+                        <th scope="col"> قيمة التبرع</th>
+                        <th scope="col"> خطاب الاضافة</th>
+                        <th scope="col"> تاريخ ارسال الطلب</th>
+                        <th scope="col">حالة الطلب</th>
+                        <th scope="col">الإجراء</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.OfflineDonationRequests.Any())
+                    {
+                        @foreach (var item in Model.OfflineDonationRequests)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@item.ProductNameAr  (@item.ProductNo)</td>
+                                <td>@item.ProviderNameAr</td>
+                                <td>@item.Amount</td>
+                                <td>
+                                    <a style="cursor:pointer" onclick="dowenloadFile('@item.Id')">
+                                        <img src="~/cms_lib/img/icons/Download.svg" />
+                                    </a>
+                                </td>
+                                <td>@item.RequestDate</td>
+                                @if (item.RequestStatus == RequestStatus._2)
+                                {
+                                    @*Approve*@
+                                    <td class="text-success">@item.Status</td>
+
+                                }
+                                else if (item.RequestStatus == RequestStatus._3)
+                                {
+                                    @*Reject*@
+
+                                    <td style="color:red">@item.Status</td>
+
+                                }
+                                else if (item.RequestStatus == RequestStatus._1)
+                                {
+                                    @*Pending*@
+                                    <td class="text-warning">@item.Status</td>
+
+                                }
+                                <td>
+                                    <div class="controls">
+
+                                        <ul>
+                                            
+                                            <li>
+                                                @if (item.RequestStatus==RequestStatus._2)
+                                                {
+                                                    @*Approve*@
+                                                    <img src="~/cms_lib/img/icons/DocumentHide.svg" />
+                                                }
+                                                else if (item.RequestStatus == RequestStatus._3)
+                                                {
+                                                    @*Reject*@
+
+                                                    <a class="RejectResonsReqs" style="cursor:pointer" data-id="@item.Reason"><img src="~/cms_lib/img/icons/document.svg" /></a>
+                                                }
+                                                else if (item.RequestStatus == RequestStatus._1)
+                                                {
+                                                    @*Pending*@
+                                                    <a  class="RequestAction" style="cursor:pointer" data-id="@item.Id"><img src="~/cms_lib/img/icons/document.svg" /></a>
+                                                }
+                                               
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="10" class="no-items-cont">
+                                <span>لا يوجد نتائج للبحث</span>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber ?? 1">
+
+    </vc:pager>
+
+</div>
+
+@*<script src="~/js/offlinedonation/index.js"></script>*@

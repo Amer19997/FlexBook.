@@ -1,0 +1,36 @@
+.app-table table tbody tr td:first-child {
+    width: 2.5rem;
+}
+
+
+
+.app-title {
+    width: auto !important;
+}
+
+form .btn.btn-secondary {
+    background-color: #34BAA1;
+}
+
+.line-befor {
+    position: relative;
+}
+
+    .line-befor::before {
+        position: absolute;
+        content: '';
+        height: 1px;
+        width: 1rem;
+        background: #C5C7E3;
+        right: 1rem;
+        top: 1rem;
+    }
+
+.modal-button .btn-primary {
+    background-color: #F88930;
+}
+
+
+.app-fag .close-filter {
+    margin-right:15px;
+}

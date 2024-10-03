@@ -1,0 +1,44 @@
+﻿@model RequestRejectionModel
+<!--start add modal-->
+@*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Pop-UP-Modal" id="reject-Modal" hidden></button>
+*@<div class="modal fade body-modal"
+       id="Pop-UP-Modal"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center p-0">
+            <div class="modal-body text-end">
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=RejectRequest"
+                      data-ajax-method="post"
+                      data-ajax-success="swlSuccess"
+                      data-ajax-failure="swlerror"
+                      id="approve-request-form">
+
+                    <h3>ابداء سبب الرفض</h3>
+                    <p><small>يرجى العلم بانة لن يتم رفض الطلب الا بعد ابدائها سبب للجهة.</small></p>
+                    <div class="">
+                        <textarea  asp-for="@Model.Notes" maxlength="2500" id="RejectionReason" class="form-control w-100" rows="7" placeholder="اكتب سبب الرفض"></textarea>
+                        <span id="error" style="color:red"></span>
+                        <p><small>عدد الاحرف المسموح بها 2500 حرف.</small></p>
+                        <span style="color:red"  asp-validation-for="@Model.Notes"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="@Model.RequestId" />          
+
+                    <div class="modal-button">
+                        <button onclick="Trim()" id="deactive-id" class=" btn btn-tertiary">
+                            <img src="~/Cms_Lib/img/icons/Send.svg" alt="details-icon" class="icons ms-1 mt-1" />ارسال
+                        </button>
+                        <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

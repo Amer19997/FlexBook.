@@ -1,0 +1,437 @@
+﻿@page
+@model WebUI.Pages.AboutUs.IndexModel
+@{
+}
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-url="?handler=AddItem"
+      data-ajax-method="post"
+      data-ajax-success="AddItemSuccess"
+      data-ajax-failure="AddItemFailed"
+      id="approve-request-form"
+      enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12">
+            <!-- heading  -->
+            <div class="app-heading">
+                <div class="app-title">
+
+                    <h3 class="m-0">تعديل بيانات تعريف المنصة</h3>
+
+                </div>
+                <div class="form-buttons">
+                    <button id="submitbutton" type="submit" class="btn btn-tertiary" href="./product-list.html">حفظ التعديلات</button>
+                    <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#ChancelEditAboutUS">الغاء</a>
+                </div>
+            </div>
+            <div class="app-form">
+                <!-- form content -->
+
+                <div class="form-wrapper">
+                    <div class="form-content">
+
+                        <!-- ==========4en======= -->
+                        <div class="col-12 col-md-6  mb-3">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for=""> صوره الواجهة </label><span class="text-danger">*</span>
+                                    <input type="hidden" id="MIconIsEdit" asp-for="@Model.AboutusDto.IconIsEdit" />
+
+                                    <div class="col-md-12 col-12" id="IconFileDefultId" hidden>
+
+
+                                        <div class="upload-container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="attachFile">
+                                                        <input style="width: 560px;height: 410px; display: inline-flex;" type="image" id="IconID" hidden />
+                                                        <label for="imgUpload1" id="imgUpload11">
+                                                            <span>
+                                                                <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                     alt="upload-icon"
+                                                                     class="" />
+                                                            </span>
+                                                            <p>
+                                                                صوره الواجهة
+                                                            </p>
+                                                            <p>
+                                                                الحد الاقصى 600 kb <br />
+                                                                Bmp ,jpg ,png ,jpeg <br />
+                                                                المقاس ( 800 - 1200 )
+                                                            </p>
+                                                        </label>
+
+                                                         <input type="hidden" id="MIconIsEdit" asp-for="@Model.AboutusDto.ImageUrl" />
+
+
+                                                        <input asp-for="@Model.AboutusDto.IconDto" class="form-control" onchange="CheckDimension(event,1200,800,'imgUpload1','IconID','imgUpload11','DeleteIconID')" id="imgUpload1" accept=".jpg, .jpeg, .png" placeholder="upload" hidden />
+                                                        <span class="text-danger" asp-validation-for="@Model.AboutusDto.IconDto" class="text-error" id="nameValidation">
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <img id="DeleteIconID" onclick="deleteImage('IconID','DeleteIconID','imgUpload1','imgUpload11')" hidden src="~/cms_lib/img/icons/Delete.svg">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12" id="IconFileId">
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img src="@Model.AboutusDto.ImageUrl" style="width: 560px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+                                             
+                                                    <div class="file-icon">
+                                                        <button type="button">
+                                                            <img onclick="DeleteIcon()" src="~/cms_lib/img/icons/Delete.svg">
+                                                        </button>
+                                                    </div>
+                                               
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- ==========4en======= -->
+
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important">
+                                    <div class="form-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="point"></div>
+                                            <h3>منصة وقفى</h3>
+                                        </div>
+                                    </div>
+                                </label><span class="text-danger"></span>
+                                <textarea class="form-control js-tinymce text-right" asp-for="@Model.AboutusDto.AboutWagfiAr" id="important"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.AboutWagfiAr" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important"> </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.AboutWagfiEn" id="important2"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.AboutWagfiEn" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important">
+                                    <div class="form-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="point"></div>
+                                            <h3>الفكرة</h3>
+                                        </div>
+                                    </div>
+
+                                </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfiIdeaAr" id="important3"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfiIdeaAr" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important"> </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfiIdeaEn" id="important4"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfiIdeaEn" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important">
+                                    <div class="form-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="point"></div>
+                                            <h3>الاثار المتوقعة للمنصة</h3>
+                                        </div>
+
+                                    </div>
+                                </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfiEffectAR" id="important5"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfiEffectAR" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important"> </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfiEffectEN" id="important6"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfiEffectEN" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important">
+                                    <div class="form-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="point"></div>
+                                            <h3>الهدف</h3>
+                                        </div>
+
+                                    </div>
+                                </label><span class="text-danger"></span>
+                                <textarea class="form-control text-right" asp-for="@Model.AboutusDto.WagfitargetAR" id="important7"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfitargetAR" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important"> </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfitargetEN" id="important8"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfitargetEN" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important">
+                                    <div class="form-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="point"></div>
+                                            <h3>منتاجتها</h3>
+                                        </div>
+                                    </div>
+                                </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfiproductAR" id="important9"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfiproductAR" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class=" col-12 col-md-6 mb-3">
+                                <label for="important"> </label><span class="text-danger"></span>
+                                <textarea class="form-control" asp-for="@Model.AboutusDto.WagfiproductEN" id="important10"
+                                          rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.AboutusDto.WagfiproductEN" class="text-error">
+                                </span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="modal fade body-modal" id="ChancelEditAboutUS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء التعديلات؟  </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <button id="BackList" class=" btn btn-tertiary">نعم</button>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+            <script src="~/js/Aboutus.js"></script>
+    <script src="~/js/banner/banner.js"></script>
+
+    <script src="https://cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+    <script>
+        var ckeditor;
+        var ckeditor1;
+        var ckeditor2;
+        var ckeditor3;
+        var ckeditor4;
+        var ckeditor5;
+        var ckeditor6;
+        var ckeditor7;
+        var ckeditor8;
+        var ckeditor9;
+        $(function () {
+            ckeditor = CKEDITOR.replace("important");
+            ckeditor1 = CKEDITOR.replace("important2");
+            ckeditor2 = CKEDITOR.replace("important3");
+            ckeditor3 = CKEDITOR.replace("important4");
+            ckeditor4 = CKEDITOR.replace("important5");
+            ckeditor5 = CKEDITOR.replace("important6");
+            ckeditor6 = CKEDITOR.replace("important7");
+            ckeditor7 = CKEDITOR.replace("important8");
+            ckeditor8 = CKEDITOR.replace("important9");
+            ckeditor9 = CKEDITOR.replace("important10");
+        });
+
+    </script>
+    <script>
+        
+          $(document).on("click", "#BackList", function () {
+
+            window.location.replace("/AboutUs/Index");
+        });
+
+
+        function DeleteIcon() {
+
+            $("#IconFileId").attr("hidden", true);
+            $("#IconFileDefultId").attr("hidden", false);
+            $("#MIconIsEdit").val(true);
+            //$("#MIconIsEdit").attr("value", true);
+            $("#imgUpload1").attr("hidden", false);
+        }
+        function DeleteMain() {
+            $("#MainFileId").attr("hidden", true);
+            $("#MainFileDefultId").attr("hidden", false);
+            $("#MMainIsEdit").attr("value", true);
+            $("#imgUpload2").attr("hidden", false);
+        }
+        function DeleteFirstImage() {
+            $("#FirstFileId").attr("hidden", true);
+            $("#FirstFileDefultId").attr("hidden", false);
+            $("#MFirstIsEdit").attr("value", true);
+            $("#imgUpload3").attr("hidden", false);
+        }
+        function DeleteSecondFile() {
+            $("#SecondFileId").attr("hidden", true);
+            $("#SecondFileDefultId").attr("hidden", false);
+            $("#MSecondIsEdit").attr("value", true);
+            $("#imgUpload4").attr("hidden", false);
+        }
+        function FailedUploadImage(mssage) {
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: mssage,
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+         function CheckDimension(event, W, H, id, imageId, uploadId, buttonId) {
+             console.log('test');
+            var _URL = window.URL || window.webkitURL;
+            var file, img, width, height;
+            var files = event.target.files;
+            var uploadFile = files[0];
+
+            if ((file = uploadFile)) {
+                console.log('test');
+
+                img = new Image();
+                var objectUrl = _URL.createObjectURL(file);
+                img.onload = function () {
+                    console.log('test');
+
+                    width = this.width;
+                    height = this.height;
+                    console.log(height);
+                    _URL.revokeObjectURL(objectUrl);
+                    if (width != W || height != H) {
+                        $('#' + id).val('');
+
+                        FailedUploadImage("المقاس " + H + " * " + W)
+                    }
+                    else {
+                        readImage(uploadFile, imageId, uploadId, buttonId)
+                        /*  myFunction(id, imageId)*/
+                    }
+                };
+                img.src = objectUrl;
+
+
+            }
+        };
+
+    </script>
+    <script>
+        var id;
+        function ShowModal(imageId) {
+            $('#Delete-Masar-Modal').modal('show');
+            id = imageId;
+            console.log(id);
+        }
+        $(function () {
+            $('.IMGDelete').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Page("EditMasaratItem", "DeleteMassarIMG")',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            document.location.reload(true);
+                        }
+                        else {
+                            $('#Delete-Masar-Modal').modal('hide');
+                            Swal.fire({
+                                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                                title: result.data,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                            });
+                        }
+                    },
+                    error: function () {
+                        // Handle error
+                    }
+                });
+            });
+        });
+
+
+        $(".submitbutton").click(function () {
+            $("#loading").css("display", "block");
+        })
+
+    </script>
+}

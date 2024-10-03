@@ -1,0 +1,190 @@
+﻿@page
+@model WebUI.Pages.ProductsReportUI.IndexModel
+@{
+}
+@Html.AntiForgeryToken()
+
+<div class="app-heading  d-block">
+
+    <div class="app-heading-end d-block">
+
+        <div class="app-filter">
+
+            <div class="filter-form">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="d-flex w-100 justify-content-between align-items-center mb-4 mt-3">
+                        <div>
+                            <h3>تقرير المنتجات </h3>
+                        </div>
+                        <div>
+                            <div class="action d-flex align-items-center">
+                                <div>  
+                                    <input type="text" asp-for="@Model.Filters.Contain" id="donarname" class="form-control  filteration" placeholder="اسم المنتج" />
+                                </div>
+                                <div>
+                                    <input type="text" asp-for="@Model.Filters.ProductNumber" id="ProductNumber" class="form-control  filteration" placeholder="رقم المنتج" />
+                                </div>
+
+                                
+                                @*<a class="close-filter mx-3 mb-3" id="btnclose" onclick="Closebtn()" asp-page="/ProductsReportUI/Index"  type="reset">
+
+                                    <img src="~/cms_lib/img/icons/close-filter.svg" />
+                                </a>*@
+                                <a class="close-filter mx-3 mb-3" asp-page="/ProductsReportUI/Index" asp-page-handler="Filter" type="reset">
+
+                                    <img src="~/cms_lib/img/icons/close-filter.svg" />
+                                </a>
+
+                                <button type="submit" style="background-color:#34BAA1" class="btn btn-secondary mx-3">
+                                    تصفية
+                                </button>
+
+                                <a class="btn btn-tertiary  mx-3" asp-page="Index" asp-page-handler="ExcelDownload">Excel تصدير</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class=" border rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-2 ">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">التصفية بواسطة :</label>
+                                    <input type="text" asp-for="@Model.Filters.GehaName" id="GehaName" class="form-control  filteration" placeholder=" إسم الجهه" />
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">المسار </label>
+                                    <select asp-for="@Model.Filters.MasarId" class="form-select filteration" asp-items="@(new SelectList(Model.searchModel.GetMasaratListResult,"Id","NameAr"))">
+                                        <option value="">اختار المسار</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            <div class="col-12 col-lg-2 ">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">نوع المنتج </label>
+                                    <select asp-for="@Model.Filters.ProductType" class="form-select filteration" asp-items="@(new SelectList(Model.searchModel.UnitTypies,"Id","NameAr"))">
+                                        <option value="">نوع المنتج</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">نوع الوحدات </label>
+                                    <select asp-for="@Model.Filters.UnitType" class="form-select filteration" asp-items="@(new SelectList(Model.searchModel.DonationMethodList,"Id","NameAr"))">
+                                        <option value="">نوع الوحدات</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">حجم المنتج </label>
+                                    <select asp-for="@Model.Filters.ProductSize" class="form-select filteration" asp-items="@(new SelectList(Model.searchModel.GetProductSizeList,"Id","NameAr"))">
+                                        <option value="">حجم المنتج</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="" class="form-label mb-2">حالة المنتج </label>
+                                    <select asp-for="@Model.Filters.ProductPaymentStatus" class="form-select filteration" asp-items="@(new SelectList(Model.searchModel.GetProductPaymentStatus,"Id","Name"))">
+                                        <option value="">حاله المنتج</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-2 ">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">الفتره (من) </label>
+                                    <input asp-for="@Model.Filters.PeriodFrom" type="text" class="form-control datepickerCustom filteration mx-3" id="Datasearchfrom" placeholder="اختر التاريخ">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">الفتره (الى )</label>
+                                    <input asp-for="@Model.Filters.PeriodTo" type="text" class="form-control datepickerCustom filteration mx-3" id="Datasearchto" placeholder="اختر التاريخ" />
+                                </div>
+
+
+                            </div>
+                            <div class="col-12 col-lg-2 ">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2"> تاريخ اعتماد المنتج (من)</label>
+                                    <input type="text" asp-for="@Model.Filters.VerfiedDateFrom" class="form-control datepickerCustom filteration" id="DataVerfiedfrom" placeholder="اختر التاريخ">
+                                    <div class="form-group">
+                                        <label for="" class="form-label mb-2"> تاريخ اعتماد المنتج (الي)</label>
+
+                                        <input type="text" asp-for="@Model.Filters.VerfiedDateTo" class="form-control datepickerCustom filteration" id="DataVerfiedto" placeholder="اختر التاريخ" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">تاريخ تسجيل المنتج(من) </label>
+                                    <input type="text" asp-for="@Model.Filters.RegestrationDateFrom" class="form-control datepickerCustom filteration" id="Dateregesterfrom" placeholder="اختر التاريخ">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">تاريخ تسجيل المنتج(الي) </label>
+
+                                    <input type="text" asp-for="@Model.Filters.RegestrationDateTo" class="form-control datepickerCustom filteration" id="Dateregesterto" placeholder="اختر التاريخ" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label mb-2">منتج موازى </label>
+                                    <select asp-for="@Model.Filters.ParallelProduct" class="form-select filteration">
+                                        <option value="0" selected>منتج موازى</option>
+                                        <option value="1">نعم</option>
+                                        <option value="2">لا</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+               
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+<div id="search-result">
+    <partial name="_List.cshtml" model="@Model.ItemList" />
+</div>
+@section scripts
+    {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+@*    <script>
+        $('.filteration').on('input', function (e) {
+            debugger
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                $('.btnclose').addClass('d-none');
+                $('.btnclose').removeClass('d-block');
+            }
+        });
+    </script>*@
+}
+

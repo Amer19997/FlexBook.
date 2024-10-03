@@ -1,0 +1,233 @@
+﻿@page
+@model WebUI.Pages.Banner.BannerDetailsModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-7 col-6">
+        <!-- heading  -->
+        <div class="app-heading">
+            <div class="app-title">
+                <a href="/Banner/Index" class="ps-1">
+                    <img class="rotated"
+                         src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                         alt="details-icon"
+                         class="icons" />
+                </a>
+                <h3 class="m-0">تفاصيل محتوي البانر</h3>
+            </div>
+
+
+        </div>
+
+        <div class="app-form">
+            <!-- form content -->
+
+            <form class="form-wrapper">
+
+                <!-- ===========first=========== -->
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>البيانات الرئيسيه</h3>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    اسم البانر بالعربية
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.BannerNameAr</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    اسم البانر بالإنجليزية
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.BannerNameEn</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ==========2en======= -->
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    تاريخ الظهور
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.StartAt</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    تاريخ الإخفاء
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.EndAt</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    الأولوية
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.Periorty</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    الحاله
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.Status</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ==========3en======= -->
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    الرابط
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.Url</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- ==========4en======= -->
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    صوره البانر
+                                </label>
+                                <div class="upload-container">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <div class="attachFile">
+
+                                                <img src='@(Model.BannerDetailsResult.IsBannerVideo ? Url.Content("~/Cms_Lib/img/icons/Group 48542.svg") : Model.BannerDetailsResult.Image.BannerUrl)' style="width: 560px; height: 140px; display: inline-flex;" />
+
+
+                                                <div class="file-icon">
+                                                    <button type="button">
+                                                        <img onclick="dowenloadFile('@Model.BannerDetailsResult.Image.BannerId')" src="~/cms_lib/img/icons/download-icon.svg">
+
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- ==========4en======= -->
+                    @if (!string.IsNullOrEmpty(Model.BannerDetailsResult.MobilImage.BannerUrl))
+                    {
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for="">
+                                        <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                        صوره الموبيل
+                                    </label>
+                                    <div class="upload-container">
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div class="attachFile">
+
+                                                    <img src='@(Model.BannerDetailsResult.IsBannerVideo ? Url.Content("~/Cms_Lib/img/icons/Group 48542.svg") : Model.BannerDetailsResult.MobilImage.BannerUrl)' style="width: 560px; height: 140px; display: inline-flex;" />
+
+
+                                                    <div class="file-icon">
+                                                        <button type="button">
+                                                            <img onclick="dowenloadFile('@Model.BannerDetailsResult.MobilImage.BannerId')" src="~/cms_lib/img/icons/download-icon.svg">
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                    
+                    <!-- ==========4en======= -->
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    تفاصيل البانر بالعربية
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.BannerDetailsAr</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ==========4en======= -->
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/cms_lib/img/icons/bullet.svg" alt="buulet-icon" />
+                                    تفاصيل البانر بالإنجليزية
+                                </label>
+                                <p class="">@Model.BannerDetailsResult.BannerDetailsEn</p>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+</div>
+<input id="BannerId" value="@Model.BannerDetailsResult.Id" hidden />
+@section scripts {
+
+
+    <script>
+        function dowenloadFile(fileId) {
+            debugger
+            var Id = $("#BannerId").val();
+            debugger
+            $.ajax({
+                url: "?handler=DownloadFile",
+                method: "GET",
+                data: { "fileId": fileId, "BannerId": Id },
+                success: function (response) {
+                    debugger
+                    var a = document.createElement("a");
+                    a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                    a.download = response.result.fileName;
+                    a.click();
+                }
+            });
+        }
+    </script>
+}

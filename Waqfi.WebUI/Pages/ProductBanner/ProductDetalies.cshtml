@@ -1,0 +1,636 @@
+﻿@page
+@using WebUI.Enums;
+@model WebUI.Pages.ProductBanner.ProductDetaliesModel
+@{
+    var otherAttachmentIndex = 0;
+}
+
+<div class="special-form">
+
+    <div class="row">
+        <div class="col-12">
+            <!-- heading  -->
+            <div class="app-heading">
+                <div class="app-title">
+                    <a href="/ProductBanner/index" class="ps-1">
+                        <img class="rotated"
+                             src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                             alt="details-icon"
+                             class="icons" />
+                    </a>
+                    <h3 class="m-0">تفاصيل إضافة منتج جديد</h3>
+                </div>
+                <div class="row" style="margin-left:2px">
+                    <div style="display: contents;">
+                        <label for="">
+                            <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                            تاريخ إرسال الطلب
+                        </label>
+                        <p class="">@(Model.ProductDetailsResult.BasicInformation.CreatedDate) </p>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-left:2px">
+                    <div class="row">
+                        @if ((int)Model.ProductDetailsResult.BasicInformation.Status == (int)RequestStatusEnum.Rejected ||
+                        (int)Model.ProductDetailsResult.BasicInformation.Status == (int)RequestStatusEnum.Approved)
+                        {
+                            <div style="display: contents;">
+                                <label for="">
+                                    <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    الحالة
+                                </label>
+                                <p class="">@(Model.ProductDetailsResult.BasicInformation.StatusAsString) </p>
+                            </div>
+                        }
+                    </div>
+                    @if ((int)Model.ProductDetailsResult.BasicInformation.Status == (int)RequestStatusEnum.Pending)
+                    {
+
+
+                        <div class="form-buttons">
+                            <a class="btn btn-green"
+                           data-bs-toggle="modal"
+                           data-bs-target="#Pop-UP-Modal" onclick="Clear()">قبول الطلب</a>
+
+                            <a class="btn btn-red" id="RejectModal" data-bs-toggle="modal" data-bs-target="#reject-Modal">رفض الطلب</a>
+
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div class="app-form">
+            <!-- form content -->
+
+            <div class="form-wrapper">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <!-- ===========first=========== -->
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingOne">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                <h3 class="accordion-header">البيانات الأساسية</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+
+                        <div id="collapseOne"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+
+                                        <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                اسم المنتج بالعربية
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.NameAr  (@Model.ProductDetailsResult.BasicInformation?.ProductNo)</p>
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                اسم المنتج بالأنجليزية
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.NameEn  (@Model.ProductDetailsResult.BasicInformation?.ProductNo)</p>
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                نوع المنتج
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.ProductType</p>
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                مسار المنتج
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.ProductPath</p>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                صورة المنتج
+                                            </label>
+
+                                            <p>
+                                                <span class="">
+                                                    <img class=""
+                                                         src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                </span>
+                                                @Model.ProductDetailsResult.BasicInformation.ProductImage.Name
+                                                @Model.ProductDetailsResult.BasicInformation.ProductImage.Size M.B
+
+                                                <span>
+                                                    <img class=""
+                                                         onclick="dowenloadImage('@Model.ProductDetailsResult.BasicInformation.Id','@Model.ProductDetailsResult.BasicInformation.ProductImage.Id')"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                </span>
+                                            </p>
+                                            <!-- <p class="">موسم حج بيت الله الحرام</p> -->
+                                        </div>
+                                        <div class="col-12 mb-3 details-product ">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                تفاصيل المنتج بالعربية
+                                            </label>
+                                            <p class="qu-details">لمن هذا الوقف ؟</p>
+                                            <p class=""> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.WhoBenefitAr</p>
+                                            @if (@Model.ProductDetailsResult.BasicInformation?.ProductDetails?.TypeBenefitAr.Length > 0)
+                                            {
+                                                <hr>
+                                                <p class="qu-details">نوع الفئه المستهدفة ؟</p>
+                                                <p> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.TypeBenefitAr</p>
+                                            }
+                                            
+                                            @if (@Model.ProductDetailsResult.BasicInformation?.ProductDetails?.WhyHelpThemAr.Length > 0)
+                                            {
+                                                <hr>
+                                                <p class="qu-details">لماذا اساعدهم ؟</p>
+                                                <p> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.WhyHelpThemAr</p>
+                                            }
+                                            @if (@Model.ProductDetailsResult.BasicInformation?.ProductDetails?.HowHelpThemAr.Length>0)
+                                            {
+                                                <hr>
+                                                <p class="qu-details">كيف اساعدهم ؟</p>
+                                                <p> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.HowHelpThemAr</p>
+                                            }
+                                            <hr>
+                                        </div>
+                                        <div class="col-12 mb-3 details-product">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                تفاصيل المنتج بالانجليزية
+                                            </label>
+
+                                            <p class="qu-details en text-start">Who is this endowment for?</p>
+                                            <p class="text-start"> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.WhoBenefitEn</p>
+                                            @if (@Model.ProductDetailsResult.BasicInformation?.ProductDetails?.TypeBenefitEn.Length>0)
+                                            {
+                                                <hr>
+                                                <p class="qu-details en text-start">the type of beneficiary class</p>
+                                                <p class="text-start"> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.TypeBenefitEn</p>
+                                            }
+                                            
+                                            @if (@Model.ProductDetailsResult.BasicInformation?.ProductDetails?.WhyHelpThemEn.Length>0)
+                                            {
+                                                <hr>
+                                                <p class="qu-details en text-start">Why do I support them?</p>
+                                                <p class="text-start"> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.WhyHelpThemEn</p>
+                                            }
+                                            @if (@Model.ProductDetailsResult.BasicInformation?.ProductDetails?.HowHelpThemEn.Length>0)
+                                            {
+                                                <hr>
+                                            <p class="qu-details en text-start">How do I support them?</p>
+                                            <p class="text-start"> @Model.ProductDetailsResult.BasicInformation?.ProductDetails?.HowHelpThemEn</p>
+                                            }
+                                            
+                                            <hr>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                المنطقة
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.Region</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                المدينة
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.City</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                الفئة المستهدفة
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.TargetGroup</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                عدد المستفيدين
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.NumberOfBeneficairies</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                نوع جنس المخدوم
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.TargetGender</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                طريقه التبرع
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.DonationMethod</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                نوع الوحدة
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.UnitType</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                قيمة الوحدة
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.UnitPrice  رس</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                المبلغ الإجمالى
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.TotalPrice  رس</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                المبلغ المستهدف
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.TaregetPrice  رس</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                المبلغ المجمع
+                                            </label>
+                                            <p class="">  @Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.CollectionPrice  رس</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                رابط اليوتيوب
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.UrlYouTupe</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                رابط العرض المباشر
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.UrlLive</p>
+                                        </div>
+                                        <div class="col-12  mb-3">
+                                            <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                رقم حساب المتبرع
+                                            </label>
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.AnotherInfo?.AccountNumber</p>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ===========second=========== -->
+                    @if (Model.ProductDetailsResult.BasicInformation?.SeasonsInfo.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+
+
+                            <div class="form-title" id="headingTwo">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo"
+                                    aria-expanded="true"
+                                    aria-controls="collapseTwo">
+                                    <h3 class="accordion-header"> بيانات المواسم</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseTwo"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingTwo"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            @foreach (var item in @Model.ProductDetailsResult.BasicInformation.SeasonsInfo)
+                                            {
+
+                                                <div class="col-lg-2 col-md-6 col-12 mb-3">
+                                                    <div class="green-back">
+
+                                                        <p class="">  @item.Name  </p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- ===========third=========== -->
+                    @if (Model.ProductDetailsResult.BasicInformation?.StagesData?.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+
+
+                            <div class="form-title" id="headingThree">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsethree"
+                                    aria-expanded="true"
+                                    aria-controls="collapsethree">
+                                    <h3 class="accordion-header"> بيانات المراحل</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapsethree"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingThree"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10 m-auto">
+
+                                                <!--strat table -->
+                                                <div class="app-table table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr class="table-header">
+                                                                <th scope="col">المرحلة</th>
+                                                                <th scope="col">النسبة</th>
+                                                                <th scope="col">القيمة</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in @Model.ProductDetailsResult.BasicInformation.StagesData)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @item.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Percentage %
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Amount رس
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- ===========fourth=========== -->
+                    @if (Model.ProductDetailsResult?.BasicInformation.Attachments.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+
+
+                            <div class="form-title" id="headingFour">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsefour"
+                                    aria-expanded="true"
+                                    aria-controls="collapsefour">
+                                    <h3 class="accordion-header"> المرفقات </h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapsefour"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingFour"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            @foreach (var item in Model.ProductDetailsResult.BasicInformation.Attachments.Where(m => !m.OtherAttachmentFlag))
+                                            {
+                                                if (!item.OtherAttachmentFlag)
+                                                {
+                                                    <div class="col-lg-2 col-md-4 col-12">
+
+                                                        <label for=""> @item.Type</label>
+
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                            <div class="p-2 m-1">
+                                                                <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt="" />
+                                                            </div>
+                                                            <span class="w-75 text-center">
+                                                                <p>@item.Name</p>
+                                                                <span cal> M.B @item.Size</span>
+                                                                <img onclick="dowenloadFile('@Model.ProductDetailsResult.BasicInformation.Id', '@item.Id')"
+                                                         class="me-4"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            @foreach (var item in Model.ProductDetailsResult.BasicInformation.Attachments.Where(m => m.OtherAttachmentFlag))
+                                            {
+                                                if (item.OtherAttachmentFlag)
+                                                {
+                                                    otherAttachmentIndex = otherAttachmentIndex + 1;
+
+                                                    <div class="col-lg-2 col-md-4 col-12">
+                                                        @if (otherAttachmentIndex <= 1)
+                                                        {
+                                                            <label for=""> @item.Type</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label for=""> . </label>
+                                                        }
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                            <div class="p-2 m-1">
+                                                                <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt="" />
+                                                            </div>
+                                                            <span class="w-75 text-center">
+                                                                <p>@item.Name</p>
+                                                                <span cal> M.B @item.Size</span>
+                                                                <img onclick="dowenloadFile('@Model.ProductDetailsResult.BasicInformation.Id', '@item.Id')"
+                                                         class="me-4"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!--=============Five============-->
+                    @if ((int)Model.ProductDetailsResult.BasicInformation.Status == (int)RequestStatusEnum.Rejected)
+                    {
+                        <div class="accordion-item form-content mb-3">
+
+
+                            <div class="form-title" id="headingFive">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive"
+                                    aria-expanded="true"
+                                    aria-controls="collapseFive">
+                                    <h3 class="accordion-header"> سبب الرفض</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseFive"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingFive"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <label for="">
+                                                سبب الرفض
+                                                <label> - </label>
+                                                <label style="direction:ltr">
+                                                    @Model.ProductDetailsResult.BasicInformation.RejectionReasonDate
+                                                </label>
+                                            </label>
+
+                                            <p class="">@Model.ProductDetailsResult.BasicInformation?.RejectionReason</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="result">
+    <partial name="_ApproveRequestFormProduct.cshtml" model="@Model.RequestApprovalModel" />
+    <partial name="_RejectionRequestAction.cshtml" model="@Model.RequestRejectionModel" />
+</div>
+
+@section scripts {
+
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/returnaction.js"></script>
+    <script src="~/js/downloadattachment.js"></script>
+    @*<script src="~/js/provider/providerscript.js?version=@(DateTime.Now.Ticks)"></script>*@
+    <script src="~/js/productbanner.js?version=@(DateTime.Now.Ticks)"></script>
+    <script>
+
+        $('#RejectModal').on('click', function () {
+
+            $('#RejectionReason').val('');
+        })
+
+        $('#ReturnModal').on('click', function () {
+
+            $('#ReturnReason').val('');
+        })
+
+        function Clear() {
+            document.getElementById("AppearOnBannerId").checked = false;
+            document.getElementById("AddPercentage").checked = false;
+
+            $("#percentageId").val(0);
+            $("#TextAreaId").val('');
+            $("#percentageId").attr("hidden", true);
+        }
+        function dowenloadFile(productId, fileId) {
+
+            debugger
+            $.ajax({
+                url: "?handler=DownloadFile",
+                method: "GET",
+                data: { "productId": productId, "fileId": fileId },
+                success: function (response) {
+                    debugger
+                    var a = document.createElement("a");
+                    a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                    a.download = response.result.fileName;
+                    a.click();
+                }
+            });
+        }
+
+
+        function dowenloadImage(productId, fileId) {
+            $.ajax({
+                url: "?handler=DownloadImage",
+                method: "GET",
+                data: { "productId": productId, "fileId": fileId },
+                success: function (response) {
+                    var a = document.createElement("a");
+                    a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                    a.download = response.result.fileName;
+                    a.click();
+                }
+            });
+        }
+
+
+    </script>
+
+    }

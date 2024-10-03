@@ -1,0 +1,79 @@
+﻿@page
+@model WebUI.Pages.AwqafProduct.IndexModel
+@{
+}
+
+<div class="app-heading d-flex justify-content-between">
+
+    <div class="app-title">
+
+        <h3 class="m-0">طلبات الوقف الخاص</h3>
+    </div>
+
+    <div class="app-heading-end d-flex w-100">
+
+        <div class="app-filter">
+
+            <div class="filter-form">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-provider-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="myform">
+                        <div class="d-flex align-items-center justify-content-end w-100">
+                            <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+                            <input type="text" id="socName" asp-for="@Model.Filter.DonatorName" class="form-control me-3 filteration" placeholder=" إسم المتبرع" />
+
+                            <input type="text" id="socName" asp-for="@Model.Filter.ProductName" class="form-control me-3 filteration" placeholder=" إسم المنتج" />
+
+
+                            <select asp-for="@Model.Filter.Status" class="form-select filteration" asp-items="@(new SelectList(Model.RequestStatus,"Id","Name"))">
+                                <option value="" selected>الحاله</option>
+
+                            </select>
+                        </div>
+                        <a class="close-filter btnclose d-none" asp-page="/AwqafProduct/Index" asp-page-handler="GetAjax" type="reset">
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+                        <button type="submit" class="btn btn-secondary">
+                            تصفية
+                        </button>
+                    </div>
+
+
+                    <div></div>
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+<div id="search-result">
+    <partial name="_AwqafProductList.cshtml" model="@Model.AwqafProducts" />
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        $('.filteration').on('change', function (e) {
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+    </script>
+}

@@ -1,0 +1,124 @@
+﻿@page
+@using System.Globalization;
+@model WebUI.Pages.Seasons.IndexModel
+@{
+
+}
+@if (!Model.GetSeasons.Items.Any())
+{
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد مواسم</h2>
+
+            </div>
+
+            <a asp-page="/Seasons/Add" class="btn btn-tertiary">
+                <img src="~/Cms_Lib/img/icons/add-user.svg" alt="search-icon" />
+                إضافة موسم
+            </a>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="app-heading d-flex justify-content-between">
+
+        <div class="app-title">
+            <h3 class="mb-2">ادارة المواسم </h3>
+        </div>
+        <form method="post"
+          data-ajax="true"
+          data-ajax-url="?handler=Search"
+          data-ajax-method="post"
+          id="search-season-form"
+          data-ajax-mode="replace"
+          data-ajax-update="#search-result">
+
+            <div class="app-filter line-after ms-5">
+                <div class="filter-form">
+                    <div action="" class="myform">
+                        <label for="">التصفية بواسطة :</label>
+                        <input type="text" class="form-control" placeholder="اسم الموسم" id="SearchName" asp-for="@Model.Filter.Name" />
+                        <button class="btn btn-secondary" type="submit">تصفية</button>
+                    </div>
+                    <a class="close-filter" asp-page="/Seasons/Index">
+                        <img src="~/cms_lib/img/icons/close-filter.svg" id="btnclose" alt="close-icon" />
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+        <a href="/Seasons/Add"  class="btn btn-tertiary">إضافة موسم</a>
+    </div>
+
+    <div id="search-result">
+        <partial name="_Seasonlist.cshtml" model="@Model.GetSeasons" />
+    </div>
+
+    <!--start deactive modal-->
+    <div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <form method="post"
+                  data-ajax="true"
+                  data-ajax-url="?handler=Delete"
+                  data-ajax-method="post"
+                  data-ajax-success="deleteSeasonSuccess"
+                  data-ajax-failure="deleteSeasonFailed"
+                  id="deleteSeasonform">
+                <div class="modal-body">
+                    <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                  <h3>هل تريد حذف هذا الموسم ؟</h3>
+                    <p>في حالة الموافقة علي الحذف ، سيتم حذف جميع <br />بيانات هذا الموسم ولن تستطيع استعادها مره اخرى </p>
+                </div>
+                    <input type="hidden" id="seasonId" name="seasonId" />
+                <div class="modal-button">
+                    <button type="submit" id="YesValue" class="btn btn-primary" data-bs-dismiss="modal">نعم</button>
+                    <button  type="button"class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+                
+ 
+
+
+    <!--end deactive modal-->
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/Season.js?version=@(DateTime.Now.Ticks)"></script>
+    <script>
+
+         document.getElementById('btnclose').style.display = "none";
+
+        $('#SearchName').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+    </script>
+}
+

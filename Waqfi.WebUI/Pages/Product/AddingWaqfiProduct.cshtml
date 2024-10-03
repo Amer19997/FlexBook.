@@ -1,0 +1,431 @@
+﻿@page
+@model WebUI.Pages.Product.AddingWaqfiProductModel
+@{
+}
+<div class="row">
+    <div class="col-12">
+        <!-- heading  -->
+
+        <div class="app-form">
+            <!-- form content -->
+
+            <form class="form-wrapper"
+                  method="post"
+                  data-ajax="true"
+                  data-ajax-url="?handler=Add"
+                  data-ajax-method="post"
+                  data-ajax-success="AddSuccess"
+                  data-ajax-failure="AddFailed"
+                  id="formId"
+                  enctype="multipart/form-data">
+                <div class="app-heading">
+                    <div class="app-title">
+                        <h3 class="m-0">اضافة تفاصيل الوقف الخاص</h3>
+                    </div>
+                    <div class="form-buttons">
+
+                        <button type="submit" class="btn btn-tertiary" href="/Cms_Lib/organization-faq.html">
+                            اضافة
+                        </button>
+
+                        <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#CancelMasarat">الغاء</a>
+                    </div>
+                </div>
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>البيانات المضافة من مقدم الطلب</h3>
+                        </div>
+                    </div>
+                    <div class="card" style="border: none !important;">
+                        <div class="col-12">
+                            <div class="row">
+                                <input asp-for="@Model.AwqafProduct.Id" hidden />
+                                <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                    <label for="">
+                                        <img src="/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                        اسم المتبرع
+                                    </label> <span class="text-danger">*</span>
+                                    <p class="">@Model.RequestDetails.DonatorName</p>
+                                </div>
+                                <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                    <label for="">
+                                        <img src="/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                        البريد الالكتروني
+                                    </label> <span class="text-danger">*</span>
+                                    <p class="">@Model.RequestDetails.Email</p>
+                                </div>
+                                <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                    <label for="">
+                                        <img src="/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                        رقم الجوال
+                                    </label> <span class="text-danger">*</span>
+                                    <p class="">@Model.RequestDetails.Phone</p>
+                                </div>
+                                <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                    <label for="">
+                                        <img src="/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                        تاريخ إرسال الطلب
+                                    </label> <span class="text-danger">*</span>
+                                    <p class="">@Model.RequestDetails.SendRequest</p>
+                                </div>
+                                <div class="col-lg-2 col-md-6 col-12  mb-3">
+                                </div>
+
+
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">اسم المنتج بالعربية</label> <span class="text-danger fs-3">*</span>
+                                    <input maxlength="100" type="text" class="form-control" id="name" placeholder="اكتب اسم المنتج " asp-for="@Model.AwqafProduct.ProductNameAr" />
+                                    <span class="text-danger" asp-validation-for="@Model.AwqafProduct.ProductNameAr" class="text-error"></span>
+                                </div>
+                                <div class="col-md-3  col-12  mb-3">
+                                    <label for="status">مسار</label><span class="text-danger fs-3">*</span>
+                                    <select onchange="GetMasaratFiles()" asp-for="@Model.AwqafProduct.MasarId" class="form-select ps-5" id="masarId" aria-label="Default select example" asp-items="@(new SelectList(Model.masaratList,"Id","MasaratNameAR"))">
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="@Model.AwqafProduct.MasarId" class="text-error"></span>
+                                </div>
+
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">قيمة التبرع</label> <span class="text-danger fs-3">*</span>
+                                    <input onkeyUp="ChangeAmount()" type="text" class="form-control" id="amountId" placeholder="اكتب قيمه التبرع " asp-for="@Model.AwqafProduct.Amount" /> ر.س
+                                    <span class="text-danger" asp-validation-for="@Model.AwqafProduct.Amount" class="text-error"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>تسجيل البيانات الأساسية الخاصة بالوقف الخاص</h3>
+                        </div>
+                    </div>
+                    <div class="card" style="border: none !important;">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label for="name">اسم المنتج بالانجليزية</label> <span class="text-danger fs-3">*</span>
+                                    <input maxlength="100" type="text" class="form-control" id="name" placeholder="اكتب اسم المنتج" asp-for="@Model.AwqafProduct.ProductNameEng" />
+                                    <span class="text-danger" asp-validation-for="@Model.AwqafProduct.ProductNameEng" class="text-error"></span>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12  mb-3">
+                                    <label for="status">نوع المنتج</label><span class="text-danger fs-3">*</span>
+                                    <input value="مشروع وقفى" class="form-select ps-5" id="status" aria-label="Default select example" readonly />
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-12  mb-3 d-flex">
+
+                                    <label class="w-auto mx-2">صورة المنتج</label><span class="text-danger fs-3">*</span>
+                                    <div class="product-img  w-75">
+
+                                        <div class="row" id="masarImageId">
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="@Model.AwqafProduct.MasarFileId" class="text-error"></span>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="name">المنطقة</label>
+                                    <input value="الرياض" type="text" class="form-control" id="name" readonly />
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="name">المدينة</label>
+                                    <input value="الرياض" type="text" class="form-control" id="name" readonly />
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">الفئة المستهدفة</label>
+                                    <input value="الأوقاف" type="text" class="form-control" id="name" readonly />
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">نوع الجنس المخدوم</label>
+                                    <input value="ذكور/إناث" type="text" class="form-control" id="name" readonly />
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">عدد المستفيدين</label>
+                                    <input value="N/A" type="text" class="form-control" id="name" readonly />
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-3 col-12 mb-3">
+                                            <label for="name">طريقة التبرع</label> <span class="text-danger fs-3">*</span>
+
+                                            <input onclick="ChangeDonationMethod()" class="DonationMethodClass" type="radio" name="AwqafProduct.DonationMethod" id="DonationMethodId" value=2 asp-for="@Model.AwqafProduct.DonationMethod" checked />
+                                            <label for="name">مفتوح</label>
+
+                                            <input onclick="ChangeDonationMethod()" class="DonationMethodClass" type="radio" name="AwqafProduct.DonationMethod" id="DonationMethodId" value=1 asp-for="@Model.AwqafProduct.DonationMethod" />
+                                            <label for="name">وحدات</label>
+
+                                            <span class="text-danger" asp-for="@Model.AwqafProduct.DonationMethod" class="text-error"></span>
+
+                                        </div>
+                                        <div hidden class="col-md-3 col-12 mb-3" id="UnitTypeId">
+                                            <label for="name">نوع الوحدة</label> <span class="text-danger fs-3">*</span>
+                                            <select asp-for="@Model.AwqafProduct.UnitType" class="form-select ps-5" id="status" aria-label="Default select example" asp-items="@(new SelectList(Model.Units,"Id","UnitNameAr"))">
+                                                <option value="" selected>اختر نوع الوحدة</option>
+                                            </select>
+                                            <span class="text-danger" asp-validation-for="@Model.AwqafProduct.UnitType" class="text-error"></span>
+                                        </div>
+                                        <div hidden class="col-md-3 col-12 mb-3" id="UnitPriceId">
+                                            <label for="name">قيمة الوحدة</label> <span class="text-danger fs-3">*</span>
+                                            <input onkeyup="UpdateTotalPrice()" type="text" class="form-control PriceOfUnit" id="name" asp-for="@Model.AwqafProduct.UnitPrice" placeholder="قيمة الوحدة" />
+                                            <span class="text-danger" asp-validation-for="@Model.AwqafProduct.UnitPrice" class="text-error"></span>
+
+                                        </div>
+                                        <div hidden class="col-md-3 col-12 mb-3" id="UnitCountId">
+                                            <label for="name">عدد الوحدات</label> <span class="text-danger fs-3">*</span>
+                                            <input onkeyup="UpdateTotalPrice()" type="text" class="form-control UnitsCount" id="name" asp-for="@Model.AwqafProduct.UnitCount" placeholder="عدد الوحدات" />
+                                            <span class="text-danger" asp-validation-for="@Model.AwqafProduct.UnitCount" class="text-error"></span>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div class="col-md-3 col-12 mb-3">
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">المبلغ الإجمالي</label>
+                                    <input type="text" class="form-control" id="totalId" asp-for="@Model.AwqafProduct.Amount" readonly />
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="name">المبلغ المستهدف</label>
+                                    <input type="text" class="form-control" id="targetId" asp-for="@Model.AwqafProduct.Amount" readonly />
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>تفاصيل المنتج</h3>
+                        </div>
+                    </div>
+                    <div class="card" style="border: none !important;">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class=" col-12 mb-3">
+                                    <label for="name">تفاصيل الوقف بالعربية</label> <span class="text-danger fs-3">*</span>
+                                </div>
+                                <div class=" col-md-6 col-12 mb-3">
+                                    <label>لمن هذا الوقف</label><span class="text-danger fs-3">*</span>
+                                    <textarea class="form-control" id="important" placeholder="لمن هذا الوقف" rows="5" asp-for="@Model.AwqafProduct.ForWhomAr"></textarea>
+                                    <span class="text-danger" asp-validation-for="@Model.AwqafProduct.ForWhomAr" class="text-error"></span>
+
+                                </div>
+                                <div class=" col-md-6 col-12 mb-3">
+                                    <label>نوع الفئة المستفيدة</label>
+                                    <textarea maxlength="200" class="form-control" id="important" placeholder="نوع الفئة المستفيدة" rows="5" asp-for="@Model.AwqafProduct.TheTypeOfBeneficiaryAr"></textarea>
+                                </div>
+                                <div class=" col-md-6 col-12 mb-3">
+                                    <label>ماذا يقدم الجهاز الواحد؟</label>
+                                    <textarea maxlength="200" class="form-control" id="important" placeholder="ماذا يقدم الجهاز الواحد؟" rows="5" asp-for="@Model.AwqafProduct.WhatDoesOneDeviceOfferAr"></textarea>
+                                </div>
+                                <div class=" col-md-6 col-12 mb-3">
+                                    <label>لماذا ادعمهم؟</label>
+                                    <textarea maxlength="200" class="form-control" id="important" placeholder="لماذا ادعمهم؟" rows="5" asp-for="@Model.AwqafProduct.WhyDoISupportThemAr"></textarea>
+                                </div>
+                                <div class=" col-md-6 col-12 mb-3">
+                                    <label>كيف ادعمهم؟</label>
+                                    <textarea maxlength="200" class="form-control" id="important" placeholder="كيف ادعمهم؟" rows="5" asp-for="@Model.AwqafProduct.HowDoISupportThemAr"></textarea>
+                                </div>
+
+                                <div class=" col-12 mb-3">
+                                    <label for="name">تفاصيل الوقف بالانجليزية</label> <span class="text-danger fs-3">*</span>
+                                </div>
+                                <div class=" col-12 mb-3" dir="rtl">
+                                    <div class="row">
+                                        <div class=" col-md-6 col-12 mb-3 ">
+                                            <label>لمن هذا الوقف بالانجليزيه</label><span class="text-danger fs-3">*</span>
+                                            <textarea maxlength="200" class="form-control" id="important" placeholder="لمن هذا الوقف؟ بالانجليزيه" rows="5" asp-for="@Model.AwqafProduct.ForWhomEn"></textarea>
+                                            <span class="text-danger" asp-validation-for="@Model.AwqafProduct.ForWhomEn" class="text-error"></span>
+
+                                        </div>
+                                        <div class=" col-md-6 col-12 mb-3">
+                                            <label>نوع الفئة المستفيدة بالانجليزيه</label>
+                                            <textarea maxlength="200" class="form-control" id="important" placeholder="نوع الفئة المستفيدة بالانجليزيه" rows="5" asp-for="@Model.AwqafProduct.TheTypeOfBeneficiaryEn"></textarea>
+                                        </div>
+                                        <div class=" col-md-6 col-12 mb-3 ">
+                                            <label>ماذا يقدم الجهاز الواحد؟بالانجليزيه</label>
+                                            <textarea maxlength="200" class="form-control" id="important" placeholder="ماذا يقدم الجهاز الواحد؟ بالانجليزيه" rows="5" asp-for="@Model.AwqafProduct.WhatDoesOneDeviceOfferEn"></textarea>
+                                        </div>
+                                        <div class=" col-md-6 col-12 mb-3 ">
+                                            <label>لماذا ادعمهم؟بالانجليزيه</label>
+                                            <textarea maxlength="200" class="form-control" id="important" placeholder="لماذا ادعمهم؟بالانجليزيه" rows="5" asp-for="@Model.AwqafProduct.WhyDoISupportThemEn"></textarea>
+                                        </div>
+                                        <div class=" col-md-6 col-12 mb-3 ">
+                                            <label>كيف ادعمهم؟ بالانجليزيه</label>
+                                            <textarea maxlength="200" class="form-control" id="important" placeholder="كيف ادعمهم؟ بالانجليزيه" rows="5" asp-for="@Model.AwqafProduct.HowDoISupportThemEn"></textarea>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+    <div class="col-12">
+    </div>
+</div>
+
+
+<div class="modal fade body-modal" id="CancelMasarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء إستكمال بيانات الوقف الخاص؟ </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+
+                <a id="BackList" class=" btn btn-primary" href="/AwqafProduct/RequestDetalies?RequestId=@Model.AwqafProduct.Id">
+                    نعم
+                </a>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/usermangment/generalcheck.js"></script>
+    <script>
+        GetMasaratFiles();
+        function ChangeDonationMethod() {
+
+            document.getElementsByName("AwqafProduct.DonationMethod").forEach(function (input, i) {
+                if (input.checked && input.value == '2') {
+                    $("#UnitTypeId").prop("hidden", true)
+                    $("#UnitPriceId").prop("hidden", true)
+                    $("#UnitCountId").prop("hidden", true)
+                }
+                else if (input.checked && input.value == '1') {
+                    $("#UnitTypeId").prop("hidden", false)
+                    $("#UnitPriceId").prop("hidden", false)
+                    $("#UnitCountId").prop("hidden", false)
+                }
+            });
+        }
+        function ChangeAmount() {
+            var amount = $("#amountId").val();
+            $("#totalId").val(amount)
+            $("#targetId").val(amount)
+        }
+        function AddSuccess(result) {
+            if (result.errors.length > 0) {
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: result.errors[0],
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+
+            }
+            else {
+                swal.fire({
+                    title: "تم اضافة المنتج بنجاح",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer: 5000
+                }).then(() => { window.location.replace("/AwqafProduct/index/"); });
+            }
+        }
+        function AddFailed(xhr) {
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: "حدث خطأ ما",
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+        function GetMasaratFiles() {
+            var fileId = $("#masarId").val()
+            $('#masarImageId div').each(function (index, el) {
+                $(el).remove()
+            });
+            $.ajax({
+                url: "?handler=MasaratFilesUrl",
+                method: "GET",
+                data: { "masarId": fileId },
+                success: function (response) {
+                    debugger
+                    $(response.result).each(function (index, el) {
+                        var image = "<div class='col-2 pre'><input name='AwqafProduct.MasarFileId' value=" + el.id + " type='radio' class='btn-check'  name='options-outlined' id='" + el.id + "' autocomplete='off' >" +
+                            "<label class='btn btn-outline-light' for='" + el.id + "'><img loading='lazy' src='" + el.imageURL + "' ></label></div>";
+
+                        $("#masarImageId").append(image);
+
+                    });
+
+
+                }
+            });
+        }
+
+        function UpdateTotalPrice(value) 
+        {
+            var unitCount = $(".PriceOfUnit").val();
+            var unitCost = $(".UnitsCount").val();
+            if (unitCount != "" && unitCost != "" && parseFloat(unitCount) > 0 && parseFloat(unitCost) > 0) {
+                var totalValue = parseFloat(unitCount) * parseFloat(unitCost);
+                $("#amountId").val(totalValue);
+                $("#totalId").val(totalValue);
+                $("#targetId").val(totalValue);
+            }
+            else {
+                $("#amountId").val(0);
+                $("#totalId").val(0);
+                $("#targetId").val(0);
+            }
+
+        }
+        $(function () {
+            $(".DonationMethodClass").click(function (input) {
+                if($(this).val()==1){
+                    $('#amountId').attr("style", "pointer-events: none;");
+                    $("#amountId").val(0);
+                    $("#totalId").val(0);
+                    $("#targetId").val(0);
+                }
+                else{
+                    $('#amountId').attr("style", "pointer-events: block;");
+                    $(".PriceOfUnit").val(0);
+                    $(".UnitsCount").val(0);
+                }
+                
+            });
+        });
+    </script>
+}

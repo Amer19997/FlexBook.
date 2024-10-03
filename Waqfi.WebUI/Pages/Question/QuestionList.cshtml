@@ -1,0 +1,277 @@
+﻿@page
+@model WebUI.Pages.Question.QuestionListModel
+@{
+
+}
+
+<link href="~/cms_lib/css/faq.css" rel="stylesheet" />
+@Html.AntiForgeryToken()
+@if (!Model.QuestionViewModels.EmployeeItems.Any())
+{
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد أسئلة</h2>
+
+            </div>
+
+            <a asp-page="/Question/CreateNewQuestion" class="btn btn-tertiary">
+                <img src="~/Cms_Lib/img/icons/add-user.svg" alt="search-icon" />
+                إضافة سوال
+            </a>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="app-heading d-flex justify-content-between">
+        <div class="app-title">
+
+            <h3 class="m-0">ادارة مركز الاسئلة</h3>
+        </div>
+        <div class="app-heading-end d-flex w-50 filter-form">
+            <form action="" class="d-flex w-100 align-items-end ">
+                <div class="d-flex align-items-center justify-content-end w-100">
+                    <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+                    <input type="text" maxlength="200" onkeypress="return onlycharKey(event)" id="Question" class="form-control me-3" placeholder="السؤال" />
+
+                    <span asp-validation-for="@Model.QuestionName"></span>
+                </div>
+                <button type="button" onclick="Search()" class="btn btn-secondary  me-2">
+                    تصفية
+                </button>
+                <a class="close-filter" style="padding-right:15px;padding-top:15px;" id="btnclose" onclick="Closebtn()" asp-page="/Question/QuestionList" asp-page-handler="GetAjax" type="reset">
+
+                    <img src="~/cms_lib/img/icons/close-filter.svg" />
+                </a>
+            </form>
+            <div class="line-befor">
+
+            <a class="btn btn-tertiary  me-5" href="/Question/CreateNewQuestion">
+                اضف سؤال جديد
+            </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <!--strat table -->
+        <div class="app-table table-responsive">
+            <table id="Questiontable" class="table fagtable table-bordered">
+                <thead>
+                    <tr class="table-header">
+                        <th scope="col">م</th>
+                        <th scope="col">السؤال</th>
+                        <th scope="col"> الاهمية</th>
+                        <th scope="col"> الحالة</th>
+                        <th scope="col">تاريخ الاضافة </th>
+                        <th scope="col">الاجراء</th>
+                    </tr>
+                </thead>
+
+            </table>
+
+
+            <!--start delete modal-->
+            <div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-body">
+                            <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                            <h3>هل تريد حذف هذا السؤال ؟</h3>
+                            <p>
+                                في حالة الموافقة ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                            </p>
+                        </div>
+                        <div class="modal-button">
+
+
+                            <a id="YesValue" class="btn btn-primary">نعم</a>
+                            <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--end delete modal-->
+            <!--start delete modal-->
+            <div class="modal fade body-modal" id="add-alert-Modal" data-bs-backdrop="static" data-bs-keyboard="false"
+             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h3>اضافة اخطار جديد</h3>
+
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <div class="modal-button">
+                                <button class=" btn btn-primary">اضافة</button>
+                                <button class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!--start details modal-->
+    <div class="modal fade body-modal" id="detailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-header ">
+                    <div class="d-flex align-items-center">
+                        <h4 class="modal-title font-weight-bold ">تفاصيل السؤال</h4>
+                        <span class="green-span" id="QuestionStatues"></span>
+                        <span class="orange-span" id="QuestionProirty"></span>
+                    </div>
+                    <div class="d-flex ">
+                        <img style="margin-top:4px" src="~/cms_lib/img/icons/Iconly-Light-Calendar.svg" alt="" srcset="" width="18px" height="20px">
+
+
+                        <p class="question-label me-1" id="QuestionCreation"></p>
+                    </div>
+                </div>
+
+
+
+                <div class="modal-body question-details mx-3">
+                    <div class="row">
+                        <div class="col-1 mt-1">
+                            <p class="question-label">السؤال</p>
+                            <p class="answer-label">الاجابة</p>
+                        </div>
+                        <div class="col-11 text-end">
+                            <h5 id="QuestionArModel"></h5>
+                            <p class="answer" id="AnswerArModel">
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="row" dir="ltr">
+                        <div class="col-1 mt-1">
+                            <p class="question-label">Question</p>
+                            <p class="answer-label">Answer</p>
+                        </div>
+                        <div class="col-11 text-start">
+                            <h5 id="QuestionENModel"></h5>
+                            <p class="answer" id="AnswerENModel">
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="modal-button">
+                    <button class=" btn btn-tertiary" data-bs-dismiss="modal">عودة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end delete modal-->
+}
+
+
+
+
+@section Scripts{
+
+    @if (TempData["sweet"] != null)
+    {
+        <script>
+            $(function () {
+                swal.fire({
+                    text: "",
+                    title: "تمت عملية الحفظ بنجاح",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    timer: 2000
+
+                });
+            })
+        </script>
+    }
+
+    @if (TempData["delete"] != null)
+    {
+        <script>
+            $(function () {
+                swal.fire({
+                    title: "تم حذف السؤال بنجاح ",
+                    text: "",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            })
+        </script>
+    }
+    @if (TempData["sweet1"] != null)
+    {
+        <script>
+            $(function () {
+                swal.fire({
+                    title: "تمت عملية التعديل بنجاح",
+                    text: "",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    timer: 2000
+
+                });
+            })
+        </script>
+    }
+    <script>
+
+
+        document.getElementById('btnclose').style.display = "none";
+
+        $('#Question').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+
+
+
+
+    </script>
+
+    <script src="~/js/usermangment/generalcheck.js"></script>
+
+    <script src="~/js/questiondatatable.js"></script>
+}
+
+
+
+
+
+
+
+
+

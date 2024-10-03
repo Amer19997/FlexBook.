@@ -1,0 +1,250 @@
+﻿@page
+@using System.Globalization;
+@model WebUI.Pages.ApprovedProvider.IndexModel
+@{
+    int? DueDate = Model.ProviderApproved.Items.FirstOrDefault(a => a.DueDate != null && a.RequestStatus == 2)?.DueDate;
+}
+<div class="app-heading d-flex justify-content-between mb-0">
+
+    <div class="app-title">
+
+        <h3 class="m-0">إدارة الجهات الوقفية</h3>
+    </div>
+
+    <div class="app-heading-end d-flex w-100">
+
+        <div class="app-filter">
+
+            <div class="filter-form">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-provider-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="myform">
+                        <div class="d-flex align-items-center justify-content-end w-100">
+                            <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+                            <input type="text" id="socName" asp-for="@Model.Filter.Name" class="form-control me-3 filteration" placeholder=" إسم الجهة" />
+                            <input type="text" id="RegistNumber" asp-for="@Model.Filter.RegisterNum" class="form-control me-3 filteration" placeholder="رقم التسجيل" />
+                            <select asp-for="@Model.Filter.Type" class="form-select filteration" asp-items="@(new SelectList(Model.ProviderTypes,"Id","Name"))">
+                                <option value="" selected>النوع</option>
+
+                            </select>
+
+                            @*<select asp-for="@Model.Filter.Gender" class="form-select filteration" asp-items="@(new SelectList(Model.ProviderRequestStatus,"Id","Name"))">
+                            <option value="" selected>الجنس المخدوم</option>
+                            <option value="1" >ذكور</option>
+                            <option value="2" >اناث</option>
+
+                            </select>*@
+
+                            <select asp-for="@Model.Filter.Gender" class="form-select filteration" asp-items="@(new SelectList(Model.GenderType,"Id","NameAr"))">
+                                <option value="" selected>الجنس المخدوم</option>
+
+                            </select>
+
+
+                          @*  <select asp-for="@Model.Filter.Gender" class="form-select filteration">
+                                <option value="" selected>الجنس المخدوم</option>
+                                <option value="1">ذكر</option>
+                                <option value="2">أنثى</option>
+                                <option value="3">ذكر وأنثى</option>
+
+                            </select>*@
+
+
+                            <input asp-for="@Model.Filter.JoinFromDate" type="text" class="form-control datepickerCustom filteration" placeholder="من تاريخ انضمام للبوابه">
+
+                            <input asp-for="@Model.Filter.JoinToDate" type="text" class="form-control datepickerCustom filteration" placeholder="الى تاريخ انضمام للبوابه " />
+                        </div>
+                        <a class="close-filter btnclose d-none" asp-page="/ApprovedProvider/Index" asp-page-handler="GetAjax" type="reset">
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+                        <button type="submit" class="btn btn-secondary">
+                            تصفية
+                        </button>
+                    </div>
+
+
+                    <div></div>
+
+                </form>
+                <hr />
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+<hr class="mt-0" />
+<div class="row  dueDate">
+    <div class="d-flex align-items-center mb-2">
+
+        <a href="javascript:;" id="dueDateProvider" class="form-label mb-0 text-black font-weight-bold">
+            <b> <img src="~/cms_lib/img/icons/iconly-bold-calendar.svg" /> تاريخ الاستحقاق</b>
+
+            <input type="text" id="DueDate" class="datepickerCustomDays" hidden />
+
+        </a>
+        <span class="text-success mx-2">(تاريخ الاستحقاق :@(DueDate) من كل شهر)</span>
+        <div class="col-md-2 txtDate-success">
+            <span id="hideDueDate" class="text-success mx-2 d-none">! تم عمليه الحفظ بنجاح </span>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade body-modal" id="ActivateProviderModal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="/cms_lib/img/icons/active.svg" alt="details-icon" class="icons" /></span>
+                <h3 id="HeaderModal">هل تريد تغيير حالة الجهة؟ </h3>
+                <p id="BodModal">في  حالة الموافقة على العرض سيتم تفعيل / إلغاء تفعيل الجهة </p>
+
+            </div>
+            <div class="modal-button">
+                <button id="ActiveModal" data-id="" data-isActive="" class=" btn btn-tertiary">نعم</button>
+                <button id="ActiveNo" class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <span style="color:red"> . @Model.Error</span>
+
+    <br />
+}
+<div id="search-result">
+    <partial name="_ProviderApproveList.cshtml" model="@Model.ProviderApproved" />
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/provider/providerscript.js"></script>
+    <script>
+        $('.filteration').on('change', function (e) {
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+
+        $(document).on("click", ".input_Switch_De", function () {
+            var GetProductId = $(this).attr("data-id");
+            var IsActiveorNo = $(this).hasClass("active");
+
+            $('#ActiveModal').attr("data-id", GetProductId);
+            $('#ActiveModal').attr("data-isActive", IsActiveorNo);
+            $('#ActiveNo').attr("data-id", GetProductId);
+        });
+
+        $(document).on("click", "#ActiveModal", function () {
+
+            var GetProviderId = $(this).attr("data-id");
+            var GetActiveDeactive = $(this).attr("data-isActive");
+
+            if (GetProviderId)
+                ReloadDeactive(GetProviderId, GetActiveDeactive);
+        });
+        function ReloadDeactive(GetVal, GetActiveDeactive) {
+
+            $.ajax({
+                url: "?handler=ChangeActivation",
+                type: "Post",
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                data: { "providerId": GetVal, "isActive": GetActiveDeactive },
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function (result) {
+
+                    var IfSucces = result.success;
+                    if (IfSucces) {
+                        location.reload(true)
+
+                    } else {
+                        //debugger;
+                        //$('#ActiveModal').modal('hide');
+                        //$("#ActiveDeactiveBlockMessage").html(result.errors[0])
+
+                        //$('#Active-Warning-Modal').modal('show');
+                    }
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        /*****custom datepicker******/
+        DatePicker = {
+            hideOldDays: function () { // hide days for previous month
+                var dayNames = $('.datepicker .datepicker-days tr th.dow');
+                dayNames.css('display', 'none');
+                var monthName = $('.datepicker .datepicker-days thead');
+                monthName.css('display', 'none');
+                var monthToday = $('.datepicker .datepicker-days tfoot');
+                monthToday.css('display', 'none');
+                var daysOld = $('.datepicker .datepicker-days tr td.old');
+
+                if (daysOld.length > 0) {
+                    daysOld.css('visibility', 'hidden');
+                    daysOld.css('display', 'none');
+                    if (daysOld.length === 7) {
+                        daysOld.parent().hide();
+                    }
+                }
+            },
+            hideNewDays: function () { // hide days for next month
+                var daysNext = $('.datepicker .datepicker-days tr td.new');
+                if (daysNext.length > 0) {
+                    daysNext.hide();
+                }
+            },
+            hideOtherMonthDays: function () { // hide days not for current month
+                DatePicker.hideOldDays();
+                DatePicker.hideNewDays();
+            }
+        };
+
+        $('.datepickerCustomDays').datepicker({
+            
+            weekStart: 0,
+            todayBtn: "linked",
+            language: "ar",
+            format: 'LT',
+            inline: true,
+            orientation: "bottom auto",
+            todayHighlight: true,
+            keyboardNavigation: false,
+            autoclose: true,
+            showSwitcher: false,
+            useCurrent: false,
+            format: 'dd/mm/yyyy',
+            showClose: true,
+            showClear: true,
+            showTodayButton: false,
+        });
+        $('.datepickerCustomDays').datepicker().on('show', function (e) {
+            DatePicker.hideOtherMonthDays();
+        });
+    </script>
+
+}

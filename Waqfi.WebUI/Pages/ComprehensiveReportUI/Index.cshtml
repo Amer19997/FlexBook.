@@ -1,0 +1,191 @@
+﻿@page
+@model WebUI.Pages.ComprehensiveReportUI.IndexModel
+@using Newtonsoft.Json;
+
+@{
+    // var details = Model.DonatorReportDto;
+
+}
+
+<style>
+
+    .form-resp {
+        flex-wrap: wrap;
+        height: max-content;
+    }
+</style>
+
+@Html.AntiForgeryToken()
+
+<div class="app-heading d-flex justify-content-between">
+
+    <div class="app-heading-end d-flex w-100">
+
+        <div class="app-filter">
+
+            <div class="filter-form">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+                    <div class="d-flex justify-content-between">
+                        <div class="app-title">
+                            <h3>التقرير الشامل</h3>
+                        </div>
+                        <div class="filter-wrapper d-flex align-items-center">
+
+                            <label for="" class="form-label mb-0 mx-2">يحتوي على</label>
+                            <input asp-for="@Model.ComprehensiveReportSearch.Contain" type="text" class="form-control filteration" style="width:180px" id="DatasearchProductNameAndProviderName" placeholder="اسم المنتج ">
+                            <input asp-for="@Model.ComprehensiveReportSearch.ProductNumber" type="text" class="form-control filteration" style="width:180px" id="DatasearchProductNameAndProviderName" placeholder="رقم المنتج">
+                            <button type="submit" style="background-color:#34BAA1" class="btn btn-secondary  mx-3">
+                                تصفية
+                            </button>
+
+
+                            <a class="btn btn-tertiary mx-3" asp-page="Index" asp-page-handler="ExcelDownload">Excel تصدير</a>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="myform">
+                        <div class="border p-3 mb-3 mt-3 w-100 rounded">
+                            <div class="d-flex align-items-center form-resp w-100">
+
+
+                                <label for="" class="mb-3">المسار </label>
+                                <select asp-for="@Model.ComprehensiveReportSearch.MasarId" class="form-select filteration mx-3 mb-3" asp-items="@(new SelectList(Model.searchList.GetMasaratListResult,"Id","NameAr"))">
+                                    <option value="">اختار المسار</option>
+                                </select>
+
+
+                                <label for="" class="mb-3">نوع الوحدات </label>
+                                <select asp-for="@Model.ComprehensiveReportSearch.UnitType" class="form-select filteration mx-3 mb-3" asp-items="@(new SelectList(Model.searchList.UnitTypies,"Id","NameAr"))">
+                                    <option value="">نوع الوحدات</option>
+                                </select>
+
+
+                                <label for="" class="mb-3">نوع المنتج </label>
+                                <select asp-for="@Model.ComprehensiveReportSearch.ProductType" class="form-select filteration mx-3 mb-3" asp-items="@(new SelectList(Model.searchList.DonationMethodList,"Id","NameAr"))">
+                                    <option value="">نوع المنتج</option>
+                                </select>
+
+                                <label for="" class="mb-3">حجم المنتج </label>
+                                <select asp-for="@Model.ComprehensiveReportSearch.ProductSize" class="form-select filteration mx-3 mb-3" asp-items="@(new SelectList(Model.searchList.GetProductSizeList,"Id","NameAr"))">
+                                    <option value="">حجم المنتج</option>
+                                </select>
+
+                                <label for="" class="mb-3">حالة المنتج </label>
+                                <select asp-for="@Model.ComprehensiveReportSearch.ProductPaymentStatus" class="form-select filteration mx-3 mb-3" asp-items="@(new SelectList(Model.searchList.GetProductPaymentStatus,"Id","Name"))">
+                                    <option value="">حاله المنتج</option>
+                                </select>
+
+                                <label for="" class="mb-3">نوع البحث </label>
+                                <input asp-for="@Model.ComprehensiveReportSearch.SearchType" type="text" class="form-control filteration mx-3 mb-3" id="DatasearchProductNameAndProviderName" placeholder="اسم الجهه/اسم المنتج">
+
+                                <label for="" class="mb-3">الفتره (من) </label>
+                                <input autocomplete="off" asp-for="@Model.ComprehensiveReportSearch.ApprovedFrom" type="text" class="form-control datepickerCustom filterationDate mx-3 p-2 mb-3" id="Datasearchfrom" placeholder="اختر التاريخ">
+
+                                <label for="" class="mb-3">الفتره (الى )</label>
+                                <input autocomplete="off" asp-for="@Model.ComprehensiveReportSearch.ApprovedTo" type="text" class="form-control datepickerCustom filterationDate mx-3 p-2 mb-3" id="Datasearchto" placeholder="اختر التاريخ" />
+
+                                <label for="" class="mb-3">منتج موازى </label>
+                                <select asp-for="@Model.ComprehensiveReportSearch.IsParallelProduct" class="form-select filteration mx-3 mb-3">
+                                    
+                                    <option value="0" selected>منتج موازى</option>
+                                    <option value="1">نعم</option>
+                                    <option value="2">لا</option>
+                                </select>
+
+                                <a class="close-filter btnclose d-none mx-3 mb-3" asp-page="/ComprehensiveReportUI/Index" asp-page-handler="GetAjax" type="reset">
+                                    <img src="~/cms_lib/img/icons/close-filter.svg" />
+                                </a>
+                            </div>
+
+
+                        </div>
+
+
+                        <input asp-for="@Model.PageNumber" hidden />
+                        <input asp-for="@Model.PageSize" hidden />
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div id="search-result">
+    <partial name="_List.cshtml" model="@Model.ItemList" />
+</div>
+
+@section scripts
+    {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $("#Arrow").click(function () {
+            $('#preloader').show();
+        });
+
+        $('#search-Product-form').submit(function () {
+            var from = $("#Datasearchfrom").val();
+            var to = $("#Datasearchto").val();
+            debugger
+            if (from != '' && to != '') {
+                debugger
+                if (from > to) {
+                    debugger
+                    Swal.fire({
+                        imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                        title: ' .(فترة(من) يجب ان تكون اقل من او تساوى فترة (الى ',
+                        showCancelButton: false
+                    });
+                    return false;
+                }
+                else {
+                    return true;
+
+                }
+            }
+            return true;
+        });
+
+    </script>
+    <script>
+        $('.filteration').on('input', function (e) {
+            var Getval = $(this).val();
+            var filtersHaveValue = false;
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                $('.filteration').each(function () {
+                    if ($(this).val() != '') {
+                        filtersHaveValue = true;
+                    }
+                });
+                if (!filtersHaveValue) {
+                    $('.btnclose').addClass('d-none');
+                    $('.btnclose').removeClass('d-block');
+                }
+            }
+        });
+        $(".filterationDate").change(function () {
+
+            $('.btnclose').removeClass('d-none');
+            $('.btnclose').addClass('d-block');
+        });
+    </script>
+}   

@@ -1,0 +1,73 @@
+﻿@using static WebUI.Pages.QualitativeClassfication.IndexModel;
+@model DTOResult;
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<div class="app-table table-responsive">
+    <table id="News" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    م
+                </th>
+                <th style="width:30%">
+                    الأسم العربى
+                </th>
+                <th style="width:45%">
+                    الأسم الانجليزى
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.items.Any())
+            {
+                foreach (var item in Model.items)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@item.NameAr</td>
+                        <td>
+                            @item.NameEn
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <ul>
+                                     
+                                        <li>
+                                            <a href="/QualitativeClassfication/Edit?id=@item.Id"><img src="~/cms_lib/img/icons/Edit.svg" /></a>
+
+                                        </li>
+
+                                        <li>
+                                            <a class="del" href="javascript:showDeletePopup('@item.Id')"> <img src="/cms_lib/img/icons/Delete.svg" alt="users-icon" /></a>
+                                        </li>
+                                    
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10" class="no-items-cont">
+                        <span>لا يوجد بيانات</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber ?? 1">
+
+    </vc:pager>
+
+</div>

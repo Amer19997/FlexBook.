@@ -1,0 +1,1249 @@
+﻿@page
+@model WebUI.Pages.Provider.UpdateSocietyModel
+@{
+}
+<div b-l9yroajyng class="row">
+    <div b-l9yroajyng class="col-12">
+        <!-- heading  -->
+        <div class="special-form">
+            <div class="row">
+                <div class="col-12">
+                    <!-- heading  -->
+                    <div class="app-heading">
+                        <div class="app-title">
+                            <a href="/ApprovedProvider/Index" class="ps-1">
+                                <img class="rotated"
+                                     src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                                     alt="details-icon"
+                                     class="icons" />
+                            </a>
+                            <h3 class="m-0">بيانات تسجيل الجهة</h3>
+                        </div>
+
+
+                    </div>
+
+                    <div class="app-form">
+                        <!-- form content -->
+
+                        <form class="form-wrapper"
+                              method="post"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-success="addSuccess"
+                              data-ajax-failure="addFailed"
+                              id="Update-request-form">
+                            <div class="accordion" id="accordionExample">
+                                <input asp-for="@Model.AssociationDetails.SocietyId" hidden />
+                                <!-- ===========first=========== -->
+                                <div class="accordion-item form-content mb-3">
+                                    <div class="form-title" id="headingOne">
+                                        <button class="accordion-button bg-transparent"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne"
+                                                aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                            <h3 class="accordion-header">
+                                                البيانات الأساسية
+                                            </h3>
+                                            <img class="rotated"
+                                                 src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/collabse.svg"
+                                                 alt="collabse-icon"
+                                                 class="icons" />
+                                        </button>
+                                    </div>
+
+                                    <div id="collapseOne"
+                                         class="accordion-collapse collapse show"
+                                         aria-labelledby="headingOne"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body card custom-card">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            نوع الجهة
+                                                        </label>
+                                                        <input type="text"
+                                                               value="مؤسسة وقفية"
+                                                               class="form-control"
+                                                               aria-label="Small"
+                                                               aria-describedby="inputGroup-sizing-sm" readonly />
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            رقم التسجيل
+                                                        </label>
+                                                        <!-- <p class=""></p> -->
+                                                        <input type="text"
+                                                               asp-for=@Model.AssociationDetails.BasicDto.SocityNumber
+                                                               class="form-control"
+                                                               aria-label="Small"
+                                                               aria-describedby="inputGroup-sizing-sm" />
+
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.SocityNumber" class="text-error">
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            اسم الجهة
+                                                        </label>
+                                                        <!-- <p class=""></p> -->
+                                                        <input type="text"
+                                                               asp-for=@Model.AssociationDetails.BasicDto.SocityName
+                                                               class="form-control"
+                                                               aria-label="Small"
+                                                               aria-describedby="inputGroup-sizing-sm" />
+
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.SocityName" class="text-error">
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            تاريخ التسجيل بالهجري
+                                                        </label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               asp-for="@Model.AssociationDetails.BasicDto.LicenseStartDate"
+                                                               id="hijri-date-input" />
+
+
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.LicenseStartDate" class="text-error">
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            تاريخ نهاية التسجيل بالهجري
+                                                        </label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               asp-for="@Model.AssociationDetails.BasicDto.LicenseEndDate"
+                                                               id="hijri-date-input-re" />
+
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.LicenseEndDate" class="text-error">
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            رقم 700
+                                                        </label>
+                                                        <input type="text"
+                                                               asp-for="@Model.AssociationDetails.BasicDto.CommercialRegisterNo"
+                                                               class="form-control"
+                                                               aria-label="Small"
+                                                               aria-describedby="inputGroup-sizing-sm" />
+
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.CommercialRegisterNo" class="text-error">
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                        <label for="">
+                                                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                                 alt="buulet-icon" />
+                                                            الجنس المخدوم
+                                                        </label>
+                                                        <select class="form-select"
+                                                                asp-for="@Model.AssociationDetails.BasicDto.Gender"
+                                                                aria-label="Default select example">
+
+                                                            <option value="1">ذكر</option>
+                                                            <option value="2">انثي</option>
+                                                            <option value="3">كلاهما</option>
+                                                        </select>
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.Gender" class="text-error">
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                            تصنيف الحوكمة
+                                                    </label>
+
+
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.BasicDto.GovernanceClassification, @Model.Governance, "--اختر  --", new { @class = "form-control"})
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.GovernanceClassification" class="text-error">
+                                                    </span>
+
+                                                </div>
+
+                                                    <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        التصنيف النوعى
+                                                    </label>
+
+
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.BasicDto.QualitativeClassification, @Model.QualitativeClass, "--اختر  --", new { @class = "form-control" })
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.QualitativeClassification" class="text-error">
+                                                    </span>
+
+                                                </div>
+
+
+
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                            معيار الشفافية والاصلاح
+                                                    </label>
+
+
+                                                        @Html.DropDownListFor(m => @Model.AssociationDetails.BasicDto.TransparencyStandard, @Model.TransparencyStandard, "--اختر  --", new { @class = "form-control" })
+                                                        <span class="text-danger" asp-validation-for="@Model.AssociationDetails.BasicDto.TransparencyStandard" class="text-error">
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        التصنيف الفرعى الأول
+                                                    </label>
+
+
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.BasicDto.FirstSubclass, @Model.FirstSubclass, "--اختر  --", new { @class = "form-control" })
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.Regoin" class="text-error">
+                                                    </span>
+
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        التصنيف الفرعى التانى
+                                                    </label>
+
+
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.BasicDto.SecondSubclass, @Model.SecondSubclass, "--اختر  --", new { @class = "form-control" })
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.Regoin" class="text-error">
+                                                    </span>
+
+                                                </div>
+
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ==========2en======= -->
+                            <div class="accordion-item form-content mb-3">
+                                <div class="form-title" id="headingTwo">
+                                    <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseTwo"
+                                            aria-expanded="true"
+                                            aria-controls="collapseTwo">
+                                        <h3 class="accordion-header">بيانات الاتصال</h3>
+                                        <img class="rotated"
+                                             src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                    </button>
+                                </div>
+
+                                <div id="collapseTwo"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingTwo"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body card custom-card">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        رقم الجوال
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.ContactDto.MobileNumber"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.ContactDto.MobileNumber" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        رقم الهاتف
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.ContactDto.LandLineNumber"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.ContactDto.LandLineNumber" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        البريد الإلكتروني
+                                                    </label>
+                                                    <input type="email"
+                                                           asp-for="@Model.AssociationDetails.ContactDto.Email"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.ContactDto.Email" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        الموقع الإلكتروني
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.ContactDto.Website"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.ContactDto.Website" class="text-error">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ==========3rd======= -->
+                            <div class="accordion-item form-content mb-3">
+                                <div class="form-title" id="headingThree">
+                                    <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree"
+                                            aria-expanded="true"
+                                            aria-controls="collapseThree">
+                                        <h3 class="accordion-header">بيانات العنوان</h3>
+                                        <img class="rotated"
+                                             src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                    </button>
+                                </div>
+                                <div id="collapseThree"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingThree"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body card custom-card">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        المنطقة
+                                                    </label>
+
+
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.AddressDto.Regoin, @Model.Region, "--اختر  المنطقة--", new { @class = "form-control", @required = "required" })
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.Regoin" class="text-error">
+                                                    </span>
+
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        المدينة
+                                                    </label>
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.AddressDto.City, @Model.City, "--اختر المدينة--", new { @class = "form-control", @required = "required" })
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.City" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        العنوان
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.AddressDto.DetailedAddress "
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.DetailedAddress" class="text-error">
+                                                    </span>
+                                                </div>
+
+
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        العنوان المختصر
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.AddressDto.BriefAddress"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.BriefAddress" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        رقم المبنى
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.AddressDto.BuildingNumber"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.BuildingNumber" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        الشارع
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.AddressDto.Street "
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.Street" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        الرقم الفرعي
+                                                    </label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           asp-for="@Model.AssociationDetails.AddressDto.SideNumber"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.SideNumber" class="text-error">
+                                                    </span>
+                                                </div>
+                                                @* <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for="">
+                                                <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                alt="buulet-icon" />
+                                                الحي
+                                                </label>
+                                                @Html.DropDownListFor(m => @Model.AssociationDetails.AddressInfo.District, @Model.Region, "--اختر  المنطقة--", new { @class = "form-control", @required = "required" })
+
+                                                </div> *@
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        الرمز البريدي
+                                                    </label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           asp-for="@Model.AssociationDetails.AddressDto.PostalCode"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.PostalCode" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        المدينة
+                                                    </label>
+                                                    @Html.DropDownListFor(m => @Model.AssociationDetails.AddressDto.CityLookUp, @Model.City, "--اختر  المدينة--", new { @class = "form-control", @required = "required" })
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.AddressDto.CityLookUp" class="text-error">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 4th -->
+                            @*   <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingFour">
+                            <button class="accordion-button bg-transparent"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour"
+                            aria-expanded="true"
+                            aria-controls="collapseFour">
+                            <h3 class="accordion-header">
+                            بيانات مجلس النظارة
+                            </h3>
+                            <img class="rotated"
+                            src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/collabse.svg"
+                            alt="collabse-icon"
+                            class="icons" />
+                            </button>
+                            </div>
+                            <div id="collapseFour"
+                            class="accordion-collapse collapse show"
+                            aria-labelledby="headingFour"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                            <div class="col-12">
+                            <div class="row">
+                            <div class="d-flex">
+                            <span>
+                            <img src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/bullet.svg"
+                            alt=""
+                            width="13px"
+                            height="13px" />
+                            </span>
+                            <p class="me-1">
+                            بيانات رئيس مجلس النظارة
+                            </p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            اسم رئيس مجلس النظارة
+                            </label>
+                            <input type="text"
+                            value="رئيس "
+                            name="waqf-major"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            رقم هوية رئيس مجلس النظارة
+                            </label>
+                            <input type="number"
+                            value="1212222343"
+                            name="waqf-id"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            رقم التواصل لرئيس مجلس النظارة
+                            </label>
+                            <input type="number"
+                            value="0544076690"
+                            name="waqf-mPhone"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+
+                            <div class="d-flex">
+                            <span>
+                            <img src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/bullet.svg"
+                            alt=""
+                            width="13px"
+                            height="13px" />
+                            </span>
+                            <p class="me-1">بيانات المدير التنفيدي</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            اسم المدير التنفيذي
+                            </label>
+                            <input type="text"
+                            value="التنفيذى"
+                            name="waqf-man"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            رقم هوية المدير التنفيذي
+                            </label>
+                            <input type="number"
+                            value="1212222343"
+                            name="waqf-manId"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            رقم التواصل للمدير التنفيذي
+                            </label>
+                            <input type="number"
+                            value="1212222343"
+                            name="waqf-manPhone"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            البريد الالكتروني للمدير التنفيذي
+                            </label>
+                            <input type="email"
+                            value="mm@mm.com"
+                            name="waqf-Manmail"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+
+                            <div class="d-flex">
+                            <span>
+                            <img src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/bullet.svg"
+                            alt=""
+                            width="13px"
+                            height="13px" />
+                            </span>
+                            <p class="me-1">بيانات المفوضين</p>
+                            </div>
+                            <!-- form for bank -->
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            اسم المفوض
+                            </label>
+                            <input type="text"
+                            id="strName"
+                            name="waqf-man"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            رقم هوية
+                            </label>
+                            <input type="number"
+                            id="strId"
+                            name="waqf-manId"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            رقم التواصل
+                            </label>
+                            <input type="number"
+                            id="strPhone"
+                            name="waqf-manPhone"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                            alt="buulet-icon" />
+                            البريد الالكتروني
+                            </label>
+                            <input type="email"
+                            id="strEmail"
+                            name="waqf-Manmail"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <button type="button"
+                            id="addRow"
+                            class="btn btn-secondary">
+                            اضافة مفوض
+                            </button>
+                            </div>
+
+                            <!-- end form for bank -->
+                            <div class="col-10 m-auto">
+                            <!--strat table -->
+                            <div class="app-table table-responsive">
+                            <table class="table table-bordered"
+                            id="firstTable">
+                            <thead>
+                            <tr class="table-header">
+                            <th scope="col">م</th>
+                            <th scope="col">اسم المفوض</th>
+                            <th scope="col">رقم الهوية</th>
+                            <th scope="col">رقم التواصل</th>
+                            <th scope="col">
+                            البريد الالكتروني
+                            </th>
+                            <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            <td>1</td>
+                            <td>sayed</td>
+                            <td>6465694964</td>
+                            <td class="phoneNumber">
+                            966528932285
+                            </td>
+                            <td>esamt12@gmail.com</td>
+                            <td class="delete">حذف</td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div> *@
+                            <!-- 5th -->
+                            <div class="accordion-item form-content mb-3">
+                                <div class="form-title" id="headingFive">
+                                    <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseFive"
+                                            aria-expanded="true"
+                                            aria-controls="collapseFive">
+                                        <h3 class="accordion-header">
+                                            البيانات المالية
+                                        </h3>
+                                        <img class="rotated"
+                                             src="/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                    </button>
+                                </div>
+
+                                <div id="collapseFive"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingFive"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body card custom-card">
+                                        <div class="d-flex">
+                                            <span>
+                                                <img src="/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                            </span>
+                                            <p class="me-1">
+                                                بيانات الحسابات البنكية للجهة
+                                            </p>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <!-- form for bank -->
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        اسم البنك
+                                                    </label>
+                                                    @Html.DropDownList(" ", @Model.Bank as SelectList, "--اختر  البنك--", new { @class = "form-control", @id = "bankId" })
+
+
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        رقم الحساب البنكي
+                                                    </label>
+                                                    <input onkeypress="return onlynumberKey(event)"
+                                                           maxlength="20"
+                                                           type="text"
+                                                           id="bankNum"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm"
+                                                           autocomplete="off" />
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        رقم الايبان
+                                                    </label>
+                                                    <input maxlength="24"
+                                                           type="text"
+                                                           id="bankIban"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span id="IBanText" style="color:red">
+
+                                                    </span>
+
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        اسم حساب الجمعيه بالبنك
+                                                    </label>
+                                                    <input type="text"
+                                                           id="bankCom"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <button type="button"
+                                                            id="addRowSec"
+                                                            class="btn btn-secondary"
+                                                            onclick="AddFinancialRow()">
+                                                        اضافة بنك
+                                                    </button>
+                                                </div>
+
+                                                <!-- end form for bank -->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-10 m-auto">
+                                                    <!--strat table -->
+                                                    <div class="app-table table-responsive">
+                                                        <table class="table table-bordered" id="secTable">
+                                                            <thead>
+                                                                <tr class="table-header">
+                                                                    <th scope="col">اسم البنك</th>
+                                                                    <th scope="col">
+                                                                        رقم الحساب البنكي
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        رقم حساب الآيبان البنكي
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        اسم حساب الجمعية بالبنك
+                                                                    </th>
+                                                                    <th scope="col">
+
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @for (var i = 0; i < Model.AssociationDetails.BankDto.BankInfoList.Count; i++)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input type="text" hidden name="AssociationDetails.BankDto.BankInfoList[@i].CanEdit" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].CanEdit.ToString()" />
+                                                                            <input type="hidden" name="AssociationDetails.BankDto.BankInfoList[@i].Id" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].Id" />
+                                                                            <input type="hidden" name="AssociationDetails.BankDto.BankInfoList[@i].Bank" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].Bank" />
+                                                                            <input readonly type="text" class="form-control" name="AssociationDetails.BankDto.BankInfoList[@i].BankName" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].BankName" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control" name="AssociationDetails.BankDto.BankInfoList[@i].BankAccountNumber" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].BankAccountNumber" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control" name="AssociationDetails.BankDto.BankInfoList[@i].IbanAccountNumber" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].IbanAccountNumber" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control" name="AssociationDetails.BankDto.BankInfoList[@i].BeneficiaryName" value="@Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].BeneficiaryName" />
+                                                                        </td>
+                                                                        @if (Model.AssociationDetails.BankDto.BankInfoList.ToList()[i].CanEdit)
+                                                                        {
+                                                                            <td><a class="btn btn-danger" style="color:black" onclick="RemoveFinancialdiv($(this))">حذف</a></td>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td></td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 6th -->
+                            <div class="accordion-item form-content mb-3">
+                                <div class="form-title" id="headingSix">
+                                    <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseSix"
+                                            aria-expanded="true"
+                                            aria-controls="collapseSix">
+                                        <h3 class="accordion-header">حسابات التواصل</h3>
+                                        <img class="rotated"
+                                             src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                    </button>
+                                </div>
+
+                                <div id="collapseSix"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingSix"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body card custom-card">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        حساب تويتر
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.SocialInfo.Twitter"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.SocialInfo.Twitter" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        حساب الانستغرام
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.SocialInfo.Instgram"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.SocialInfo.Instgram" class="text-error">
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        حساب تيك توك
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.SocialInfo.TickTok"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.SocialInfo.TickTok" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        حساب يوتيوب
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.SocialInfo.Youtube"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.SocialInfo.Youtube" class="text-error">
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                    <label for="">
+                                                        <img src="https://waqfi-cms-uat.2p.com.sa/cms_lib/img/icons/bullet.svg"
+                                                             alt="buulet-icon" />
+                                                        حساب سناب شات
+                                                    </label>
+                                                    <input type="text"
+                                                           asp-for="@Model.AssociationDetails.SocialInfo.Snapchat"
+                                                           class="form-control"
+                                                           aria-label="Small"
+                                                           aria-describedby="inputGroup-sizing-sm" />
+                                                    <span class="text-danger" asp-validation-for="@Model.AssociationDetails.SocialInfo.Snapchat" class="text-error">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 7th -->
+                            @* <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingSeven">
+                            <button class="accordion-button bg-transparent"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseSeven"
+                            aria-expanded="true"
+                            aria-controls="collapseSeven">
+                            <h3 class="accordion-header">المرفقات</h3>
+                            <img class="rotated"
+                            src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/collabse.svg"
+                            alt="collabse-icon"
+                            class="icons" />
+                            </button>
+                            </div>
+
+                            <div id="collapseSeven"
+                            class="accordion-collapse collapse show"
+                            aria-labelledby="headingSeven"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                            <div class="col-12">
+
+                            <!-- upload files  -->
+
+                            <div class="row">
+                            <div class="col-lg-6 col-md-6 col-12 mb-3">
+                            <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">عنوان المرفق</label>
+                            <div class="col-sm-10">
+                            <input type="text"
+                            id="fileTitle"
+                            name="attachValue"
+                            class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm" />
+                            </div>
+                            </div>
+
+
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="file-upload" class="custom-file-upload">
+                            رفع المرفقات
+                            </label>
+                            <input id="file-upload" type="file" />
+                            </div>
+
+                            </div>
+                            <!-- end upload files  -->
+                            <div class="row" id="uploaded-files">
+                            <div class="col-lg-2 col-md-4 col-12">
+                            <label for="">
+                            &#x647;&#x648;&#x64A;&#x629;
+                            &#x627;&#x644;&#x645;&#x641;&#x648;&#x636;
+                            </label>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                            <div class="p-2 m-1">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/Image-icon.svg"
+                            alt="" />
+                            </div>
+                            <span class="w-75 text-center">
+                            <p>1.jpeg</p>
+                            <span cal>0.16 M.B</span>
+                            <img onclick="dowenloadFile('89ce7579-ff3c-43c3-8374-5adbd17b1bca')"
+                            class="me-3"
+                            src="/Cms_Lib/img/icons/Paper Download.svg"
+                            alt=""
+                            srcset="" />
+                            <img onclick="previewFile('89ce7579-ff3c-43c3-8374-5adbd17b1bca')"
+                            class=""
+                            src="/Cms_Lib/img/icons/preview.png"
+                            alt=""
+                            srcset="" />
+                            </span>
+                            </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-12">
+                            <label for="">
+                            test
+                            </label>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                            <div class="p-2 m-1">
+                            <img src="https://waqfi-cms-uat.2p.com.sa/Cms_Lib/img/icons/Image-icon.svg"
+                            alt="" />
+                            </div>
+                            <span class="w-75 text-center">
+                            <p>4.jpeg</p>
+                            <span cal>0.14 M.B</span>
+                            <img onclick="dowenloadFile('77d94b8e-fd9c-49a1-a13a-6f1abc1a3b6a')"
+                            class="me-3"
+                            src="/Cms_Lib/img/icons/Paper Download.svg"
+                            alt=""
+                            srcset="" />
+                            <img onclick="previewFile('77d94b8e-fd9c-49a1-a13a-6f1abc1a3b6a')"
+                            class=""
+                            src="/Cms_Lib/img/icons/preview.png"
+                            alt=""
+                            srcset="" />
+                            </span>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div> *@
+
+                            <!-- end of form  -->
+                            <div class="form-buttons">
+                                <button id="sbt" type="submit" class="btn btn-tertiary">حفظ التعديلات</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--start add modal-->
+        <!--end add modal-->
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js"></script>
+
+    <script>
+        $('#hijri-date-input').hijriDatePicker({
+            hijri: true,
+            showSwitcher: false
+        });
+        $('#hijri-date-input-re').hijriDatePicker({
+            hijri: true,
+            showSwitcher: false
+        });
+
+        var genderValue = "@Model.AssociationDetails.BasicDto.Gender";
+        $(document).ready(function () {
+
+            $('select[name="gender"]').val(genderValue);
+        });
+        function RemoveFinancialdiv(input) {
+
+            $(input).parent().parent().remove();
+
+            $('#secTable tbody tr').each(function (index, row) {
+                debugger
+                $(row).find('input').each(function () {
+                    debugger
+                    if ($(this).attr('name').includes('CanEdit')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].CanEdit');
+                    }
+                    if ($(this).attr('name').endsWith('Id')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].Id');
+                    }
+                    if ($(this).attr('name').endsWith('Bank')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].Bank');
+                    }
+                    if ($(this).attr('name').includes('BankName')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].BankName');
+                    }
+                    if ($(this).attr('name').includes('BankAccountNumber')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].BankAccountNumber');
+                    }
+                    if ($(this).attr('name').includes('IbanAccountNumber')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].IBANAccountNumber');
+                    }
+                    if ($(this).attr('name').includes('BeneficiaryName')) {
+                        $(this).attr('name', 'AssociationDetails.BankDto.BankInfoList[' + index + '].BeneficiaryName');
+                    }
+                });
+            })
+        }
+        function AddFinancialRow() {
+
+            $("#IBanText").text("");
+            bankId = $("#bankId option:selected").val();
+            bankName = $("#bankId option:selected").text();
+            accountNumber = $("#bankNum").val();
+            IBAN = $("#bankIban").val();
+            binificary = $("#bankCom").val();
+            var i = $('#secTable tbody tr').length;
+            if (bankId != '' && accountNumber != '' && IBAN != '' && binificary != '') {
+                if (IBAN.length != 24 || IBAN[0] != 'S' || IBAN[1] != 'A') {
+                    $("#IBanText").text("يجب إدخال رقم اى بان صحيح");
+                }
+                else {
+
+                    var newDiv = "<tr><td><input type='hidden' name='AssociationDetails.BankDto.BankInfoList[" + i + "].CanEdit'  value ='" + true + "' /> " +
+                        "<input type='hidden' class='form-control'  name='AssociationDetails.BankDto.BankInfoList[" + i + "].Bank' value='" + bankId + "'  />" +
+                        "<input readonly class='form-control'  name='AssociationDetails.BankDto.BankInfoList[" + i + "].BankName' value='" + bankName + "'  /></td>" +
+                        "<td><input readonly class='form-control' name='AssociationDetails.BankDto.BankInfoList[" + i + "].BankAccountNumber'  value='" + accountNumber + "' /> </td>" +
+                        "<td><input readonly class='form-control' name='AssociationDetails.BankDto.BankInfoList[" + i + "].IBANAccountNumber'  value='" + IBAN + "' />  </td>" +
+                        "<td><input readonly class='form-control' name='AssociationDetails.BankDto.BankInfoList[" + i + "].BeneficiaryName'  value='" + binificary + "' />  </td>" +
+                        "<td><a class='btn btn-danger' style = 'color:black' onclick = 'RemoveFinancialdiv($(this))' > حذف </a></td ></tr>";
+
+
+                    $("#secTable").append(newDiv);
+                }
+            }
+        }
+        function addSuccess(result) {
+            debugger
+            if (result.success) {
+
+                swal.fire({
+                    title: 'تمت عملية التعديل بنجاح',
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer: 5000
+                }).then(() => {
+                    $("#sbt").attr("disabled", false);
+                    window.location.replace("/ApprovedProvider/Index"
+                    );
+                });
+            }
+            else {
+                $("#sbt").attr("disabled", false);
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: result.errors[0],
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+            }
+        }
+        function addFailed(result) {
+            $("#saveNewsbutton").attr("disabled", false);
+
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: "حدث خطأ ما",
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+
+    </script>
+}

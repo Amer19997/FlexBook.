@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+  <g id="Arrow_-_Right_Square" data-name="Arrow - Right Square" transform="translate(1 1)">
+    <g id="Iconly_Light_Arrow_-_Right_Square" data-name="Iconly/Light/Arrow - Right Square">
+      <g id="Arrow_-_Right_Square-2" data-name="Arrow - Right Square">
+        <path id="Stroke_1" data-name="Stroke 1" d="M6.378,24H17.624C21.542,24,24,21.225,24,17.3V6.7C24,2.775,21.555,0,17.624,0H6.378C2.447,0,0,2.775,0,6.7V17.3C0,21.225,2.447,24,6.378,24Z" transform="translate(0 24) rotate(-90)" fill="none" stroke="#015464" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Stroke_3" data-name="Stroke 3" d="M0,8.172V0" transform="translate(7.914 12) rotate(-90)" fill="none" stroke="#015464" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Stroke_5" data-name="Stroke 5" d="M7.5,0,3.748,3.764,0,0" transform="translate(13.145 15.748) rotate(-90)" fill="none" stroke="#015464" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

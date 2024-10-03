@@ -1,0 +1,164 @@
+﻿@page
+@model WebUI.Pages.Masarat.MasaratDetailsModel
+@{
+}
+
+<div class="row">
+    <div class="col-12">
+        <!-- heading  -->
+        <div class="app-heading">
+            <a href="/Masarat/index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <div class="app-title">
+
+                <h3 class="m-0">تفاصيل المسار</h3>
+            </div>
+
+        </div>
+        <div class="app-form">
+            <!-- form content -->
+
+            <div class="form-wrapper">
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>البيانات الأساسية</h3>
+                        </div>
+                    </div>
+                    <input id="RequestId" asp-for="@Model.MasaratDetails.Id" hidden />
+                    <div class="card">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="name">اسم المسار بالعربية</label>
+                                    <p class="mb-1">@(Model.MasaratDetails.NameAr ?? "لا يوجد")</p>
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="name">اسم المسار بالإنجليزية</label>
+                                    <p class="mb-1">@(Model.MasaratDetails.NameEn ?? "لا يوجد")</p>
+
+                                </div>
+
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="important">وصف المسار بالعربية</label>
+                                    <p class="mb-1">@(Model.MasaratDetails.DiscriptionAr ?? "لا يوجد")</p>
+
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="important">وصف المسار بالإنجليزية</label>
+                                    <p class="mb-1">@(Model.MasaratDetails.DiscriptionEn ?? "لا يوجد")</p>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>ملفات الميديا</h3>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <label for="name">ايقونه العرض</label
+                        <div class="row">
+                            <div class="col-md-3 col-12">
+                                <div id="collapseSeven"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingSeven"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body card custom-card">
+                                        <div class="col-12">
+                                            <div class="row">
+                                               
+                                                <div class="col-12">
+                                                    <p>
+                                                        أيقونة المسار
+                                                    </p>
+
+                                                    <div class="upload-container">
+                                                        <div class="row">
+
+                                                            <div class="col-12">
+                                                                <div class="attachFile">
+                                                                    <img onclick="dowenloadFile('@Model.MasaratDetails.Icons.IconId')" src="@Model.MasaratDetails.Icons.IconUrl" style="width: 140px;height: 140px; display: inline-flex;" />
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                 <div class="row">
+                                       <div class="col-12">
+
+                                                    <p>
+                                                        صور المسار
+                                                    </p>
+                                                    <div class="upload-container">
+                                                        <div class="row" >
+                                                            @foreach (var imgDTO in Model.MasaratDetails.Libraries)
+                                                            {
+                                                                <div class='col-2 mb-2 d-flex flex-column'>
+                                                                    <div class='attachFile'>
+                                                                        <img  src="@imgDTO.LibraryUrl" style='width: 140px;height: 140px; display: inline-flex;' onclick="dowenloadFile('@imgDTO.LibraryId')"/>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<input id="RequestId" value="@Model.MasaratDetails.Id" hidden />
+@section scripts {
+
+
+    <script>
+        function dowenloadFile(fileId) {
+            debugger
+            var Id = $("#RequestId").val();
+            $.ajax({
+                url: "?handler=DownloadFile",
+                method: "GET",
+                data: { "fileId": fileId, "masarId": Id },
+                success: function (response) {
+                    var a = document.createElement("a");
+                    a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                    a.download = response.result.fileName;
+                    a.click();
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,185 @@
+﻿@page
+@model WebUI.Pages.TopGivers.AddNewDonationTopGiverModel
+
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-success="AddNewDonationSuccess"
+      data-ajax-failure="AddNewDonationFailed"
+      id="addNewDonationTopGiverform"
+      enctype="multipart/form-data">
+
+    <div class="app-heading">
+        <div class="app-title">
+            <h3 class="m-0">إضافة تبرع كبار مانحين جديد </h3>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-tertiary">اضافة</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+        </div>
+    </div>
+    <div class="app-form">
+        <div class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="name">اسم المتبرع</label><span class="text-danger">*</span>
+                                <input maxlength="100" onkeypress="return onlycharKey(event)" type="text" class="form-control" id="DonatorName"  asp-for="@Model.TopGiverModel.TopDonatorName" placeholder="ادخل اسم المتبرع " />
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.TopDonatorName" class="text-error"></span>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for=""> رقم الجوال</label>
+                                <input maxlength="9" onkeypress="return onlynumberKey(event)" type="text" id="Phone" class="form-control" asp-for="@Model.TopGiverModel.MobileNumber" placeholder="ادخل رقم الجوال" />
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.MobileNumber" class="text-error"></span>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for=""> البريد الإلكتروني</label>
+                                <input maxlength="100" type="email" id="Email" class="form-control" asp-for="@Model.TopGiverModel.Email" placeholder="example@example.com" />
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.Email" class="text-error"></span>
+                            </div>
+
+                             <div class="col-md-6 col-12 mb-3">
+                                <input onclick="ChangeProductMethod()" value=2  asp-for="@Model.TopGiverModel.ProductId" class="DonationMethodClass" type="radio" name="Banner" id="DonationMethodId" checked />
+                            <label for="name">منتج </label>
+
+                            <input onclick="ChangeMasarMethod()" class="DonationMethodClass me-5" type="radio" name="Banner" id="MasarId" asp-for="@Model.TopGiverModel.MasarId" value=1 />
+                            <label for="name"> مسار</label>
+
+                                <input onclick="ChangeQuickMethod(true)" class="DonationMethodClass me-5" type="radio" name="Banner" id="IsQuickDonation" asp-for="@Model.TopGiverModel.IsQuickDonation" value=3 />
+                                <label for="name"> مساهمة سريعة</label>
+
+                               
+                        </div>
+
+
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-3" id="Productdropdown">
+                                <label for=""> المنتج</label><span class="text-danger">*</span>
+                                <select asp-for="@Model.TopGiverModel.ProductId" class="selectpicker form-select2 ps-5" data-show-subtext="false" data-live-search="true" id="ProductId"  aria-label="Default select example" asp-items="@(new SelectList(Model.productList,"Id","DisplayName"))">
+                                    <option value="" selected>اسم المنتج</option>
+
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.ProductId" class="text-error"></span>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-3" id="Masardropdown" hidden>
+                                <label for=""> المسار</label><span class="text-danger">*</span>
+                                <select asp-for="@Model.TopGiverModel.MasarId" class="selectpicker form-select2 ps-5" data-show-subtext="false" data-live-search="true" id="Masarid" aria-label="Default select example" asp-items="@(new SelectList(Model.MasartList,"Id","MasaratNameAR"))">
+                                    <option value="" selected>اسم المسار</option>
+
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.MasarId" class="text-error"></span>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">قيمة التبرع</label><span class="text-danger">*</span>
+                                <input onkeyUp="ChangeAmount()" type="text" class="form-control" id="amountId" placeholder="ادخل  قيمه التبرع                                      ر.س" asp-for="@Model.TopGiverModel.DonationAmount" />
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.DonationAmount" class="text-error"></span>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                <label for="">  تاريخ التبرع </label><span class="text-danger">*</span>
+                                <input type="date" class="form-control" onkeypress="return onlycharKey(event)" asp-for="@Model.TopGiverModel.DonationDate" placeholder="اختر تاريخ التبرع" />
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.DonationDate" class="text-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>المرفقات</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-3 col-12">
+                            <div class="">
+                                <label for="name">وثيقة التبرع</label><span class="text-danger">*</span>
+                                <input type="file" asp-for="@Model.TopGiverModel.ImageDto" class="form-control fileIcon" onchange="CheckDimension(event,'imgUpload1','IconID','imgUpload11','DeleteIconID')" id="imgUpload1" accept=".jpg, .jpeg, .png , .bmp, .pdf" placeholder="upload" />
+                                <span class="text-danger" asp-validation-for="@Model.TopGiverModel.ImageDto" class="text-error" id="nameValidation">
+                                </span>
+                                @*<div class="upload-container">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="attachFile">
+                                                <input style="width: 140px;height: 140px; display: inline-flex;" type="image" id="IconID" hidden />
+                                                <label for="imgUpload1" id="imgUpload11">
+                                                    <span>
+                                                        <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                             alt="upload-icon"
+                                                             class="" />
+                                                    </span>
+                                                    <p>
+                                                        اضف صورة
+                                                    </p>
+                                                    <p>
+                                                        الحد الأقصى 2MB <br />
+                                                        JPG, PNG, JPEG, BMP, PDF
+                                                    </p>
+                                                </label>*@
+                                            
+                                            </div>
+@*
+                                            <div class="file-icon d-flex align-items-center justify-content-center">
+                                                <button type="button" class="btn btn-warning" id="DeleteIconID" onclick="deleteImage('IconID','DeleteIconID','imgUpload1','imgUpload11')" hidden>
+                                                    <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                @*  <input type="button" value="Delete" class="btn btn-warning " id="DeleteIconID" onclick="deleteImage('IconID','DeleteIconID','imgUpload1','imgUpload11')" hidden />*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء إضافة تبرع؟   </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <button id="BackList" class=" btn btn-tertiary">نعم</button>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/usermangment/generalcheck.js"></script>
+    <script src="~/js/TopGivers/TopGivers.js"></script>
+   
+    }

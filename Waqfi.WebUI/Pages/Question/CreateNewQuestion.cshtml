@@ -1,0 +1,199 @@
+﻿@page
+@using WebUI.Enums;
+@model WebUI.Pages.Question.CreateNewQuestionModel
+@{
+}
+
+@Html.AntiForgeryToken()
+<link href="~/cms_lib/css/faq.css" rel="stylesheet" />
+
+<div class="app-heading">
+    <div class="app-title">
+        <span class="ps-1">
+           
+        </span>
+        <h3 class="m-0">إضافة سؤال</h3>
+    </div>
+    <div class="form-buttons">
+        <button type="submit" id="save" onclick="CreateQuestion()" class="btn btn-tertiary">اضافة</button>
+        <a class="btn btn-light-primary del">الغاء</a>
+    </div>
+</div>
+
+
+
+<div class="app-form">
+    <!-- form content -->
+
+    <form class="form-wrapper" method="post" id="form-id">
+        <div class="form-content">
+            <div class="form-header">
+                <div class="d-flex align-items-center">
+                    <div class="point"></div>
+                    <h3>البيانات الأساسية</h3>
+                </div>
+            </div>
+            <div class="card">
+                <div class="col-12">
+                    <div class="row">
+
+
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="name">السؤال بالعربية</label> <span class="text-danger">*</span>
+                            <input type="text" asp-for="@Model.QuestionModel.QuestionAr" maxlength="200" class="form-control" id="name"
+                                   placeholder="اكتب السؤال هنا" />
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionAr" class="text-error" id="nameValidation">
+                            </span>
+                        </div>
+
+
+
+                        <div class="col-md-6 col-12 mb-3" dir="ltr">
+                            <label for="name"> السؤال بالإنجليزية</label> <span class="text-danger">*</span>
+                            <input type="text" asp-for="@Model.QuestionModel.QuestionEN" class="form-control" id="name"
+                                   placeholder="اكتب السؤال هنا" />
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionEN" class="text-error" id="nameValidation">
+                            </span>
+                        </div>
+
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="status">حالة السؤال</label><span class="text-danger">*</span>
+
+                            @Html.DropDownList("QuestionModel.QuestionStatues",@Model.QuestionStatues as SelectList,"--اختر حالة السؤال--", new { @class = "form-select ps-5" ,@required="required"})
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionStatues" class="text-error">
+                            </span>
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="deg">درجة الاهمية</label> <span class="text-danger">*</span>
+                            @Html.DropDownList("QuestionModel.QuestionPriority",Enumerable.Range(1, 20).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }),"--اختر درجة الاهمية--", new { @id="RelationId",@class = "form-select ps-5"})
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionPriority" class="text-error">
+                            </span>
+                        </div>
+
+
+                        <div class=" col-12 mb-3">
+                            <label for="important">الإجابة بالعربية</label><span class="text-danger">*</span>
+                            <textarea class="form-control" asp-for="@Model.QuestionModel.AnswerAR" id="important"
+                                      rows="10" placeholder="اكتب إجابة السؤال بطريقة شاملة"></textarea>
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.AnswerAR" class="text-error">
+                            </span>
+                            <p>عدد الاحرف المسموح بها 1000 حرف.</p>
+
+                        </div>
+
+
+                        <div class=" col-12 mb-3">
+                            <label for="important">
+                                الإجابة بالإنجليزية
+
+                            </label><span class="text-danger">*</span>
+                            <textarea class="form-control text-start" asp-for="@Model.QuestionModel.AnswerEN" id="important"
+                                      rows="10" placeholder="اكتب إجابة السؤال بطريقة شاملة"></textarea>
+                            <span class="text-danger text-start" asp-validation-for="@Model.QuestionModel.AnswerEN" class="text-error">
+                            </span>
+                            <p class="text-start">Allowed letters 1000 letter</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+
+
+
+</div>
+
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء إضافة سؤال؟ </h3>
+                <p>
+                    في حالة الموافقة ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/Question/QuestionList" asp-page-handler="GetAjax">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end delete modal-->
+<!--start delete modal-->
+<div class="modal fade body-modal" id="add-alert-Modal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-header">
+                <h3>اضافة اخطار جديد</h3>
+
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="modal-button">
+                    <button class=" btn btn-primary" id="b6">اضافة</button>
+                    <button class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<partial name="_ValidationScriptsPartial">
+
+    @section Scripts{
+
+        @if (TempData["Depulicate"] != null)
+        {
+            <script>
+                $(function () {
+                    swal.fire({
+                        title: "خطا!",
+                        text: "هذا السؤال مسجل من قبل",
+                        imageUrl: '/Cms_Lib/img/icons/warning-popup.svg',
+                        showConfirmButton: false,
+                        timer: 2000
+
+                    });
+                })
+            </script>
+        }
+
+
+
+        @*<script src="~/js/QuestionDatatable.js"></script>*@
+        <script src="~/js/questiondatatable.js"></script>
+
+    }

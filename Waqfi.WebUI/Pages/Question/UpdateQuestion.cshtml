@@ -1,0 +1,238 @@
+﻿@page
+@model WebUI.Pages.Question.UpdateQuestionModel
+@{
+}
+@Html.AntiForgeryToken()
+<link href="~/cms_lib/css/faq.css" rel="stylesheet" />
+
+<div class="app-heading">
+    <div class="app-title">
+        <h3 class="m-0">تعديل بيانات السؤال</h3>
+    </div>
+    <div class="form-buttons">
+        <button class="btn btn-transparent border-0 line-after mx-5 text-decoration-underline show ShowDetalies"
+                data-itemid="@Model.QuestionModel.QuestionId" data-bs-toggle="modal" data-bs-target="#detailModal">
+            <img src="~/cms_lib/img/icons/Document.svg" alt="Edit-icon" />استعراض
+        </button>
+
+        <a class="btn btn-tertiary" onclick="CreateQuestion()">
+            <img src="~/cms_lib/img/icons/edit-btn.svg" alt="search-icon" />
+            حفظ التعديلات
+        </a>
+        <a class="btn btn-light-primary cancelupdate" >الغاء</a>
+
+
+ @*       <img src="~/cms_lib/img/icons/edit-btn.svg" alt="search-icon" />
+        <button type="submit" id="save" onclick="CreateQuestion()" class="btn btn-tertiary">حفظ التعديلات</button>
+        <a class="btn btn-light-primary cancelupdate">الغاء</a>*@
+    </div>
+</div>
+
+<div class="app-form">
+    <!-- form content -->
+
+    <form class="form-wrapper" method="post" id="form-id">
+        <div class="form-content">
+            <div class="form-header">
+                <div class="d-flex align-items-center">
+                    <div class="point"></div>
+                    <h3>البيانات الأساسية</h3>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="name"> السؤال بالعربية</label> <span class="text-danger">*</span>
+                            <input type="text" class="form-control"
+                                   placeholder="اكتب السؤال هنا" asp-for="@Model.QuestionModel.QuestionAr" />
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionAr" class="text-error">
+                            </span>
+                        </div>
+
+                        <div class="col-md-6 col-12 mb-3" dir="ltr">
+                            <label for="name">
+                                السؤال بالإنجليزية
+
+                            </label> <span class="text-danger">*</span>
+                            <input type="text" class="form-control"
+                                   placeholder=" اكتب السؤال هنا" asp-for="@Model.QuestionModel.QuestionEn" />
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionEn" class="text-error">
+                            </span>
+                        </div>
+
+
+                        <input type="hidden" asp-for="@Model.QuestionModel.QuestionId" />
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="status">حالة السؤال</label><span class="text-danger">*</span>
+
+                            @Html.DropDownList("QuestionModel.QuestionStatues",@Model.QuestionStatues as SelectList,"--اختر حالة السؤال--", new { @class = "form-control w-100" ,@required="required"})
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionStatues" class="text-error">
+                            </span>
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="status">درجة الاهمية</label><span class="text-danger">*</span>
+                            @Html.DropDownList("QuestionModel.QuestionPriority",Enumerable.Range(1, 20).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }),"--اختر درجة الاهمية--", new { @id="RelationId",@class = "form-control w-100"})
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.QuestionPriority" class="text-error"></span>
+                        </div>
+
+
+
+                        <div class=" col-12 mb-3">
+                            <label for="important">الإجابة بالعربية</label><span class="text-danger">
+                                *
+                            </span>
+                            <textarea class="form-control" asp-for="@Model.QuestionModel.AnswerAr" id="important"
+                                      rows="10" placeholder="اكتب اجابة السؤال بطريقة شاملة"></textarea>
+                            <span class="text-danger" asp-validation-for="@Model.QuestionModel.AnswerAr" class="text-error"></span>
+                            <p>عدد الاحرف المسموح بها 1000 حرف.</p>
+                        </div>
+
+                        <div class=" col-12 mb-3">
+                            <label for="important">
+                                الإجابة بالإنجليزية
+
+                            </label><span class="text-danger">
+                                *
+                            </span>
+                            <textarea class="form-control text-start" asp-for="@Model.QuestionModel.AnswerEn" id="important"
+                                      rows="10" placeholder="اكتب اجابة السؤال بطريقة شاملة"></textarea>
+                            <span class="text-danger text-start" asp-validation-for="@Model.QuestionModel.AnswerEn" class="text-error"></span>
+                            <p class="text-start">Allowed letters 1000 letter</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </form>
+
+
+</div>
+
+
+</div>
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء تعديل سؤال؟ </h3>
+                <p>
+                    في حالة الموافقة ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/Question/QuestionList" asp-page-handler="GetAjax">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--start details modal-->
+<div class="modal fade body-modal" id="detailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-header ">
+                <div class="d-flex">
+                    <h5 class="modal-title ">تفاصيل السؤال</h5>
+                    <span class="green-span" id="QuestionStatues"></span>
+                    <span class="orange-span" id="QuestionProirty"></span>
+                </div>
+                <div class="d-flex">
+                    <img src="~/cms_lib/img/icons/Iconly-Light-Calendar.svg" alt="" srcset="" width="18px" height="20px">
+                    
+                    
+                    <p class="question-label" id="QuestionCreation"></p>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+
+
+
+            <div class="modal-body question-details mx-3">
+                <div class="row">
+                    <div class="col-1 mt-1">
+                        <p class="question-label" >السؤال</p>
+                        <p class="answer-label">الاجابة</p>
+                    </div>
+                    <div class="col-11 text-end">
+                        <h5 id="QuestionArModel"></h5>
+                        <p class="answer" id="AnswerArModel">
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row" dir="ltr">
+                    <div class="col-1 mt-1">
+                        <p class="question-label" >Question</p>
+                        <p class="answer-label">Answer</p>
+                    </div>
+                    <div class="col-11 text-start">
+                        <h5 id="QuestionENModel"></h5>
+                        <p class="answer" id="AnswerENModel">
+                           
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="modal-button">
+                <button class=" btn btn-tertiary" data-bs-dismiss="modal">عودة</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end delete modal-->
+
+@section Scripts{
+
+
+    @if (TempData["Depulicate"] != null)
+    {
+        <script>
+            $(function () {
+                swal.fire({
+                    title: "خطا!",
+                    text: "هذا السؤال مسجل من قبل",
+                    imageUrl: '/Cms_Lib/img/icons/warning-popup.svg',
+                    showConfirmButton: false,
+                });
+            })
+        </script>
+    }
+
+
+    <script src="~/js/questiondatatable.js"></script>
+
+}

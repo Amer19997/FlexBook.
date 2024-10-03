@@ -1,0 +1,698 @@
+﻿@page
+@model WebUI.Pages.ApprovedProducts.EditModel
+@{
+}
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-success="editProductSuccess"
+      data-ajax-failure="editProductFailed"
+      enctype="multipart/form-data"
+      id="editProductUnitform">
+    <div class="app-heading">
+        <div class="app-title">
+            <a href="/ApprovedProducts/Index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <h3 class="m-0">تعديل محتوى المنتج  </h3>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-tertiary">حفظ التعديلات</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+        </div>
+    </div>
+    <div class="app-form">
+        <div class="form-wrapper">
+
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الرئيسيه</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="">اسم المنتج بالعربية </label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" asp-for="@Model.Product.NameAr" onkeypress="return onlycharKey(event)" maxlength="200" placeholder=" اسم المنتج بالعربية"  />
+                                <span class="text-danger" asp-validation-for="@Model.Product.NameAr" class="text-error"></span>
+                            </div>
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for=""> اسم المنج بالإنجليزية </label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" asp-for="@Model.Product.NameEn" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اسم المنتج بالانجليزية"  />
+                                <span class="text-danger" asp-validation-for="@Model.Product.NameEn" class="text-error"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for=""> اسم المنطقة </label><span class="text-danger">*</span>
+                                <select asp-for="@Model.Product.CountryId" id="Regtionid" class="selectpicker form-select ps-5" data-show-subtext="false" data-live-search="true" aria-label="Default select example" onchange="getproductname()" asp-items="@(new SelectList(Model.RegtionList,"Id","NameAr"))">
+                                    <option value="" selected></option>
+
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.Product.CountryId" class="text-error"></span>
+                            </div>
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for=""> اسم المدينة </label><span class="text-danger">*</span>
+                                <select asp-for="@Model.Product.CityId" id="Cityid" class="selectpicker form-select ps-5" data-show-subtext="false" data-live-search="true" aria-label="Default select example" asp-items="@(new SelectList(Model.CityList,"Id","NameAr"))">
+                                    <option value="" selected></option>
+
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.Product.CityId" class="text-error"></span>
+                            </div>
+
+                           
+                           @* <div class="col-md-6  col-12  mb-3">
+                                <label for="status">الفئة المستهدفة</label><span class="text-danger fs-3">*</span>
+                                @Html.ListBoxFor(m=>m.Product.ProductCategoriesIds ,Model.ProductCategoryList.Select(m=>new SelectListItem{Text=m.NameAr,Value=m.Id.ToString()}), new {id="ProductCategoriesIds", @class = "multiple-checkboxes form-control w-100",multiple = "multiple"})
+                                <span class="text-danger" asp-validation-for="@Model.Product.ProductCategoriesIds" class="text-error"></span>
+                            </div>
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">نوع الجنس المخدوم</label>
+                                <select asp-for="@Model.Product.Gender" class="form-select ps-5" id="GenderId" aria-label="Default select example" asp-items="@(new SelectList(Model.GenderList,"Id","NameAr"))">
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.Product.Gender" class="text-error"></span>
+                            </div>
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">عدد المستفيدين</label>
+                                <input value="N/A" type="text" class="form-control" id="name" readonly />
+                            </div>
+                             <div class="col-md-6  col-12  mb-3">
+                                    <label for="status">مسار</label><span class="text-danger fs-3">*</span>
+                                    <select onchange="GetMasaratFiles()" asp-for="@Model.Product.MasarId" class="form-select ps-5" id="masarId" aria-label="Default select example" asp-items="@(new SelectList(Model.MasaratList,"Id","MasaratNameAR"))">
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="@Model.Product.MasarId" class="text-error"></span>
+                             </div>*@
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for=""> حالة المنتج </label><span class="text-danger">*</span>
+                                <select asp-for="@Model.Product.IsActive" id="Cityid" class="selectpicker form-select ps-5" data-show-subtext="false" data-live-search="true" aria-label="Default select example">
+                                    <option value="true">مفعل</option>
+                                    <option value="false">غير مفعل</option>
+
+                                </select>
+                                <span class="text-danger" asp-validation-for="@Model.Product.CityId" class="text-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                            
+                       
+
+                    @*
+                    <div class="col-12">
+                    <div class="row">
+                    <label class="w-auto mx-2">صورة المنتج</label><span class="text-danger fs-3"></span>
+                    <div class="col-lg-12 col-md-12 col-12  mb-3 d-flex">
+
+                    <div class="product-img  w-80">
+
+                    @foreach (var item in Model.masaratFile)
+                    {
+                    <img src="@item.ImageURL" asp-for="@item.Id">
+                    <input type="radio" asp-for="@Model.Product.ImageID" value="@item.Id" />
+
+                    }
+                    </div>
+
+                    </div>
+                    </div>
+                    </div>*@
+
+
+                    <!-- <div class="col-12">
+                        <div class="row">
+                            <label class="w-auto mx-2">صورة المنتج</label><span class="text-danger fs-3"></span>
+                            <div class="col-lg-12 col-md-12 col-12 mb-3 d-flex">
+                                <div class="product-img w-80">
+                                    <input type="hidden" asp-for="@Model.Product.ImageId">
+                                    @foreach (var item in Model.masaratFile)
+                                    {
+                                        <span class="image-container">
+                                            <img src="@item.ImageURL"  class="selectable-image @((item.Id==Model.Product.ImageId)?"selected-image":"")" data-id="@item.Id">
+
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12 mb-3 d-flex">
+                                <label for="name">صوره السطح المكتب</label> <span class="text-danger">*</span>
+
+                                <input id="DesktopImageIsEdit" asp-for="@Model.Product.DesktopImage" value="false" hidden />
+
+                                <div class="col-12" id="DesktopImageFileDefultId" @(!string.IsNullOrEmpty(Model.Product.DesktopImageUrl)? "hidden" :"")>
+
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <input style="width: 140px;height: 140px; display: inline-flex;" type="image" id="DesktopImageID" hidden />
+                                                    <label for="imgUpload1" id="imgUpload11">
+                                                        <span>
+                                                            <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                 alt="upload-icon"
+                                                                 class="" />
+                                                        </span>
+                                                        <p>
+                                                            صوره السطح المكتب
+                                                        </p>
+                                                        <p>
+                                                            الحد الاقصى 300 kb <br />
+                                                            Bmp ,jpg ,png ,jpeg <br />
+                                                            المقاس ( 140 - 140 )
+                                                        </p>
+                                                    </label>
+                                                    <input type="file" asp-for="@Model.Product.DesktopImage" class="form-control fileIcon" onchange="CheckDimension(event,140,140,'imgUpload1','DesktopImageID','imgUpload11','DeleteDesktopImageID')" id="imgUpload1" accept=".jpg, .jpeg, .png" placeholder="upload" />
+                                                    <span class="text-danger" asp-validation-for="@Model.Product.DesktopImage" class="text-error" id="nameValidation">
+                                                    </span>
+                                                </div>
+
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" id="DeleteDesktopImageID" onclick="deleteImage('DesktopImageID','DeleteDesktopImageID','imgUpload1','imgUpload11')" hidden>
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+
+                                </div>
+                                <div class=" col-12" id="DesktopImageFileId" @(string.IsNullOrEmpty(Model.Product.DesktopImageUrl)? "hidden" :"")>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img src="@Model.Product.DesktopImageUrl" style="width: 140px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+                                                
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" onclick="DeleteDesktopImage()">
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12 mb-3 d-flex">
+                                <label for="name">صوره الجوال</label> <span class="text-danger">*</span>
+
+                                <input id="MobileImageIsEdit" asp-for="@Model.Product.MobileImageIsEdit" value="false" hidden />
+
+                                <div class="col-12" id="MobileImageFileDefultId" @(!string.IsNullOrEmpty(Model.Product.MobileImageUrl)? "hidden" :"")>
+
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <input style="width: 140px;height: 140px; display: inline-flex;" type="image" id="MobileImageID" hidden />
+                                                    <label for="imgUpload2" id="imgUpload22">
+                                                        <span>
+                                                            <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                 alt="upload-icon"
+                                                                 class="" />
+                                                        </span>
+                                                        <p>
+                                                            صوره الجوال
+                                                        </p>
+                                                        <p>
+                                                            الحد الاقصى 300 kb <br />
+                                                            Bmp ,jpg ,png ,jpeg <br />
+                                                            المقاس ( 140 - 140 )
+                                                        </p>
+                                                    </label>
+                                                    <input type="file" asp-for="@Model.Product.MobileImage" class="form-control fileIcon" onchange="CheckDimension(event,140,140,'imgUpload2','MobileImageID','imgUpload22','DeleteMobileImageID')" id="imgUpload2" accept=".jpg, .jpeg, .png" placeholder="upload" />
+                                                    <span class="text-danger" asp-validation-for="@Model.Product.MobileImage" class="text-error" id="nameValidation">
+                                                    </span>
+                                                </div>
+
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" id="DeleteMobileImageID" onclick="deleteImage('MobileImageID','DeleteMobileImageID','imgUpload2','imgUpload22')" hidden>
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class=" col-12" id="MobileImageFileId" @(string.IsNullOrEmpty(Model.Product.MobileImageUrl)? "hidden" :"")>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img src="@Model.Product.MobileImageUrl" style="width: 140px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" onclick="DeleteMobileImage()">
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div> -->
+
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+             <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>صور المنتج</h3>
+                    </div>
+                </div>
+                <div class="card">
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="w-auto mx-2">صورة المنتج</label><span class="text-danger fs-3"></span>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12 mb-10 d-flex">
+                                <div class="product-img w-80 d-flex gap-4">
+                                    <input type="hidden" asp-for="@Model.Product.ImageId">
+                                    @foreach (var item in Model.masaratFile)
+                                    {
+                                        <span class="image-container">
+                                            <img src="@item.ImageURL"  class="selectable-image @((item.Id==Model.Product.ImageId)?"selected-image":"")" data-id="@item.Id">
+
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="name">صوره السطح المكتب</label> <span class="text-danger">*</span>
+                            </div>
+                            <div class="col-12 mb-3 d-flex">
+
+                                <input id="DesktopImageIsEdit" name="Product.DesktopImageIsEdit" value="false" hidden />
+
+                                <div class="col-12" id="DesktopImageFileDefultId" @(!string.IsNullOrEmpty(Model.Product.DesktopImageUrl)? "hidden" :"")>
+
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <input style="width: 140px;height: 140px; display: inline-flex;" type="image" id="DesktopImageID" hidden />
+                                                    <label for="imgUpload1" id="imgUpload11">
+                                                        <span>
+                                                            <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                 alt="upload-icon"
+                                                                 class="" />
+                                                        </span>
+                                                        <p>
+                                                            صوره السطح المكتب
+                                                        </p>
+                                                        <p>
+                                                            @*الحد الاقصى 300 kb <br />*@
+                                                            Bmp ,jpg ,png ,jpeg <br />
+                                                            المقاس ( 1920 - 1080 )
+                                                        </p>
+                                                    </label>
+                                                    <input type="file" asp-for="@Model.Product.DesktopImage" class="form-control fileIcon" onchange="CheckDimension(event,1920,1080,'imgUpload1','DesktopImageID','imgUpload11','DeleteDesktopImageID')" id="imgUpload1" accept=".jpg, .jpeg, .png" placeholder="upload" />
+                                                    <span class="text-danger" asp-validation-for="@Model.Product.DesktopImage" class="text-error" id="nameValidation">
+                                                    </span>
+                                                </div>
+
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" id="DeleteDesktopImageID" onclick="deleteImage('DesktopImageID','DeleteDesktopImageID','imgUpload1','imgUpload11')" hidden>
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+
+                                </div>
+                                <div class=" col-12" id="DesktopImageFileId" @(string.IsNullOrEmpty(Model.Product.DesktopImageUrl)? "hidden" :"")>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img src="@Model.Product.DesktopImageUrl" style="width: 140px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+                                                
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" onclick="DeleteDesktopImage()">
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-12">
+                                <label for="name">صوره الجوال</label> <span class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-3 d-flex">
+
+                                <input id="MobileImageIsEdit" name="Product.MobileImageIsEdit" value="false" hidden />
+
+                                <div class="col-12" id="MobileImageFileDefultId" @(!string.IsNullOrEmpty(Model.Product.MobileImageUrl)? "hidden" :"")>
+
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <input style="width: 140px;height: 140px; display: inline-flex;" type="image" id="MobileImageID" hidden />
+                                                    <label for="imgUpload2" id="imgUpload22">
+                                                        <span>
+                                                            <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                 alt="upload-icon"
+                                                                 class="" />
+                                                        </span>
+                                                        <p>
+                                                            صوره الجوال
+                                                        </p>
+                                                        <p>
+                                                            @*الحد الاقصى 300 kb <br />*@
+                                                            Bmp ,jpg ,png ,jpeg <br />
+                                                            المقاس (  الحل الامثل  1000*1000 )
+                                                        </p>
+                                                    </label>
+                                                    <input type="file" asp-for="@Model.Product.MobileImage" class="form-control fileIcon" onchange="CheckDimension(event,0,0,'imgUpload2','MobileImageID','imgUpload22','DeleteMobileImageID')" id="imgUpload2" accept=".jpg, .jpeg, .png" placeholder="upload" />
+                                                    <span class="text-danger" asp-validation-for="@Model.Product.MobileImage" class="text-error" id="nameValidation">
+                                                    </span>
+                                                </div>
+
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" id="DeleteMobileImageID" onclick="deleteImage('MobileImageID','DeleteMobileImageID','imgUpload2','imgUpload22')" hidden>
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class=" col-12" id="MobileImageFileId" @(string.IsNullOrEmpty(Model.Product.MobileImageUrl)? "hidden" :"")>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img src="@Model.Product.MobileImageUrl" style="width: 140px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+
+                                                <div class="file-icon d-flex align-items-center justify-content-center">
+                                                    <button type="button" class="btn btn-warning" onclick="DeleteMobileImage()">
+                                                        <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>تفاصيل المنتج</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class=" col-12 mb-3">
+                                <label for="name">تفاصيل المنتج بالعربية</label> <span class="text-danger fs-3">*</span>
+                            </div>
+                            <input type="hidden" asp-for="@Model.Product.Id" />
+                            <div class=" col-md-6 col-12 mb-3">
+                                <label>لمن هذا الوقف</label><span class="text-danger fs-3">*</span>
+                                <textarea maxlength="200" class="form-control" id="important" placeholder="لمن هذا الوقف" rows="5" asp-for="@Model.Product.ForWhomIsThisProductAr"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.Product.ForWhomIsThisProductAr" class="text-error"></span>
+
+                            </div>
+
+
+                            <div class=" col-md-6 col-12 mb-3">
+                                <label>لماذا ادعمهم؟</label>
+                                <textarea maxlength="200" class="form-control" id="important" placeholder="لماذا ادعمهم؟" rows="5" asp-for="@Model.Product.WhyDoISupportThemAr"></textarea>
+                            </div>
+                            <div class=" col-md-6 col-12 mb-3">
+                                <label>كيف ادعمهم؟</label>
+                                <textarea maxlength="200" class="form-control" id="important" placeholder="كيف ادعمهم؟" rows="5" asp-for="@Model.Product.HowDoISupportThemAr"></textarea>
+                            </div>
+
+                            @*<div class=" col-md-6 col-12 mb-3">
+                                <label>نوع الفئة المستفيدة</label>
+                                <textarea maxlength="200" class="form-control" id="important" placeholder="نوع الفئة المستفيدة" rows="5" asp-for="@Model.Product.TheTypeOfBeneficiariesAr"></textarea>
+                            </div>*@
+
+                            <div class=" col-12 mb-3">
+                                <label for="name">تفاصيل المنتج بالانجليزية</label> <span class="text-danger fs-3">*</span>
+                            </div>
+                            <div class=" col-12 mb-3" dir="rtl">
+                                <div class="row">
+                                    <div class=" col-md-6 col-12 mb-3 ">
+                                        <label>لمن هذا الوقف بالانجليزيه</label><span class="text-danger fs-3">*</span>
+                                        <textarea maxlength="200" class="form-control" id="important" placeholder="لمن هذا الوقف؟ بالانجليزيه" rows="5" asp-for="@Model.Product.ForWhomIsThisProductEn"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.Product.ForWhomIsThisProductEn" class="text-error"></span>
+
+                                    </div>
+
+                                    <div class=" col-md-6 col-12 mb-3 ">
+                                        <label>لماذا ادعمهم؟بالانجليزيه</label>
+                                        <textarea maxlength="200" class="form-control" id="important" placeholder="لماذا ادعمهم؟بالانجليزيه" rows="5" asp-for="@Model.Product.WhyDoISupportThemEn"></textarea>
+                                    </div>
+                                    <div class=" col-md-6 col-12 mb-3 ">
+                                        <label>كيف ادعمهم؟ بالانجليزيه</label>
+                                        <textarea maxlength="200" class="form-control" id="important" placeholder="كيف ادعمهم؟ بالانجليزيه" rows="5" asp-for="@Model.Product.HowDoISupportThemEn"></textarea>
+                                    </div>
+
+                                    @*<div class=" col-md-6 col-12 mb-3">
+                                        <label>نوع الفئة المستفيدة بالانجليزيه</label>
+                                        <textarea maxlength="200" class="form-control" id="important" placeholder="نوع الفئة المستفيدة بالانجليزيه" rows="5" asp-for="@Model.Product.TheTypeOfBeneficiariesEn"></textarea>
+                                    </div>*@
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</form>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء تعديل المنتج؟   </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/ApprovedProducts/Index">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end delete modal-->
+@section scripts {
+
+    <style>
+        .hidden-radio {
+            display: none;
+        }
+
+        .image-container {
+            cursor: pointer;
+            margin-bottom: 10px; /* Adjust as needed */
+        }
+
+        .selectable-image {
+            width: 100%;
+            border: 2px solid transparent;
+        }
+
+        .selected-image {
+            border-color: #007bff; /* Set the desired border color */
+        }
+    </style>
+
+
+
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/product/productscript.js?version=@(DateTime.Now.Ticks)"></script>
+    <script>
+
+
+
+        function getproductname() {
+
+            var selectedValue = $("#Regtionid").val();
+
+            $.ajax({
+                url: "?handler=CityByRegionId",
+                method: "GET",
+                data: { "RegionId": selectedValue },
+                success: function (response) {
+                    console.log(response);
+
+                    $("#Cityid").empty();
+
+                    // Loop through the response data and create option elements
+                    $.each(response, function (index, item) {
+                        // Create a new option element with the SelectListItem's value and text
+                        var option = $('<option>').val(item.value).text(item.text);
+                        // Append the option to the select element
+                        $("#Cityid").append(option);
+                    });
+
+                    // If you're using a selectpicker plugin, refresh the selectpicker
+                    //  $("#Cityid").selectpicker('refresh');
+
+                }
+            });
+
+
+
+        }
+
+    
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var images = document.querySelectorAll(".selectable-image");
+
+            images.forEach(function (image) {
+                image.addEventListener("click", function () {
+                    // Remove the border from all images
+                    images.forEach(function (img) {
+                        img.classList.remove("selected-image");
+                    });
+
+                    // Add the border to the clicked image
+                    image.classList.add("selected-image");
+                    debugger;
+                    $("#Product_ImageId").val($(image).attr("data-id"))
+
+                    if(!$('#DesktopImageFileId').is(':hidden'))
+                    {
+                        DeleteDesktopImage();
+
+                    }else{
+                      deleteImage('DesktopImageID','DeleteDesktopImageID','imgUpload1','imgUpload11')
+                    }
+                    
+                });
+            });
+        });
+
+
+
+        $(".submitbutton").click(function () {
+            $("#loading").css("display", "block");
+        })
+
+        $("#editProductUnitform").on("submit", function (e) {
+            debugger;
+            if ($("#Product_ImageId").val() == '' && $('#DesktopImageFileId').is(':hidden') && (!$("#imgUpload1")[0].files || $("#imgUpload1")[0].files.length === 0)) {
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: "يجب اختيار صوره للمنتج",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                });
+                return false;
+            }
+        });
+
+    </script>
+
+}

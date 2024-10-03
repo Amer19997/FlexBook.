@@ -1,0 +1,239 @@
+﻿@page
+@using WebUI.IntegrationServices
+@model WebUI.Pages.UserMangment.IndexModel
+@{
+}
+
+@Html.AntiForgeryToken()
+<div class="app-heading">
+    <div class="app-title">
+
+        <h3 class="mb-2">إدارة المستخدمين</h3>
+    </div>
+
+    <div class="app-filter mx-2">
+        <div class="filter-form">
+            <div class="myform">
+                <label for="">التصفية بواسطة :</label>
+
+                <input id="UserName" type="text" class="form-control"  onkeypress="return onlycharKey(event)" placeholder="الاسم كاملاً" maxlength="100" />
+
+                <input id="EmailSerch" type="text" class="form-control" placeholder="البريد الإلكتروني" maxlength="100" />
+
+                <input id="phoneSearch" type="text" class="form-control" onkeypress="return onlynumberKey(event)" placeholder="رقم الجوال" maxlength="10" />
+
+                <select id="Roles" class="form-select">
+                    <option value="" selected >-- الدور --</option>
+
+                </select>
+
+
+
+                <select id="Status" class="form-select">
+                    <option value="" selected >-- الحالة --</option>
+                    <option value="1">بانتظار التفعيل</option>
+                    <option value="2">مفعل </option>
+                    <option value="3">موقوف</option>
+                </select>
+
+                <button class="btn btn-secondary" id="SubmitSearch">تصفية</button>
+            </div>
+            <button id="RemaovePages" class="close-filter">
+
+                <img src="~/cms_lib/img/icons/close-filter.svg" alt="close-icon" />
+
+            </button>
+
+        </div>
+    </div>
+
+
+
+    <a href="~/UserMangment/Create" class="btn btn-tertiary mx-2">
+        <img src="~/cms_lib/img/icons/add-user.svg" alt="search-icon" />
+        إضافة مستخدم
+    </a>
+</div>
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="UserMangment" class="table table-bordered w-100">
+            <thead>
+                <tr>
+                    <th>
+                        م
+                    </th>
+                    <th>
+                        الاسم كاملا
+                    </th>
+                    <th>
+                        رقم الجوال
+                    </th>
+                    <th>
+                        البريد الإلكتروني
+                    </th>
+                    <th>
+                        دور المستخدم 
+                    </th>
+                    <th>
+                        تاريخ التسجيل
+                    </th>
+                    <th>
+                        الحالة
+                    </th>
+                    <th>
+                        الاجراء
+                    </th>
+                    <th>
+                    </th>
+
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+
+</div>
+
+
+<!--start active modal-->
+<div class="modal fade body-modal" id="active-user-Modal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="/cms_lib/img/icons/active.svg" alt="details-icon" class="icons" /></span>
+                <h3>هل تريد اعادة تفعيل هذا المستخدم؟</h3>
+                <p>في حالة الموافقة علي اعادة التفعيل ، يرجي العلم بانك لن <br />تستطيع ابطال تفعيل الا بعد ٢٤ ساعة  </p>
+
+            </div>
+            <div class="modal-button">
+                <a id="ActiveModal" data-id="" class=" btn btn-tertiary">نعم</a>
+                <button id="ActiveNo" class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!--end active modal-->
+<!--start deactive modal-->
+<div class="modal fade body-modal" id="deactive-user-Modal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="/cms_lib/img/icons/deactive.svg" alt="details-icon" class="icons" /></span>
+                <h3>هل تريد ايقاف هذا المستخدم ؟</h3>
+                <p>في حالة الموافقة علي ايقاف هذا المستخدم ، يرجى العلم<br /> بانك لن تستطيع اعادة التفعيل الا بعد ٢٤ ساعة </p>
+
+            </div>
+            <div class="modal-button">
+                <a id="DeactiveModal" data-id="" class=" btn btn-tertiary">نعم</a>
+                <button id="DeactiveNo" class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!--end deactive modal-->
+<!--start Warning modal-->
+
+
+
+<div class="modal fade body-modal" id="Active-Warning-Modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body text-center">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/warning-popup.svg" alt="details-icon" class="icons" /></span>
+                <h3 id="ActiveDeactiveBlockMessage">عفوا لا يمكن تغيير حاله مستخدم الا بعد مرور 24 ساعه</h3>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--end Warning modal-->
+@section scripts {
+    <script src="~/js/UserMangment/Index.js"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js"></script>
+
+    <script>
+
+
+        document.getElementById('RemaovePages').style.display = "none";
+
+        $('#UserName').on('input', function (e) {
+            document.getElementById('RemaovePages').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('RemaovePages').style.display = "none";
+            } else {
+                document.getElementById('RemaovePages').style.display = "block";
+
+            }
+        });
+
+
+        $('#EmailSerch').on('input', function (e) {
+            document.getElementById('RemaovePages').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('RemaovePages').style.display = "none";
+            } else {
+                document.getElementById('RemaovePages').style.display = "block";
+
+            }
+        });
+
+
+        $('#phoneSearch').on('input', function (e) {
+            document.getElementById('RemaovePages').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('RemaovePages').style.display = "none";
+            } else {
+                document.getElementById('RemaovePages').style.display = "block";
+
+            }
+        });
+
+
+        $('#Roles').on('input', function (e) {
+            document.getElementById('RemaovePages').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('RemaovePages').style.display = "none";
+            } else {
+                document.getElementById('RemaovePages').style.display = "block";
+
+            }
+        });
+
+
+        $('#Status').on('input', function (e) {
+            document.getElementById('RemaovePages').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('RemaovePages').style.display = "none";
+            } else {
+                document.getElementById('RemaovePages').style.display = "block";
+
+            }
+        });
+
+
+    </script>
+    
+    <script>
+
+        var HasDeactivateUserRole = '@(User.IsInRole(SystemRoles.ViewUserList)|| User.IsInRole(SystemRoles.SuperAdmin))' == 'True';
+
+    </script>
+}
+

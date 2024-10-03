@@ -1,0 +1,40 @@
+﻿@model RequestApprovalModel
+
+<!--start add modal-->
+    <div
+      class="modal fade body-modal"
+      id="accept-Modal"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center p-0">
+          <div class="modal-body text-end">
+               <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=ApproveRequest"
+                      data-ajax-method="post"
+                      data-ajax-success="approveRequestSuccess"
+                      data-ajax-failure="approveRequestFailed"
+                      id="approve-request-form">
+                    <input type="hidden" asp-for="@Model.Id" />
+                      <h3>اضف ملاحظات</h3>
+                    <p><small>يمكنك اضافة بعض الملاحظات مع قبول الطلب</small></p>
+                      <div class="">
+                          <textarea  asp-for="@Model.ApprovalNotes" class="form-control w-100" rows="7"  placeholder="ملاحظات وتوصيات قبول الطلب" maxlength="2500"></textarea>
+                          <p><small>عدد الاحرف المسموح بها 2500 حرف.</small></p>
+                      </div>
+                      <div class="modal-button">
+                        <button type="submit" id="deactive-id" class=" btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#add-note-Modal">قبول الطلب</button>
+                           <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                      </div>
+               </form>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end add modal-->

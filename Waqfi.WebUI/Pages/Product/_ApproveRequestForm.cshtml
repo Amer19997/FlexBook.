@@ -1,0 +1,179 @@
+﻿@using WebUI.Models.Product;
+@model ProductRequestApprovalModel
+@inject IResourceService ResourceService
+
+
+<!--start add modal-->
+<div role="dialog"
+     class="modal fade body-modal"
+     id="accept-Modal"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center p-0">
+            <div class="modal-body text-end">
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=ApproveRequest"
+                      data-ajax-method="post"
+                      data-ajax-success="approveRequestSuccess"
+                      data-ajax-failure="approveRequestFailed"
+                      enctype="multipart/form-data"
+                      id="approve-request-form">
+
+                    <label for="">
+                        قبول الطلب
+                    </label>
+
+                    <p><small>  يمكن اضافه بعض الملاحظات عند قبول الطلب</small></p>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-start ">
+
+
+                        <div class="d-flex justify-content-start align-items-start w-50 flex-wrap">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <input type="checkbox" id="AddPercentage" onchange="openPercentage(this)" />
+                                <label class="" for="">
+                                    مقابلة العطاء
+                                </label>
+                            </div>
+
+                            <select class="w-50" onchange="OpenAndCloseAttachedFileInput()" asp-for=@Model.Percentage id="percentageId" hidden>
+                                <option value="0" selected>لايطبق</option>
+                                <option value="25">25%</option>
+                                <option value="50">50%</option>
+                                <option value="75">75% </option>
+                                <option value="100">100% </option>
+                            </select>
+                            <div class="d-flex justify-content-start align-items-center">
+
+                            <input class="w-50" id="AttachedFileInputId" type="file" asp-for="@Model.AttachedFile" />
+                                <span id="customFileLabel" style="display: none;"> @ResourceService.GetMessage("Bidinterviewletter", "ar-SA")</span>
+
+
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-start align-items-center w-25">
+                            <input type="checkbox" id="AppearOnBannerId" asp-for="@Model.ApperOnBanar" />
+                            <label for="">
+                                نشر فى البانر الرئيسى
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-start align-items-center w-25">
+                            @if (Model.ProductType == 1)
+                            {
+                                <input type="checkbox" id="ParallelProductId" asp-for="@Model.IsParallelProduct" />
+                                <label for="">
+                                    منتج موازى
+                                </label>
+
+                            }
+                        </div>
+
+
+                    </div>
+
+
+                    <input type="hidden" asp-for="@Model.Id" />
+                    <h3>اضف ملاحظات</h3>
+
+                    <div class="">
+                        <textarea id="TextAreaId" asp-for="@Model.ApprovalNotes" class="form-control w-100" rows="7" placeholder="ملاحظات وتوصيات قبول الطلب" maxlength="2500"></textarea>
+                        <p><small>عدد الاحرف المسموح بها 2500 حرف.</small></p>
+                    </div>
+                    <div class="modal-button">
+
+                        <button type="submit" onclick="Trim()" id="deactive-id" class=" btn btn-tertiary">قبول الطلب</button>
+                        <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--end add modal-->
+<script>
+
+    function openPercentage(e) {
+        if ($(e).prop("checked")) {
+            $("#percentageId").attr("hidden", false);
+
+        }
+        else {
+            $("#percentageId").val(0);
+            $("#percentageId").attr("hidden", true);
+            OpenAndCloseAttachedFileInput();
+        }
+    }
+    function OpenAndCloseAttachedFileInput() {
+        console.log('test');
+        var percentageValue = $("#percentageId").val();
+
+        if (percentageValue > 0) {
+            $("#AttachedFileLabelId").attr("hidden", false);
+            $("#AttachedFileInputId").attr("hidden", false);
+            $("#AttachedFileInputId").attr("hidden", false);
+
+            document.getElementById('customFileLabel').style.display = 'inline';
+
+        //    document.getElementById('customFileLabel').style.display = 'block';
+        }
+        else {
+            $("#AttachedFileInputId").val('');
+            $("#AttachedFileInputId").attr("hidden", true);
+            $("#AttachedFileInputId").css("color", "transparent");
+
+            document.getElementById('customFileLabel').style.display = 'none';
+
+
+
+        }
+    }
+    function Trim() {
+        $("#TextAreaId").val($("#TextAreaId").val().trim())
+        $("#accept-Modal").css("z-index", -1);
+    }
+    function TrimReject() {
+        $("#RejectionReason").val($("#RejectionReason").val().trim())
+    }
+    function TrimReturn() {
+        $("#ReturnReason").val($("#ReturnReason").val().trim())
+    }
+    function approveRequestSuccess(result) {
+        if (result.success) {
+            swal.fire({
+                title: "تم قبول الطلب بنجاح",
+
+                imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 5000
+            }).then(() => { window.location.replace("/ProductsRequest/index"); });
+        }
+        else {
+            $("#accept-Modal").css("z-index", 1055);
+
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: result.errors[0],
+                showCancelButton: false,
+                showConfirmButton: false
+            });
+        }
+    }
+    function approveRequestFailed(result) {
+        $("#accept-Modal").css("z-index", 1055);
+        Swal.fire({
+            imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+            title: "حدث خطأ ما",
+            showCancelButton: false,
+            showConfirmButton: false,
+        });
+    }
+</script>

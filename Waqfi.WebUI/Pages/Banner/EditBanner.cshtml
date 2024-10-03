@@ -1,0 +1,562 @@
+﻿@page
+@model WebUI.Pages.Banner.EditBannerModel
+@{
+    bool IsProduct = Model.IsProduct;
+}
+
+<form class="form-wrapper"
+      method="post"
+      data-ajax="true"
+      data-ajax-url="?handler=EditBanner"
+      data-ajax-method="post"
+      data-ajax-success="EditBannerSuccess"
+      data-ajax-failure="EditBannerFailed"
+      id="Banner-Edit-form"
+      enctype="multipart/form-data">
+
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="app-heading">
+                <div class="app-title">
+                    <h3 class="m-0">تعديل محتوي البانر</h3>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-tertiary">
+                        <img src="~/cms_lib/img/icons/save-icon.svg" />
+                        حفظ التعديلات
+                    </button>
+                    <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#EditModal">الغاء</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-7 col-6">
+            <div class="app-form">
+                <!-- form content-->
+                <input asp-for="@Model.BannerModel.Id" hidden />
+                <input asp-for="@Model.IsProduct" hidden />
+                <input asp-for="@Model.IsDeleted" hidden />
+                <!-- ===========first=========== -->
+                <div class="form-wrapper">
+
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>البيانات الرئيسيه</h3>
+                            </div>
+                        </div>
+
+                        @if (IsProduct)
+                        {
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">اسم البانر بالعربية </label><span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="@Model.BannerModel.NameAr?" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اضافة اسم البانر بالعربية" readonly />
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.NameAr" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for=""> اسم البانر بالإنجليزية </label><span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="@Model.BannerModel.NameEn?" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اضافة اسم البانر بالانجليزية" readonly />
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.NameEn" class="text-error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">اسم البانر بالعربية </label><span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="@Model.BannerModel.NameAr?" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اضافة اسم البانر بالعربية" />
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.NameAr" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for=""> اسم البانر بالإنجليزية </label><span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="@Model.BannerModel.NameEn?" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اضافة اسم البانر بالانجليزية" />
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.NameEn" class="text-error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+
+                        <!-- ==========2en======= -->
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for="">  تاريخ الظهور </label><span class="text-danger">*</span>
+                                    <input type="date" class="form-control" asp-for="@Model.BannerModel.StartAt?" onkeypress="return onlycharKey(event)" placeholder="اختر تاريخ ظهور البانر" />
+                                    <span class="text-danger" asp-validation-for="@Model.BannerModel.StartAt" class="text-error"></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for=""> تاريخ الإخفاء</label>
+                                    <input type="date" class="form-control" asp-for="@Model.BannerModel.EndAt?" onkeypress="return onlycharKey(event)" placeholder="اختر تاريخ اختفاء البانر" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for="">الحاله </label><span class="text-danger">*</span>
+                                    @*  <select class="form-control">
+                                    <option selected disabled>أختر ترتيب الرابط داخل القائمة</option>
+                                    </select>*@
+                                    @*asp-items="@(new SelectList(Model.ProviderTypes,"Id","Name"))"*@
+                                    <select asp-for="@Model.BannerModel.status" class="form-select filteration" asp-items="@(new SelectList(Model.LookUps,"Id","NameAr"))">
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for="">الأولوية </label><span class="text-danger">*</span>
+                                    <select asp-for="@Model.BannerModel.Periorty" class="form-select filteration">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ==========3en======= -->
+                        @if (IsProduct)
+                        {
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for=""> الرابط </label>
+                                        <input type="text" class="form-control" asp-for="@Model.BannerModel.URL?" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اضف الرابط داخل القائمة" readonly />
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.URL" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for=""> الرابط </label>
+                                        <input type="text" class="form-control" asp-for="@Model.BannerModel.URL?" onkeypress="return onlycharKey(event)" maxlength="200" placeholder="اضف الرابط داخل القائمة" />
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.URL" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                        <!-- ==========4en======= -->
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for="">صوره البانر / فيديو البانر  </label><span class="text-danger">*</span>
+                                    <input type="hidden" id="MIconIsEdit" asp-for="@Model.BannerModel.IconIsEdit" />
+
+                                    <div class="col-md-12 col-12" id="IconFileDefultId" hidden>
+
+
+                                        <div class="upload-container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="attachFile">
+                                                        <input style="width: 560px;height: 410px; display: inline-flex;" type="image" id="IconID" hidden />
+                                                        <label for="imgUpload1" id="imgUpload11">
+                                                            <span>
+                                                                <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                     alt="upload-icon"
+                                                                     class="" />
+                                                            </span>
+                                                            <p>
+                                                                صوره البانر / فيديو البانر
+                                                            </p>
+                                                            <p>
+                                                                فى حالة الصورة الحد الاقصى 2 MP /فى حالة الفيديو الحد الاقصى 5 ميجا <br />
+                                                                Bmp ,jpg ,png ,jpeg,mp4,avi <br />
+                                                                المقاس ( 1080 - 1920 )
+                                                            </p>
+                                                        </label>
+                                                        <input asp-for="@Model.BannerModel.ImageDto" class="form-control" onchange="CheckDimension(event,1920,1080,'imgUpload1','IconID','imgUpload11','DeleteIconID')" id="imgUpload1" accept=".jpg, .jpeg, .png, .mp4,.avi" placeholder="upload" hidden />
+                                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.ImageDto" class="text-error" id="nameValidation">
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <img id="DeleteIconID" onclick="deleteImage('IconID','DeleteIconID','imgUpload1','imgUpload11')" hidden src="~/cms_lib/img/icons/Delete.svg">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12" id="IconFileId">
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+
+                                                    <img src='@(Model.BannerModel.IsBannerVideo ? Url.Content("~/Cms_Lib/img/icons/Group 48542.svg") : Model.URLS.BannerImageUrl)' style="width: 560px; height: 140px; display: inline-flex;" />
+
+                                                </div>
+                                                @if (!Model.IsProduct)
+                                                {
+                                                    <div class="file-icon">
+                                                        <button type="button">
+                                                            <img onclick="DeleteIcon()" src="~/cms_lib/img/icons/Delete.svg">
+                                                        </button>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*                                @if (!Model.IsProduct)
+                                    {
+                                    <input type="button" value="Delete" class="btn btn-warning " onclick="DeleteIcon()" />
+
+                                    }*@
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- ==========4en======= -->
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for="">صوره الجوال / فيديو البانر  </label><span class="text-danger"></span>
+                                    <input type="hidden" id="MIconMobileIsEdit" asp-for="@Model.BannerModel.IconMobileIsEdit" />
+
+                                    <div class="col-md-12 col-12" id="IconFileMobileDefultId" @(!string.IsNullOrEmpty(Model.URLS.BannerImageMobileUrl)? "hidden" :"")>
+                                        
+
+
+                                        <div class="upload-container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="attachFile">
+                                                        <input style="width: 560px;height: 410px; display: inline-flex;" type="image" id="IconBannerMobileID" hidden />
+                                                        <label for="imgMobileUpload1" id="imgMObilUpload11">
+                                                            <span>
+                                                                <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                     alt="upload-icon"
+                                                                     class="" />
+                                                            </span>
+                                                            <p>
+                                                                صوره الجوال / فيديو البانر
+                                                            </p>
+                                                            <p>
+                                                                فى حالة الصورة الحد الاقصى 2 MP /فى حالة الفيديو الحد الاقصى 5 ميجا <br />
+                                                                Bmp ,jpg ,png ,jpeg,mp4,avi <br />
+                                                                المقاس الامثل ( 1000 - 1000 )
+                                                            </p>
+                                                        </label>
+                                                        <input asp-for="@Model.BannerModel.PhoneImage" class="form-control" onchange="CheckDimension(event,0,0,'imgMobileUpload1','IconBannerMobileID','imgMObilUpload11','DeleteIconMobileID')" id="imgMobileUpload1" accept=".jpg, .jpeg, .png, .mp4,.avi" placeholder="upload" hidden />
+                                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.PhoneImage" class="text-error" id="nameValidation">
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <img id="DeleteIconMobileID" onclick="deleteMObileImage('IconBannerMobileID','DeleteIconMobileID','imgMobileUpload1','imgMObilUpload11')" hidden src="~/cms_lib/img/icons/Delete.svg">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12" id="IconFileMobileId" @(string.IsNullOrEmpty(Model.URLS.BannerImageMobileUrl)? "hidden" :"")>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+
+                                                    <img src='@(!string.IsNullOrEmpty(Model.URLS.BannerImageMobileUrl) && (Model.URLS.BannerImageMobileUrl.ToLower().Contains(".mp4")||Model.URLS.BannerImageMobileUrl.ToLower().Contains(".avi")) ? Url.Content("~/Cms_Lib/img/icons/Group 48542.svg") : Model.URLS.BannerImageMobileUrl)' style="width: 560px; height: 140px; display: inline-flex;" />
+
+                                                </div>
+                                                @if (!Model.IsProduct)
+                                                {
+                                                    <div class="file-icon">
+                                                        <button type="button">
+                                                            <img onclick="DeleteMobileIcon()" src="~/cms_lib/img/icons/Delete.svg">
+                                                        </button>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*                                @if (!Model.IsProduct)
+                                    {
+                                    <input type="button" value="Delete" class="btn btn-warning " onclick="DeleteIcon()" />
+
+                                    }*@
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ==========4en======= -->
+                        @if (Model.IsProduct)
+                        {
+                            <!-- ==========4en======= -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">تفاصيل البانر بالعربية</label>
+                                        <textarea class="form-control" asp-for="@Model.BannerModel.DescriptionArbic?" rows="4" maxlength="300" placeholder="اضف تفاصيل البانر بالعربية" readonly></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.DescriptionArbic" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- ==========4en======= -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">تفاصيل البانر بالإنجليزية</label>
+                                        <textarea class="form-control" rows="4" asp-for="@Model.BannerModel.DescriptionEnglish?" maxlength="300" placeholder="اضف تفاصيل البانر بالانجليزية" readonly></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.DescriptionEnglish" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- ==========4en======= -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">تفاصيل البانر بالعربية</label>
+                                        <textarea class="form-control" asp-for="@Model.BannerModel.DescriptionArbic?" rows="4" maxlength="300" placeholder="اضف تفاصيل البانر بالعربية"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.DescriptionArbic" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- ==========4en======= -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">تفاصيل البانر بالإنجليزية</label>
+                                        <textarea class="form-control" rows="4" asp-for="@Model.BannerModel.DescriptionEnglish?" maxlength="300" placeholder="اضف تفاصيل البانر بالانجليزية"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.DescriptionEnglish" class="text-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</form>
+<!-- ==========Modals======= -->
+
+<div class="modal fade body-modal" id="EditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء تعديل البانر؟ </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <button id="BackList" class=" btn btn-tertiary">نعم</button>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/banner/banner.js"></script>
+
+    <script>
+
+
+        function BackToList() {
+
+            window.location.replace("/Banner/Index");
+        }
+
+        $(document).on("click", "#BackList", function () {
+
+            window.location.replace("/Banner/Index");
+        });
+
+
+        function DeleteIcon() {
+            $('#IsDeleted').val('true');
+            $("#IconFileId").attr("hidden", true);
+            $("#IconFileDefultId").attr("hidden", false);
+            $("#MIconIsEdit").val(true);
+            $("#imgUpload1").attr("hidden", false);
+
+
+        }
+
+        function DeleteMobileIcon() {
+            $('#IsDeleted').val('true');
+            $("#IconFileMobileId").attr("hidden", true);
+            $("#IconFileMobileDefultId").attr("hidden", false);
+            $("#MIconMobileIsEdit").val(true);
+            $("#imgMobileUpload1").attr("hidden", false);
+
+
+        }
+
+
+
+        //function CheckDimension(event, W, H, id, imageId, uploadId, buttonId) {
+        //    debugger;
+        //    var _URL = window.URL || window.webkitURL;
+        //    var file, img, width, height;
+        //    var files = event.target.files;
+        //    var uploadFile = files[0];
+
+        //    if ((file = uploadFile)) {
+        //        debugger;
+        //        if (file.type.startsWith('video/')) {
+        //            readImage(uploadFile, imageId, uploadId, buttonId)
+        //        } else {
+        //            img = new Image();
+        //            var objectUrl = _URL.createObjectURL(file);
+        //            img.onload = function () {
+        //                width = this.width;
+        //                height = this.height;
+        //                _URL.revokeObjectURL(objectUrl);
+        //                if (width != W || height != H) {
+        //                    $('#' + id).val('');
+
+        //                    FailedUploadImage("المقاس " + H + " * " + W)
+        //                }
+        //                else {
+        //                    readImage(uploadFile, imageId, uploadId, buttonId)
+        //                }
+        //            };
+        //            img.src = objectUrl;
+        //        }
+
+
+
+        //    }
+        //};
+
+
+        //function readImage(file, imageId, upload, buttonId) {
+        //    debugger
+        //    var image = document.getElementById(imageId);
+        //    // Check if the file is an image.
+        //    if (file.type && !file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+        //        console.log('File is not an image or video.', file.type, file);
+        //        return;
+        //    }
+        //    $('#' + imageId).attr("hidden", false);
+        //    $('#' + upload).attr("hidden", true);
+
+        //    const reader = new FileReader();
+        //    reader.addEventListener('load', (event) => {
+        //        if (file.type.startsWith('video/')) {
+        //            image.src = "/Cms_Lib/img/icons/Group 48542.svg";
+        //        } else {
+        //            image.src = event.target.result;
+        //        }
+        //    });
+        //    reader.readAsDataURL(file);
+        //    $('#' + buttonId).attr("hidden", false);
+        //}
+
+
+        function FailedUploadImage(mssage) {
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: mssage,
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+        function deleteImage(imageId, buttonId, inputId, uploadId) {
+            $('#' + imageId).attr("hidden", true);
+            $('#' + buttonId).attr("hidden", true);
+            $('#' + uploadId).attr("hidden", false);
+            $('#' + inputId).val('');
+        }
+
+        function deleteMObileImage(imageId, buttonId, inputId, uploadId) {
+            $('#' + imageId).attr("hidden", true);
+            $('#' + buttonId).attr("hidden", true);
+            $('#' + uploadId).attr("hidden", false);
+            $('#' + inputId).val('');
+        }
+
+        function EditBannerSuccess(result) {
+            if (result.errors.length > 0) {
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: result.errors[0],
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+
+            }
+            else {
+                swal.fire({
+                    title: "تمت عملية التعديل بنجاح",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer: 5000
+                }).then(() => { window.location.replace("/Banner/Index/"); });
+            }
+        }
+        function EditBannerFailed(xhr) {
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: "حدث خطأ ما",
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+
+    </script>
+
+    }

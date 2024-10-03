@@ -1,0 +1,144 @@
+﻿@page
+@model WebUI.Pages.PaymentLookUp.UpdateSigningTheDonationGiftModel
+@{
+}
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-success="editSuccess"
+      data-ajax-failure="editFailed"
+      id="editProductUnitform">
+    <div class="app-heading">
+        <div class="app-title">
+            <a href="/PaymentLookUp/SigningTheDonationGiftIndex" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <h3 class="m-0">تعديل بيانات الإهداء </h3>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-tertiary">حفظ التعديلات</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+        </div>
+    </div>
+    <div class="app-form">
+        <div class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+                            <input type="hidden" asp-for="@Model.itemDto.Id" />
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">اسم الأهداء بالعربية</label> <span class="text-danger">*</span>
+                                <input type="text" onkeypress="return onlycharKey(event)" autocomplete="off"  asp-for="@Model.itemDto.NameAr" class="form-control" placeholder="اكتب الأسم بالعربية" />
+                                <span class="text-danger" asp-validation-for="@Model.itemDto.NameAr" class="text-error">
+                                </span>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">اسم الأهداء  بالإنجليزية</label> <span class="text-danger">*</span>
+                                <input type="text" onkeypress="return onlycharKey(event)" autocomplete="off" asp-for="@Model.itemDto.NameEn" class="form-control" placeholder="اكتب الأسم  بالإنجليزية" />
+                                <span class="text-danger" asp-validation-for="@Model.itemDto.NameEn" class="text-error">
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</form>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء التعديل ؟   </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/PaymentLookUp/SigningTheDonationGiftIndex">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end delete modal-->
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js"></script>
+    <script>
+        function editSuccess(result) {
+            if (result.success) {
+                swal.fire({
+                    title: "تم التعديل بنجاح",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer: 5000
+                }).then(() => { window.location.replace("/PaymentLookUp/SigningTheDonationGiftIndex"); });
+            }
+            else {
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: result.errors[0],
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+            }
+        }
+        function editFailed(result) {
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: "حدث خطأ ما",
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+    </script>
+
+}

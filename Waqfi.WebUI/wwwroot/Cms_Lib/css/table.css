@@ -1,0 +1,200 @@
+/***table***/
+.app-table.table-responsive {
+    overflow-y: hidden;
+}
+
+.app-table table {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    direction: inherit;
+    text-align: center;
+    width: 100%;
+    background-color: var(--white-color);
+}
+
+.app-table table tbody,
+.app-table table tr {
+    border: none !important;
+}
+
+.app-table table tbody td,
+.app-table table thead th {
+    font-size: 1rem;
+    padding: 15px 0px;
+    font-family: "DINNextLTArabic-Regular"
+}
+
+.app-table table td,
+.app-table table td a {
+    color: var(--bs-primary-dark);
+    font-size: 1rem;
+}
+
+table.dataTable.no-footer {
+    border: 0 !important;
+}
+
+/* .app-table table tbody tr td.done {
+    color: #E83131 !important;
+} */
+
+.app-table table th {
+    vertical-align: middle;
+    border: none;
+}
+
+.app-table table tbody tr td {
+    border-color: #7070702b;
+    color: var(--bs-primary-dark);
+
+}
+
+.app-table table tbody tr td:last-child {
+    border: none;
+}
+
+.app-table table tbody tr.main:nth-of-type(even) {
+    background-color: #27b9a01a;
+}
+
+.main.odd {
+    background-color: #27b9a01a;
+}
+
+.app-table table thead tr th {
+    background-color: var(--bs-secondary-main);
+    font-size: 0.8rem;
+    color: var(--white-color);
+    padding: 12px 5px;
+    font-size: 0.9rem;
+    border-bottom: 0 !important;
+}
+
+.app-table .table-header th:last-child {
+    border-radius: 0.625rem 0 0 0;
+}
+
+.app-table .table-header th:first-child {
+    border-radius: 0 0.625rem 0 0;
+}
+
+.app-table .bordered-btn-inline {
+    border-right: 1px solid #507E87;
+    border-left: 1px solid #507E87;
+    padding: 0 0.25rem 0 0.25rem;
+}
+
+.app-table table button,
+.app-table .app-heading button {
+    border: 0;
+    background: none;
+    font-size: 0.875rem;
+    color: var(--bs-primary-main);
+}
+
+.app-table table .controls ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-table table .controls ul li a {
+    position: relative;
+    padding: 0 1rem;
+    display: flex;
+}
+
+.app-table table .controls ul li a:after {
+    content: "";
+    width: 1px;
+    height: 1rem;
+    background-color: var(--bs-primary-light);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.app-table table .controls ul li:last-child a:after {
+    display: none;
+}
+
+
+/* pagination style */
+
+.dataTables_paginate {
+    width: 100%;
+    margin-top: 25px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+
+.dataTables_paginate .paginate_button {
+    border: 1px solid var(--text-grey);
+    border-radius: 5px;
+    cursor: pointer;
+    height: 2.1875rem;
+    width: 2.5rem;
+
+    vertical-align: middle;
+}
+
+.dataTables_paginate .page-item.active .page-link {
+    background-color: #229EA2;
+    color: var(--white-color);
+}
+
+.dataTables_paginate .page-item .page-link {
+    font-size: 1rem;
+    color: var(--text-grey);
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    height: 2.1875rem;
+    width: 2.5rem;
+    cursor: pointer;
+
+}
+
+.dataTables_paginate span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dataTables_paginate .paginate_button.current {
+    background-color: var(--bs-primary-main) !important;
+    background-image: unset !important;
+}
+
+
+
+.dataTables_paginate .paginate_button:focus {
+    box-shadow: 0 0 0 !important
+}
+
+
+
+.dataTables_paginate .paginate_button:not(:last-child) {
+    margin-left: 8px;
+}
+
+table tr.tr-info {
+    background-color: #27b9a01a;
+}
+
+.tr-info td:first-child {
+    background-color: #fff;
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}

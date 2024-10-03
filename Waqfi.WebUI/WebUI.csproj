@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\Society\**" />
+    <Content Remove="Pages\Society\**" />
+    <EmbeddedResource Remove="Pages\Society\**" />
+    <None Remove="Pages\Society\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\ListLookup\DedicatedToPaymentIndex.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Product\mpqewkqb.u15~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Components\Pager\default.cshtml" />
+    <None Include="Pages\PaymentLookUp\DedicatedToPaymentIndex.cshtml" />
+    <None Include="Pages\News\Index.cshtml" />
+    <None Include="Pages\News\_NewsList.cshtml" />
+    <None Include="wwwroot\img\Calendar.svg" />
+    <None Include="wwwroot\img\Call.svg" />
+    <None Include="wwwroot\img\currency.svg" />
+    <None Include="wwwroot\img\Download.svg" />
+    <None Include="wwwroot\img\DownloadCopy.svg" />
+    <None Include="wwwroot\img\instagram.svg" />
+    <None Include="wwwroot\img\logofooter.svg" />
+    <None Include="wwwroot\img\Message.svg" />
+    <None Include="wwwroot\img\note.svg" />
+    <None Include="wwwroot\img\pay.svg" />
+    <None Include="wwwroot\img\re.svg" />
+    <None Include="wwwroot\img\TimeCircle.svg" />
+    <None Include="wwwroot\img\twitter.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="ExpressiveAnnotations" Version="2.9.6" />
+    <PackageReference Include="Fingers10.ExcelExport" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\AssociationDetails.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\AssociationDetails.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\ListLookup\DedicatedToPaymentIndex.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Resources\Resources.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\ListLookup\DedicatedToPaymentIndex.cshtml" />
+  </ItemGroup>
+
+</Project>

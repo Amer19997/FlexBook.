@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>FlexBook.Infrastructure</RootNamespace>
+        <AssemblyName>FlexBook.Infrastructure</AssemblyName>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Persistence\ApplicationDbContextInitialiser.cs" />
+      <Compile Remove="Persistence\Configurations\CMSSectionsConfiguration.cs" />
+      <Compile Remove="Persistence\Configurations\PermissionConfiguration.cs" />
+      <Compile Remove="Persistence\Configurations\RoleEntityConfiguration.cs" />
+      <Compile Remove="Persistence\Configurations\RolePermissionConfiguration.cs" />
+      <Compile Remove="Persistence\Configurations\UserRoleConfiguration.cs" />
+      <Compile Remove="Persistence\Repositories\CMSSectionRepository.cs" />
+      <Compile Remove="Persistence\Repositories\PermissionReposiroty.cs" />
+      <Compile Remove="Persistence\Repositories\RolePermissionRepository.cs" />
+      <Compile Remove="Persistence\Repositories\RoleRepository.cs" />
+      <Compile Remove="Persistence\Repositories\TestRepository.cs" />
+      <Compile Remove="Persistence\Repositories\UserRoleRepository.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CsvHelper" Version="30.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.2" />
+        <PackageReference Include="RestSharp" Version="108.0.3" />
+        <PackageReference Include="X.PagedList" Version="8.4.3" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+</Project>

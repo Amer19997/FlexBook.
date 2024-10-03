@@ -1,0 +1,165 @@
+﻿@model EntitiesReportItemPaginatedList
+@using Newtonsoft.Json;
+
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+
+
+}
+<style>
+
+
+</style>
+<div class="app-title" style=" padding-bottom: 1%; ">
+    <h3>عدد السجلات (@Model.TotalCount)</h3>
+</div>
+<div class="app-table table-responsive">
+    <table class="table-bordered table-collapsed-inside fixed-third-column">
+
+        <thead class="outer-header">
+            <tr>
+
+                <th>م </th>
+                <th>اسم الجهه </th>
+                <th> رقم التسجيل</th>
+                <th rowspan="1" colspan="2">
+                    <div class="d-flex flex-column">
+                        <span class="mb-2">
+                            قائمة البنوك
+                        </span>
+
+                        <span class="d-flex justify-content-between mt-1" style="border-top: 1px solid #fff;">
+                            <span>اسم البنك</span>
+                            <span>الآيبان البنك</span>
+                        </span>
+                    </div>
+
+                </th>
+                <th rowspan="1" colspan="2">
+                    <div class="d-flex flex-column">
+                        <span class="mb-2">
+                            قائمة المنتجات
+                        </span>
+                        <span class="d-flex justify-content-between mt-1" style="border-top: 1px solid #fff;">
+                            <span>اسم المنتج</span>
+                            <span>نوع المنتج</span>
+                        </span>
+                    </div>
+
+                </th>
+
+                <th>إجمالي قيمة المشاريع </th>
+                <th>إجمالي التبرعات الواردة </th>
+                <th>إجمالي المبالغ المجمعه
+                    <br />
+                    من خارج المنصه </th>
+                <th>إجمالي المبالغ  <br />من كبار المانحين </th>
+                <th>إجمالي المبالغ المستحقة </th>
+                <th>إجمالي المبالغ المحولة</th> 
+                <th>المتبقي من قيمة المشاريع </th>
+            </tr>
+
+        </thead>
+
+        @if (Model.Items.Count > 0)
+        {
+            @foreach (var item in Model.Items)
+            {
+               
+                <tr class="outer-wrap-body">
+                    <td> @(i++)</td>
+                    <td>@item.ProviderName</td>
+                    <td>@item.IdentityNumber</td>
+                    <td class="text-nowrap cmw-75 px-2">@item.Products.FirstOrDefault()?.BankName</td>
+                    <td class="text-nowrap cmw-75 px-2">@item.Products.FirstOrDefault()?.BankIban</td>
+                    <td class="text-nowrap cmw-75 px-2">@(string.IsNullOrEmpty(item.Products.FirstOrDefault()?.ProductName)?"": (item.Products.FirstOrDefault()?.ProductName +"("+ item.Products.FirstOrDefault()?.ProductNumber+")" ))</td>
+                    @{item.Products.Remove(item.Products.FirstOrDefault());}
+
+                    <td data-bs-toggle="collapse" href="#collapse@(i)" role="button" class="d-flex px-2">
+                        @item.Products.FirstOrDefault()?.ProductType
+                        <span class="my-margin">
+                            <img src="/cms_lib/img/icons/collapsed-icon.svg" alt="icon-collapse">
+                        </span>
+
+                    </td>
+
+                    <td>@(item.TotalProductsAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                    <td>@(item.TotalOnlineDonations?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                    <td>@(item.TotalGatheredDonations?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                    <td>@(item.TotalTopGiversAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                    <td>@(item.MeritTotal?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                    <td>-</td>
+                    <td>@(item.RemainingAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+
+
+                </tr>
+                <tr class="p-0 m-0 collapse" id="collapse@(i)">
+                    <td colspan="3"></td>
+                    <td colspan="4" class="m-0 p-0">
+                        <table class="details-table">
+                            @if (item.Products.Any())
+                            {
+                                @foreach (var _ in item.Products)
+                                {
+                                    <tr class="d-block">
+                                        <td class="text-nowrap">@_.BankName</td>
+                                        <td class="text-nowrap">@_.BankIban</td>
+                                        <td class="text-nowrap">@_.ProductName ( @_.ProductNumber )</td>
+                                        <td class="text-nowrap">@_.ProductType</td>
+                                    </tr>
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="text-nowrap">لا يوجد اكثر من منتج لهذه الجهة</td>
+                                </tr>
+                            }
+                        </table>
+
+                    </td>
+                    <td colspan="7"></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10" class="no-items-cont">
+                    <span>لا يوجد بيانات</span>
+                </td>
+            </tr>
+        }
+
+
+    </table>
+</div>
+<div class="col-12 mb-3">
+    <div class="row">
+        <div class="col-3">
+            <div class="d-flex justify-content-start">
+
+                <a class="btn btn-secondary  mx-3" id="Arrow" asp-page-handler="Search" asp-route-pageSize="@(Model.PageSize == 15 ? 50 : 15)">
+                    @if (Model.PageSize == 15)
+                    {
+                        <img src="~/Cms_Lib/img/icons/arrow-down-solid (2).svg" class="center" />
+                    }
+                    else
+                    {
+                        <img src="~/Cms_Lib/img/icons/arrow-up-solid.svg" />
+                    }
+                </a>
+                <span class="border  rounded p-2">@(Model.PageSize == 15 ? 50 : 15)</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="app-pagination">
+                <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber" size="@Model.PageSize">
+
+                </vc:pager>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,157 @@
+﻿@page
+@model WebUI.Pages.News.NewsDetailsModel
+@{
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="app-heading">
+            <a href="/News/index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <div class="app-title">
+
+                <h3 class="m-0">تفاصيل الخبر</h3>
+            </div>
+        </div>
+        <div class="app-form">
+            <div class="form-wrapper">
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="d-flex align-items-center">
+                            <div class="point"></div>
+                            <h3>البيانات الأساسية</h3>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="col-12">
+                            <div class="row">
+                                <input type="hidden" asp-for="@Model.NewsDto.NewsId" />
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for="">عنوان الخبر بالعربية </label>
+                                            <p  class="mb-1">@(Model.NewsDto.TitleAr ?? "لا يوجد")</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for="">عنوان الخبر بالانجليزية </label>
+                                            <p class="mb-1">@(Model.NewsDto.TitleEn ?? "لا يوجد")</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- ==========2en======= -->
+
+                                <div class="col-12">
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                            <label for="">الحاله </label>
+                                            <select asp-for="@Model.NewsDto.NewsStatus" class="form-select" asp-items="@(new SelectList(Model.Status,"Id","NameAr"))" disabled>
+                                                <option value="" selected>أختر حالة النشر </option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- ==========3en======= -->
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for=""> صوره الخبر </label>
+                                            <div>
+                                                <div class="upload-container">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="attachFile">
+                                                                <img src="@Model.NewsDto.ImgUrl" style="width: 140px;height: 140px; display: inline-flex;" id="newsimage" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ==========4en======= -->
+
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for="">ملخص الخبر بالعربية</label>
+                                            <p class="mb-1">@(Model.NewsDto.SummaryAr ?? "لا يوجد")</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for="">ملخص الخبر بالانجليزية</label>
+                                            <p class="mb-1">@(Model.NewsDto.SummaryEn ?? "لا يوجد")</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for="">تفاصيل الخبر بالعربية</label>
+                                            <p class="mb-1">@(Model.NewsDto.DetailsAr ?? "لا يوجد")</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- ==========4en======= -->
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                            <label for="">تفاصيل الخبر بالإنجليزية</label>
+                                            <p class="mb-1">@(Model.NewsDto.DetailsEn ?? "لا يوجد")</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/news/NewsScript.js"></script>
+    }

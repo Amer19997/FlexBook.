@@ -1,0 +1,188 @@
+﻿@page
+@model WebUI.Pages.EntitiesReport.IndexModel
+@using Newtonsoft.Json;
+
+@{
+    // var details = Model.DonatorReportDto;
+}
+@Html.AntiForgeryToken()
+
+<style>
+    .table-collapsed-inside .details-table {
+        background-color: transparent;
+    }
+
+        .table-collapsed-inside .details-table tr {
+            background-color: #fff !important;
+            padding-block: 2px !important;
+        }
+
+            .table-collapsed-inside .details-table tr td {
+                padding-block: 2px !important;
+                border-bottom: 1px solid #ccc !important;
+            }
+
+                .table-collapsed-inside .details-table tr td:last-child {
+                    border-bottom: 1px solid #ccc !important;
+                }
+
+    .app-table .table-collapsed-inside table tbody tr:nth-child(even),
+    .app-table .table-collapsed-inside table tbody tr:nth-child(odd) {
+        background-color: transparent !important;
+    }
+
+    .table-collapsed-inside span.my-margin {
+        margin-inline-start: 3px;
+    }
+</style>
+
+
+
+<div class="app-heading   d-flex justify-content-between">
+   
+
+        <div class="app-filter w-100">
+
+            <div class="filter-form w-100">
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result"
+                       class="w-100" 
+                >
+
+                    <div class="d-flex justify-content-between">
+                        <div class="app-title">
+                        <h3>التقرير الجهات</h3>
+                        </div>
+                        <div class="filter-wrapper d-flex align-items-center">
+
+                            <label for="" class="form-label mb-0 mx-2">نوع البحث</label>
+                        <input asp-for="@Model.Filters.Contains" type="text" class="form-control filteration" style="width:250px" id="DatasearchProductNameAndProviderName" placeholder=" الجهة/البريد/الجوال/رقم التسجيل">
+                        <button type="submit" class="btn btn-secondary  mx-3" style="background-color:#34BAA1">
+                                تصفية
+                            </button>
+
+
+                            <a class="btn btn-tertiary mx-3" asp-page="Index" asp-page-handler="ExcelDownload"> تصدير Excel</a>
+                        </div>
+
+                    </div>
+
+
+                <div class="myform">
+
+                    <div class="border p-3 mb-3 mt-3 w-100 rounded">
+                        <div class="d-flex align-items-center form-resp w-100 flex-wrap">
+
+                            <div class="d-flex flex-column mx-3">
+                                <label for="" class="my-lg-2">نوع الجهة </label>
+                                <select asp-for="@Model.Filters.ProviderType" class="form-select filteration" asp-items="@(new SelectList(Model.search.GetDonationMethodQueryResult,"Id","Name"))">
+                                </select>
+                            </div>
+                           
+                          
+                            <div class="d-flex flex-column mx-3">
+                                <label for="" class="my-lg-2">  حالة السداد  </label>
+                                <select asp-for="@Model.Filters.PaymentStatusWithin" class="form-select filteration">
+                                    <option value="" selected>حالة السداد داخل المنصه</option>
+                                    <option value="2">نجاح</option>
+                                    <option value="3">فشل</option>
+                                    <option value="">الكل</option>
+
+                                </select>
+                                </div>
+
+                            <div class="d-flex flex-column mx-3">
+                                   <label for="" class="my-lg-2">تاريخ اعتماد الجهة </label>
+                                <div class="d-flex">
+                                       
+                            <input asp-for="@Model.Filters.VerfiedDateFrom" type="text" class="form-control datepickerCustom filteration" id="Datasearchfrom" placeholder="من">
+                            <input asp-for="@Model.Filters.VerfiedDateTo" type="text" class="form-control datepickerCustom filteration" id="Datasearchto" placeholder="الي" />
+                                   </div>
+
+                                </div>
+                            <div class="d-flex flex-column mx-3">
+
+                                <label for="" class="my-lg-2">تاريخ تسجيل الجهة </label>
+                                <div class="d-flex">
+
+                                    <input asp-for="@Model.Filters.RegestrationDateFrom" type="text" class="form-control datepickerCustom filteration" id="Datasearchfrom" placeholder="من">
+                                    <input asp-for="@Model.Filters.RegestrationDateTo" type="text" class="form-control datepickerCustom filteration" id="Datasearchto" placeholder="الي" />
+                                    </div>
+                                </div>
+                            <div class="d-flex flex-column mx-3">
+                                <label for="" class="my-lg-2">تاريخ انتهاء التسجيل </label>
+
+                                <div class="d-flex">
+
+
+                                    <input asp-for="@Model.Filters.RegestrationEndDateFrom" type="text" class="form-control datepickerCustom filteration" id="Datasearchfrom" placeholder="امن">
+                                    <input asp-for="@Model.Filters.RegestrationEndDateTo" type="text" class="form-control datepickerCustom filteration" id="Datasearchto" placeholder="الي" />
+                                    </div>
+
+                            </div>
+                            <div class="d-flex flex-column mx-3">
+                                <label for="" class="my-lg-2">
+                                    
+                                    الفتره
+                                    (من)
+                                </label>
+
+
+                                    <input asp-for="@Model.Filters.PeriodFrom" type="text" class="form-control datepickerCustom filteration" id="Datasearchfrom" placeholder="من">
+                              
+                            </div>
+                            <div class="d-flex flex-column mx-3">
+
+                                <label for="" class="my-lg-2">
+                                    
+                                    الفتره
+                                    (الى)
+                                </label>
+
+
+                                <input asp-for="@Model.Filters.PeriodTo" type="text" class="form-control datepickerCustom filteration" id="Datasearchto" placeholder="الى" />
+
+                            </div>
+
+                            <a class="close-filter mt-4" id="btnclose" onclick="Closebtn()" asp-page="/EntitiesReport/Index" asp-page-handler="GetAjax" type="reset">
+
+                                <img src="~/cms_lib/img/icons/close-filter.svg" />
+                            </a>
+
+                           
+
+
+                        </div>
+
+                    
+
+
+                    </div>
+              </div>
+                </form>
+              
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div id="search-result">
+    <partial name="_List.cshtml" model="@Model.ItemList.Result" />
+</div>
+
+
+@section scripts
+    {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+}
+

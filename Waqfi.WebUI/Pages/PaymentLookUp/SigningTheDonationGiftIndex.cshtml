@@ -1,0 +1,49 @@
+﻿@page
+@model WebUI.Pages.PaymentLookUp.SigningTheDonationGiftIndexModel
+@{
+}
+
+@if (Model.result.Result.Any())
+{
+    <div class="app-heading d-flex justify-content-between">
+        <div class="app-title">
+            <a href="/ListLookup/Index" class="ps-1">
+                <img class="rotated"
+                 src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                 alt="details-icon"
+                 class="icons" />
+            </a>
+            <h3 class="m-0">قائمة توقيع إهداء التبرع </h3>
+        </div>
+
+    </div>
+
+    <div id="search-result">
+        <partial name="_signingTheDonationGiftList.cshtml" model="@Model.result.Result" />
+    </div>
+
+}
+else
+{
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد عناصر  </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+}

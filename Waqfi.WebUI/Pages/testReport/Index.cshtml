@@ -1,0 +1,50 @@
+﻿@page
+@model WebUI.Pages.testReport.IndexModel
+@{
+}
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-md-12">
+        <button id="testRep" class="btn btn-success">test</button>
+
+        <input id="tests" type="text" class="form-control" />
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script>
+
+
+        $('#testRep').on('click', function () {
+            debugger
+            testssss();
+        })
+
+
+        function testssss() {
+            debugger
+            var te= $('#tests').val();
+            var person = { "FirstName": te, "LastName": "Lock", "Age": 31 };
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "?handler=Reports",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(person),
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            })
+                .done(function (result) {
+                    console.log(result);
+                });
+        }
+
+    </script>
+}

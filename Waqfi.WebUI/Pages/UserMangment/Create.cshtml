@@ -1,0 +1,132 @@
+﻿@page
+@model WebUI.Pages.UserMangment.CreateModel
+@{
+}
+@Html.AntiForgeryToken()
+<!-- heading  -->
+<div class="app-heading">
+    <div class="app-title">
+      
+        <h3 class="m-0">اضافة مستخدم جديد</h3>
+    </div>
+
+    <div class="form-buttons">
+        @*<a class="btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#add-user-Modal">اضافة</a>*@
+        <button class="btn btn-tertiary" id="AddAction" onclick="CreateUser(event)">اضافة</button>
+        <a class="btn btn-light-primary" id="CancelAction" data-bs-toggle="modal" data-bs-target="#EditModal">الغاء</a>
+    </div>
+</div>
+
+<div class="app-form">
+
+    <div class="form-wrapper">
+
+
+        <div class="form-content">
+            <div class="form-header">
+                <div class="d-flex align-items-center">
+                    <div class="point"></div>
+                    <h3>البيانات الأساسية</h3>
+                </div>
+            </div>
+            <div class="card">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">الاسم كاملاً</label> <span class="text-danger">*</span>
+                            <input maxlength="100" onkeypress="return onlycharKey(event)" type="text" class="form-control" id="UserName" placeholder="اكتب اسم المستخدم "  />
+                            <span id="ValidNamel" class="text-danger d-none">هذا الحقل إلزامي</span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for=""> البريد الالكتروني :</label> <span class="text-danger">*</span>
+                            <input maxlength="100" type="email" id="Email" class="form-control" placeholder="اضف البريد الالكتروني" />
+                            <span id="ValidEmail" class="text-danger d-none">هذا الحقل إلزامي</span>
+
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for=""> رقم الجوال</label>
+                            <input maxlength="10" onkeypress="return onlynumberKey(event)" type="text" id="Phone" class="form-control" placeholder="ادخل رقم جوالك" />
+                            <span id="ValidPhone" class="text-danger d-none">
+                                يجب ادخال رقم جوال صحيح
+                            </span>
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="">دور المستخدم :</label><span class="text-danger">*</span>
+                            <select  class="js-select2 form-select ps-5" id="Roles" multiple="multiple" >
+                                
+                            </select>
+                            <span id="ValidRole" class="text-danger d-none"> هذا الحقل إلزامي</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+</div>
+
+        <!--start add modal-->
+    <div class="modal fade body-modal" id="add-user-Modal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body text-center">
+                        <span class="ps-1"><img src="~/cms_lib/img/icons/add-user-popup.svg" alt="details-icon" class="icons"/></span>
+                <h3>تمت إضافة مستخدم بنجاح</h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--end add modal-->
+
+    <!--start Warning modal-->
+
+    <div class="modal fade body-modal" id="EditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء إضافة مستخدم؟</h3>
+                    <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+                </div>
+                <div class="modal-button">
+                    <button id="BackList" class=" btn btn-primary">نعم</button>
+                    <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade body-modal" id="Active-Warning-Modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content text-center">
+                    <div class="modal-body text-center">
+                    <span class="ps-1"><img src="~/cms_lib/img/icons/warning-popup.svg" alt="details-icon" class="icons" /></span>
+                      <h3 id="TextValidation"></h3>
+                 
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+<!--end Warning modal-->
+
+
+@section scripts {
+
+
+    <script src="~/js/UserMangment/Create.js"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js" ></script>
+
+}

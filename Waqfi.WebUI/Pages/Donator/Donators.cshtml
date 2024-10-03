@@ -1,0 +1,195 @@
+﻿@page
+@model WebUI.Pages.Dondator.DonatorsModel
+@{
+}
+
+@Html.AntiForgeryToken()
+
+@if (!Model.GetDonatorListResult.GetAllDonatorLists.Any())
+{
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد متبرعين </h2>
+
+
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+
+
+<div class="d-flex align-items-center justify-content-between">
+    <div class="app-heading">
+        <div class="app-title">
+                <span class="ps-1">
+                    <img class="" src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+                </span>
+            
+            <h3 class="m-0">إدارة قائمة المتبرعين</h3>
+        </div>
+    </div>
+    <div class="app-filter">
+       
+            <form class="filter-form">
+                <div class="myform"> 
+
+                <label for="">التصفية بواسطة :</label>
+                <input type="text" id="Donatorname" maxlength="100" onkeypress="return onlycharKey(event)" class="form-control" placeholder="اسم المتبرع" />
+                <input type="text" id="emailserch" maxlength="100" class="form-control" placeholder="البريد الإلكتروني" />
+                <input type="text" id="Phone" maxlength="10" onkeypress="return onlynumberKey(event)" class="form-control" placeholder="رقم الجوال" />
+                <button type="button" onclick="Search()" class="btn btn-secondary-main">تصفية</button>
+                <a class="close-filter " id="btnclose" onclick="Closebtn()" asp-page="/Donator/Donators" asp-page-handler="GetAjax" type="reset">
+                    <img src="~/cms_lib/img/icons/close-filter.svg" />
+                </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Donator" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        م
+                    </th>
+                    <th>
+                        اسم المتبرع
+                    </th>
+                    <th>
+                        رقم الجوال
+                    </th>
+                    <th>
+                        البريد الإلكترونيي
+                    </th>
+                    <th>
+                        تاريخ التسجيل
+                    </th>
+
+                </tr>
+            </thead>
+            </table>
+        
+    </div>
+
+</div>
+
+
+}
+<!--start delete modal-->
+<div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد حذف بيانات المفوض ؟</h3>
+                <p>
+                    في حالة الموافقة ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+
+
+                <a id="YesValue" class="btn btn-primary">نعم</a>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--end delete modal-->
+<!--start delete modal-->
+<div class="modal fade body-modal" id="add-alert-Modal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-header">
+                <h3>اضافة اخطار جديد</h3>
+
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="modal-button">
+                    <button class=" btn btn-primary">اضافة</button>
+                    <button class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+
+        document.getElementById('btnclose').style.display = "none";
+
+        $('#Donatorname').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+
+
+        $('#emailserch').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+
+        $('#Phone').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+
+
+
+    </script>
+
+
+    <script src="~/js/usermangment/generalcheck.js"></script>
+
+
+    <script src="~/js/donators/donators.js"></script>
+}
+

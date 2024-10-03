@@ -1,0 +1,173 @@
+﻿@page
+@model WebUI.Pages.SiteContents.IndexModel
+@{
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+
+    <div class="app-heading">
+        <div class="app-title">
+            <h3 class="m-0">تعريف المنصة</h3>
+        </div>
+        <div class="form-buttons">
+        <a class="btn btn-tertiary" href="~/SiteContents/EditAboutUs">
+                <img src="~/Cms_Lib/img/icons/edit-btn.svg" alt="search-icon" />
+                تعديل تعريف المنصة
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-7">
+            <div class="app-form">
+                <!-- form content -->
+                <form class="form-wrapper">
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>صورة الواجهة</h3>
+                            </div>
+                        </div>
+                        <div class=" border-0">
+                            <div class="mb-3">
+                                <img src="@Model.AboutUs.SiteContentImage" style="max-width: 700px;" alt="About Us Image" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>منصة وقفي</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <p>
+                                @Model.AboutUs.WaqfiPlatformARDescsription
+                            </p>
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <p>
+                                @Model.AboutUs.WaqfiPlatformEnDescription
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>الفكرة</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <p>
+                                @Model.AboutUs.IdeaArDescription
+                            </p>
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <p>
+                                @Model.AboutUs.IdeaEnDescription
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>الإثر المتوقع للمنصة</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <p>
+                                @Model.AboutUs.PlatformExpectedEffectArDescription
+                            </p>
+
+                        </div>
+                        <div class="card card-edit " dir="ltr">
+                            <p>
+                                @Model.AboutUs.PlatformExpectedEffectEnDescription
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>الهدف</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <p>
+                                @Model.AboutUs.ProductArDescription
+                            </p>
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <p>
+                                @Model.AboutUs.TargetEnDescription
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>منتجاتها</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <p>
+                                @Model.AboutUs.ProductArDescription
+                            </p>
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <p>
+                                @Model.AboutUs.ProductEnDescription
+                            </p>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+    </div>
+
+
+<!--end delete modal-->
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/app.js"></script>
+<script>
+
+</script>
+
+
+</html>

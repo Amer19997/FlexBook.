@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailAlreadyExist" xml:space="preserve">
+    <value>هذا البريد مسجل من قبل</value>
+  </data>
+  <data name="EmailLengthNotValid" xml:space="preserve">
+    <value>عدد حروف البريد الالكترونى غير صحيح</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>الرجاء إدخال بريد إلكتروني صالح</value>
+  </data>
+  <data name="InvalidEmailMaxlength100" xml:space="preserve">
+    <value>عدد حروف البريد الالكترونى يجب ان تكون اقل من 100</value>
+  </data>
+  <data name="InvalidEmailOrPass" xml:space="preserve">
+    <value>البريد الإلكتروني أو كلمة المرور غير صحيحة</value>
+  </data>
+  <data name="InvalidMobileNumber" xml:space="preserve">
+    <value>رقم الجوال غير صحيح</value>
+  </data>
+  <data name="InvalidOTP" xml:space="preserve">
+    <value>رقم التحقق غير صحيح</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتضم مزيجًا من الأحرف والأرقام والرموز الخاصة</value>
+  </data>
+  <data name="Length24" xml:space="preserve">
+    <value>عدد الحروف 24</value>
+  </data>
+  <data name="MaxLength100" xml:space="preserve">
+    <value>اقصى عدد للحروف هو 100</value>
+  </data>
+  <data name="MaxLength20" xml:space="preserve">
+    <value>الحد الأقصى 20 رقم </value>
+  </data>
+  <data name="MaxLength24" xml:space="preserve">
+    <value>كلمة المرور يجب أن لا تزيد عن 64 حروف</value>
+  </data>
+  <data name="MinLength2" xml:space="preserve">
+    <value>الحد الأدنى 2 حرف</value>
+  </data>
+  <data name="MinLength8" xml:space="preserve">
+    <value>يجب أن تتكون كلمة المرور من 8 أحرف على الأقل</value>
+  </data>
+  <data name="MobileNumberAlreadyExist" xml:space="preserve">
+    <value>رقم الجوال موجود مسبقاً</value>
+  </data>
+  <data name="MobileNumberIsRequired" xml:space="preserve">
+    <value>رفم الجوال مطلوب</value>
+  </data>
+  <data name="MobileNumberLengthNotValid" xml:space="preserve">
+    <value>من فضلك ادخل رقم هاتف صحيح.</value>
+  </data>
+  <data name="MobileNumberNotValid" xml:space="preserve">
+    <value>رقم الجوال غير صحيح</value>
+  </data>
+  <data name="NameLengthNotValid" xml:space="preserve">
+    <value>عدد حروف الاسم غير صحيحه</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>الاسم مطلوب</value>
+  </data>
+  <data name="OTPIsRequired" xml:space="preserve">
+    <value>رمز التحقق مطلوب</value>
+  </data>
+  <data name="OtpLengthNotValid" xml:space="preserve">
+    <value>عدد ارقام رمز التحقق غير صحيحه</value>
+  </data>
+  <data name="OTPNotFound" xml:space="preserve">
+    <value>رمز التحقق غير موجود</value>
+  </data>
+  <data name="Passworddoesnotmatch" xml:space="preserve">
+    <value>كلمات المرور غير متطابقة</value>
+  </data>
+  <data name="PaswordRequired" xml:space="preserve">
+    <value>كلمة المرور مطلوبة</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>كلمه المرور مطلوبه</value>
+  </data>
+  <data name="ResendOTPMustBeAfterMinutes" xml:space="preserve">
+    <value>فى حاله عدم وصول كود التفعيل. يرجى انتظار الوقت المحدد ثم المحاولة لاحقاً </value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>كلمة المرور غير صحيحة</value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>يجب أن يكون البريد الإلكتروني بالصيغة التالية: test@test.com</value>
+  </data>
+  <data name="MaxLength200" xml:space="preserve">
+    <value>الحد الأقصى للحقل 200</value>
+  </data>
+  <data name="InvalidName" xml:space="preserve">
+    <value>يجب ادخال الاسم بشكل صحيح</value>
+  </data>
+  <data name="MaximumLength2500" xml:space="preserve">
+    <value>الحد الأقصى للأحرف 2500</value>
+  </data>
+  <data name="AddedSuccessfully" xml:space="preserve">
+    <value>تم الاضافه بنجاح</value>
+  </data>
+  <data name="IdRequired" xml:space="preserve">
+    <value>الرقم التعريفى مطلوب</value>
+  </data>
+  <data name="MaxLength150" xml:space="preserve">
+    <value>الحد الأقصى للأحرف 150</value>
+  </data>
+  <data name="MaxLength4" xml:space="preserve">
+    <value>الحد الأقصى للأحرف 4</value>
+  </data>
+  <data name="MaxLength5" xml:space="preserve">
+    <value>الحد الأقصى للأحرف 5</value>
+  </data>
+  <data name="MaxLength8" xml:space="preserve">
+    <value>الحد الأقصى للأحرف 8</value>
+  </data>
+  <data name="InvalidEmailUpdateDonator" xml:space="preserve">
+    <value>يجب أن يكون البريد الإلكتروني بالصيغة التالية: test@test.com</value>
+  </data>
+  <data name="MaximumLength150" xml:space="preserve">
+    <value>الحد الاقصي للحروف 150</value>
+  </data>
+  <data name="MaximumLength300" xml:space="preserve">
+    <value>الحد الاقصي للحروف 300</value>
+  </data>
+  <data name="TitleAlreadyExist" xml:space="preserve">
+    <value>هذا الخبر مسجل من قبل</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>حدث خطأ</value>
+  </data>
+  <data name="ThisItemExit" xml:space="preserve">
+    <value>هذا الإهداء مسجل من قبل</value>
+  </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>البريد الإلكتروني أو كلمة المرور غير صحيحة</value>
+  </data>
+  <data name="EmailIsRequired" xml:space="preserve">
+    <value>يرجى إدخال البريد الإلكتروني</value>
+  </data>
+  <data name="Emailnotfound" xml:space="preserve">
+    <value>البريد الإلكتروني غير موجود</value>
+  </data>
+  <data name="WrongOTP" xml:space="preserve">
+    <value>الرمز غير صحيح، يرجى المحاولة مرة أخرى</value>
+  </data>
+  <data name="PleaseTryAfter{0}" xml:space="preserve">
+    <value>برجاء إعادة المحاولة بعد {0} دقيقة</value>
+  </data>
+  <data name="YouAreLocked" xml:space="preserve">
+    <value>انت محظور الأن حاول فى وقت لاحق</value>
+  </data>
+  <data name="CMSNotFound" xml:space="preserve">
+    <value>هذا القسم غير متواجد</value>
+  </data>
+  <data name="PleaseEnterFirstName" xml:space="preserve">
+    <value>Please enter your first name
+</value>
+  </data>
+  <data name="PleaseEnterLastName" xml:space="preserve">
+    <value>يرجى إدخال اسم العائلة</value>
+  </data>
+  <data name="ThisEmailAlerdyFound" xml:space="preserve">
+    <value>البريد الإلكتروني مستخدم بالفعل، يرجى تسجيل الدخول</value>
+  </data>
+  <data name="MobileRequired" xml:space="preserve">
+    <value>يرجى إدخال رقم هاتف صحيح</value>
+  </data>
+  <data name="DepartmentRequired" xml:space="preserve">
+    <value>من فضلك اختر أو ادخل اسم القسم.</value>
+  </data>
+  <data name="CountryRequired" xml:space="preserve">
+    <value>من فضلك اختر الدولة.</value>
+  </data>
+  <data name="facultyRequired" xml:space="preserve">
+    <value>من فضلك اختر أو ادخل اسم الكلية.</value>
+  </data>
+  <data name="DecryptionKeyRequired" xml:space="preserve">
+    <value>يجب إدخال المرور التعريفيه المؤقته </value>
+  </data>
+  <data name="PleaseEnterEmail" xml:space="preserve">
+    <value>من فضلك ادخل البريد الألكترونى بشكل صحيح</value>
+  </data>
+  <data name="UniversityRequired" xml:space="preserve">
+    <value>من فضلك اختر أو ادخل اسم الجامعة.</value>
+  </data>
+  <data name="NoteLength" xml:space="preserve">
+    <value>يجب ألا تتجاوز التعليقات 250 حرفًا.</value>
+  </data>
+  <data name="VerifyPaswordRequired" xml:space="preserve">
+    <value>يجب إدخال كلمة المرور المؤكدة</value>
+  </data>
+</root>

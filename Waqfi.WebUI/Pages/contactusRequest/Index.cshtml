@@ -1,0 +1,97 @@
+﻿@page
+@model WebUI.Pages.ContactUsRequest.IndexModel
+@{
+}
+
+<div class="app-heading d-flex justify-content-between">
+
+    <div class="app-title">
+
+        <h3 class="m-0">قائمة طلبات التواصل</h3>
+
+      
+    </div>
+
+    <div class="app-heading-end d-flex w-100">
+
+        <div class="app-filter">
+
+            <div class="filter-form">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-provider-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="filter-wrapper d-flex align-items-center" style="margin-bottom:20px">
+
+                        <label for="" class="form-label mb-0 mx-2">نوع البحث</label>
+                        <input asp-for="@Model.Filter.Contains" type="text" class="form-control filteration" id="DatasearchProductNameAndProviderName" placeholder=" عنوان الرسالة/الاسم/البريد/الجوال/رقم الطلب">
+
+
+
+                    </div>
+
+                    <div class="myform">
+                        <div class="d-flex align-items-center justify-content-end w-100">
+                            <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+                            <input type="text" id="socName" asp-for="@Model.Filter.RequestNumber" class="form-control me-3 filteration" placeholder=" رقم الطلب" />
+                            <select asp-for="@Model.Filter.Type" class="form-select filteration" asp-items="@(new SelectList(Model.ContactUsTypes,"Id","Name"))">
+                                <option value="" selected>نوع المرسل</option>
+
+                            </select>
+                            <select asp-for="@Model.Filter.Status" class="form-select filteration" asp-items="@(new SelectList(Model.ContactUsStatus,"Id","Name"))">
+                                <option value="" selected>الحاله</option>
+
+                            </select>
+
+
+                        </div>
+                        <a class="close-filter btnclose d-none" asp-page="/Provider/Index" asp-page-handler="GetAjax" type="reset">
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+                        <button type="submit" class="btn btn-secondary">
+                            تصفية
+                        </button>
+                    </div>
+
+
+                    <div></div>
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <span style="color:red"> . @Model.Error</span>
+
+    <br />
+}
+<div id="search-result">
+    <partial name="_ContactUsRequestList.cshtml" model="@Model.ContactUs" />
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        $('.filteration').on('change', function (e) {
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+    </script>
+}

@@ -1,0 +1,46 @@
+﻿@using WebUI.Models.Product;
+@model ProductRequestReturnModel
+
+<div class="modal fade body-modal"
+     id="edit-Modal"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center p-0">
+
+            <form method="post"
+                  data-ajax="true"
+                  data-ajax-url="?handler=ReturnRequest"
+                  data-ajax-method="post"
+                  data-ajax-success="SwlReturnSuccess"
+                  data-ajax-failure="SwlReturnError"
+                  id="approve-request-form">
+
+
+                <div class="modal-body text-end">
+                    <h3>إعادة المنتج للتعديل </h3>
+                    <p><small>يرجى إضافة كافة التعديلات المطلوبة لاعتماد المنتج  مرة أخرى.</small></p>
+
+                    <hr style="color: #23C1C6;">
+
+                   
+                    <label> ملاحظات التعديل </label>
+                    <textarea asp-for="@Model.Notes" maxlength="2500" id="ReturnReason" class="form-control w-100" rows="7" placeholder="اكتب ملاحظات التعديل"></textarea>
+                    <span style="color:red" asp-validation-for="@Model.Notes"></span>
+                    <p><small>عدد الاحرف المسموح بها 2500 حرف.</small></p>
+                    
+                    <input type="hidden" asp-for="@Model.RequestId" />
+                </div>
+                <div class="modal-button">
+                    <button type="submit" onclick="TrimReturn()" id="deactive-id" class=" btn btn-tertiary">
+                        <img src="~/Cms_Lib/img/icons/Send.svg" alt="details-icon" class="icons ms-1 mt-1" />ارسال
+                    </button>
+                    <button type="button" id="ReturnModelDeactive" class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

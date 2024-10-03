@@ -1,0 +1,139 @@
+﻿@page
+@model WebUI.Pages.contactus.IndexModel
+@{
+}
+
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-url="?handler=AddItem"
+      data-ajax-method="post"
+      data-ajax-success="AddItemSuccess"
+      data-ajax-failure="AddItemFailed"
+      id="approve-request-form"
+      enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12">
+            <!-- heading  -->
+            <div class="app-heading">
+                <div class="app-title">
+
+                    <h3 class="m-0">تعديل بيانات تواصل معانا  </h3>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-tertiary submitbutton" href="./product-list.html">حفظ التعديلات</button>
+                    <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#ChancelEditAboutUS">الغاء</a>
+                </div>
+            </div>
+
+
+            <div class="app-form">
+                <!-- form content -->
+
+                <div class="form-wrapper">
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>البيانات الأساسية</h3>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class=" col-12 col-md-6 mb-3">
+                                            <label for="important">العنوان بالعربية </label><span class="text-danger">*</span>
+                                            <textarea class="form-control" asp-for="@Model.ContactusDto.AddressAr" id="important10" placeholder="اسم العنوان بالعربية"
+                                                      rows="10"></textarea>
+                                            <span class="text-danger" asp-validation-for="@Model.ContactusDto.AddressAr" class="text-error">
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                     <div class="row">
+                                       <div class=" col-12 col-md-6 mb-3">
+                                            <label for="important">العنوان بالإنجليزية </label><span class="text-danger">*</span>
+                                            <textarea class="form-control" asp-for="@Model.ContactusDto.AddressEn" id="important10" placeholder="اسم العنوان بالإنجليزية"
+                                                      rows="10"></textarea>
+                                            <span class="text-danger" asp-validation-for="@Model.ContactusDto.AddressEn" class="text-error">
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                  
+
+                                    <div class="col-md-6 col-12 mb-4">
+                                        <label for="important">الهاتف</label><span class="text-danger">
+                                            *<span>
+                                            <input asp-for="@Model.ContactusDto.phone?" maxlength="10" onkeypress="return onlynumberKey(event)"  class="form-control" id="important" placeholder="الهاتف "
+                                               rows="4"></input>
+
+                                        <span class="text-danger" asp-validation-for="@Model.ContactusDto.phone" class="text-error">
+                                        </span>
+                                    </div>
+
+                                    <div class="row">
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label for="important">الموقع الجغرافي </label><span class="text-danger">
+                                            *<span>
+                                        <textarea asp-for="@Model.ContactusDto.location?" class="form-control" id="important" placeholder="رابط الموقع الجغرافي "
+                                                  rows="4"></textarea>
+
+                                        <span class="text-danger" asp-validation-for="@Model.ContactusDto.location" class="text-error">
+                                        </span>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<div class="modal fade body-modal" id="ChancelEditAboutUS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء التعديلات؟  </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <button id="BackList" class=" btn btn-tertiary">نعم</button>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+   <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/Contactus.js"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js"></script>
+
+
+
+    <script>
+        $(document).on("click", "#BackList", function () {
+
+            window.location.replace("/contactus/Index");
+        });
+
+    </script>
+
+
+}

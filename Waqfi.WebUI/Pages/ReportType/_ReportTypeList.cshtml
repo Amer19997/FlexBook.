@@ -1,0 +1,65 @@
+﻿@model ReportTypeDtoPaginatedList
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">اسم نوع البلاغ بالعربية</th>
+                    <th scope="col">  اسم نوع البلاغ بالإنجليزية </th>
+                    <th scope="col"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Any())
+                {
+                    foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@item.NameAr</td>
+                            <td>@item.NameEn</td>
+                            <td>
+                                <div class="controls">
+                                    <ul>
+                                        <li>
+                                            <a href="/ReportType/Edit?id=@item.Id"><img src="/cms_lib/img/icons/Edit.svg" alt="Edit-icon" /></a>
+                                        </li>
+                                        <li>
+                                            <a class="del" href="javascript:showDeletePopup('@item.Id')"> <img src="/cms_lib/img/icons/Delete.svg" alt="users-icon" /></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد  فئات مستهدفه </span>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber">
+
+    </vc:pager>
+
+</div>

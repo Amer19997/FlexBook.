@@ -1,0 +1,217 @@
+﻿@page
+@using WebUI.Enums;
+@model WebUI.Pages.productWagfyTest.RequestDetaliesModel
+@{
+}
+<div class="col-12">
+    <!-- heading  -->
+    <div class="app-heading">
+        <div class="app-title">
+            <a href="/AwqafProduct/index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <h3 class="m-0">تفاصيل  طلب الوقف الخاص</h3>
+        </div>
+
+        <div class="row" style="margin-left:2px">
+            <div class="row" style="margin-left:2px">
+                <div class="row">
+                    @if ((int)Model.RequestDetaliesDto.statues == (int)RequestStatusEnum.Rejected ||
+                    (int)Model.RequestDetaliesDto.statues == (int)RequestStatusEnum.Approved)
+                    {
+                        <div style="display: contents;">
+                            <label for="">
+                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                الحالة
+                            </label>
+                            <p class="">@(Model.RequestDetaliesDto.StatusAsString) </p>
+                        </div>
+                    }
+                </div>
+                @if ((int)Model.RequestDetaliesDto.statues == (int)RequestStatusEnum.Pending)
+                {
+
+
+                    <div class="form-buttons">
+                        <a class="btn btn-green approvebtn" onclick="Clear()">قبول الطلب</a>
+
+
+                        <a class=" btn btn-red" id="RejectModal" data-bs-toggle="modal" data-bs-target="#reject-Modal">رفض الطلب</a>
+
+                    </div>
+
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="app-form">
+        <!-- form content -->
+
+        <form class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-6 col-12  mb-2">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    اسم المتبرع
+
+                                </label> <span class="text-danger">*</span>
+                                <p class="">@Model.RequestDetaliesDto.DonatorName</p>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-12  mb-2">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    البريد الإلكتروني
+
+                                    <p>@Model.RequestDetaliesDto.Email</p>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-12  mb-2">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />رقم الجوال
+                                </label>
+                                <p class="">@Model.RequestDetaliesDto.Phone</p>
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-6 col-12  mb-2">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    اسم الوقف
+
+                                </label>
+                                <p class="">@Model.RequestDetaliesDto.ProductName</p>
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-12  mb-2">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    المسار
+                                </label>
+                                <p class="">@Model.RequestDetaliesDto.MasarName</p>
+                            </div>
+
+                            <div class="col-lg-2 col-md-12 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    قيمة الوقف
+
+
+                                </label>
+                                <p class="">@Model.RequestDetaliesDto.Amount</p>
+                            </div>
+                            <div class="col-lg-2 col-md-12 col-12  mb-3">
+                                <label for="">
+                                    <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                    تاريخ ارسال الطلب
+
+
+                                </label>
+                                <p class="">@Model.RequestDetaliesDto.SendRequest</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div id="result">
+        <partial name="_RejectionRequest.cshtml" model="@Model.RequestRejectionModel" />
+    </div>
+
+
+    <!--start delete modal-->
+    <div class="modal fade body-modal" id="deleteModal" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                    <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                    <h3>تم قبول الطلب بنجاح </h3>
+                    <p>
+                        سيتم اعادة توجيهك الى تفاصيل الطلب  <br /> لاتمام باقى التفاصيل المطلوبة
+                    </p>
+
+
+                </div>
+                <div class="modal-button">
+                    <a class=" btn btn-primary" href="/product/AddingWaqfiProduct?requestId=@Model.RequestDetaliesDto.RequestId">اعادة توجية </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end delete modal-->
+
+
+    <footer class="footer">
+        <div class="app-footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-12 text-center">
+                        <p class="m-0">
+                            كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @section scripts {
+
+        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/js/returnaction.js"></script>
+        <script src="~/js/downloadattachment.js"></script>
+        @*<script src="~/js/provider/providerscript.js?version=@(DateTime.Now.Ticks)"></script>*@
+        <script src="~/js/AwgafProduct.js?version=@(DateTime.Now.Ticks)"></script>
+        <script>
+
+            $('#RejectModal').on('click', function () {
+
+                $('#RejectionReason').val('');
+            })
+
+            $('#ReturnModal').on('click', function () {
+
+                $('#ReturnReason').val('');
+            })
+
+            function Clear() {
+                document.getElementById("AppearOnBannerId").checked = false;
+                document.getElementById("AddPercentage").checked = false;
+
+                $("#percentageId").val(0);
+                $("#TextAreaId").val('');
+                $("#percentageId").attr("hidden", true);
+            }
+
+
+
+
+            $(document).on("click", ".approvebtn", function () {
+
+
+                $('#deleteModal').modal('show');
+
+            });
+        </script>
+
+    }

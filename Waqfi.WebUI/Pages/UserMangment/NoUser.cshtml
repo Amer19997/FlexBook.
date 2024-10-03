@@ -1,0 +1,23 @@
+﻿@page
+@model WebUI.Pages.UserMangment.NoUserModel
+@{
+}
+<div class="parent w-100 h-100">
+    <div class="child">
+        <div>
+            <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+        </div>
+
+        <div>
+            <h2>لا يوجد مستخدمين داخل النظام بعد</h2>
+            <p>يرجي الانتباه بأنه يجب ان يعطي مدير النظام صلاحيات محددة لكل مستخدم ، وننوه بانه لا يتم إعطاء الصلاحية الكاملة لكل المستخدمين</p>
+        </div>
+
+        <a href="/UserMangment/Create" class="btn btn-tertiary">
+            <img src="~/Cms_Lib/img/icons/add-user.svg" alt="search-icon" />
+            إضافة مستخدم
+        </a>
+    </div>
+
+</div>

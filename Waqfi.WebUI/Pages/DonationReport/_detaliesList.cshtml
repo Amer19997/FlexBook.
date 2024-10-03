@@ -1,0 +1,68 @@
+﻿@using WebUI.IntegrationServices;
+@using static WebUI.Models.Reports.reportviewmodel;
+@using Newtonsoft.Json;
+
+@model reportList
+@{
+
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+
+<div class="col-12">
+
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">رقم المنتج</th>
+                    <th scope="col">اسم المنتج</th>
+                    <th scope="col">  اسم الجهة </th>
+                    <th scope="col">  المسار </th>
+                    <th scope="col">   قيمة التبرع</th>
+                    <th scope="col">   تاريخ التبرع </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.reportViewModals.Any())
+                {
+                    foreach (var item in Model.reportViewModals)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@item.ProductNumber</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.ProviderName</td>
+                            <td>@item.Masar</td>
+                            <td>@item.Amount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) ر.س</td>
+                            <td>@item.DonationDate</td>
+                           
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد تبرعات</span>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber ?? 1">
+
+    </vc:pager>
+
+</div>

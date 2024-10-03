@@ -1,0 +1,87 @@
+﻿@model GetSeasonsResultPaginatedList
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        م
+                    </th>
+                    <th>
+                        اسم الموسم
+                    </th>
+                    <th>
+                        تاريخ بداية الموسم
+                    </th>
+                    <th>
+                        تاريخ انتهاء الموسم
+                    </th>
+                    <th>
+                        المنتجات
+                    </th>
+                    <th>
+                        الاجراء
+                    </th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                 @if (Model.Items.Count()>0)
+                {
+                    foreach (var item in Model.Items)
+                    {
+                    <tr role="row">
+                    <td class="sorting_1">@(i++)</td>
+                    <td>@item.NameAr</td>
+                    @*<td class="position-relative text-truncate tollTip" style="max-width: 150px;">
+                                <div class='tooltip-custom'>@item.Description</div>@item.Description
+                    </td>*@
+                    <td >@item.StartAt </td>
+                    <td>@item.EndAt</td>
+                    <td>@item.ProductCount</td>
+                    <td>
+                        <div class="controls">
+                            <ul>
+                                <li>
+                                            <a href="/Seasons/Details?id=@item.Id"><img src="~/cms_lib/img/icons/Document.svg" alt="Details-icon" /></a>
+                                </li>
+                                <li>
+                                            <a href="/Seasons/Edit?id=@item.Id"><img src="~/cms_lib/img/icons/Edit.svg" alt="Edit-icon" /></a>
+                                </li>
+                                <li>
+                                          <a class="del" href="javascript:showDeletePopup('@item.Id')"> <img src="/cms_lib/img/icons/Delete.svg" alt="users-icon" /></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+
+                    }
+                }
+                else
+                {
+                        <tr>
+                            <td colspan="10" class="no-items-cont">
+                                <span>لا يوجد نتائج للبحث</span>
+                            </td>
+                        </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber">
+
+    </vc:pager>
+
+</div>
+

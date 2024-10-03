@@ -1,0 +1,250 @@
+﻿@page
+@model WebUI.Pages.Masarat.AddMasaratItemModel
+@{
+}
+
+<form method="post"
+      
+      data-ajax="true"
+      data-ajax-url="?handler=AddItem"
+      data-ajax-method="post"
+      data-ajax-success="AddItemSuccess"
+      data-ajax-failure="AddItemFailed"
+      id="approve-request-form"
+      enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12">
+            <!-- heading  -->
+            <div class="app-heading">
+                <div class="app-title">
+
+                    <h3 class="m-0">إضافة مسار جديد</h3>
+                  
+                </div>
+                <div class="form-buttons">
+                    <button id="submitbutton" type="submit" class="btn btn-tertiary" href="./product-list.html">اضافة</button>
+                    <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#CancelMasarat">الغاء</a>
+                </div>
+            </div>
+            <div class="app-form">
+                <!-- form content -->
+
+                <div class="form-wrapper">
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>البيانات الأساسية</h3>
+                            </div>
+                        </div>
+                       
+                        <div class="card">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label for="name">اسم المسار بالعربية</label> <span class="text-danger">*</span>
+                                        <input asp-for="@Model.MasaratModel.NameAr?" type="text" class="form-control w-50" id="name"
+                                               placeholder="اسم المسار بالعربية" />
+
+                                        <span class="text-danger" asp-validation-for="@Model.MasaratModel.NameAr" class="text-error">
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label for="name">اسم المسار بالإنجليزية</label> <span class="text-danger">*</span>
+                                        <input asp-for="@Model.MasaratModel.NameEn?" type="text" class="form-control w-50" id="name"
+                                               placeholder="اسم المسار بالإنجليزية" />
+
+                                        <span class="text-danger" asp-validation-for="@Model.MasaratModel.NameEn" class="text-error">
+                                        </span>
+                                    </div>
+
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label for="important">وصف المسار بالعربية</label>
+                                        <textarea asp-for="@Model.MasaratModel.DescriptionArbic?" class="form-control" id="important" placeholder="وصف المسار بالعربية"
+                                                  rows="4"></textarea>
+
+                                        <span class="text-danger" asp-validation-for="@Model.MasaratModel.DescriptionArbic" class="text-error">
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label for="important">وصف المسار بالإنجليزية</label>
+                                        <textarea asp-for="@Model.MasaratModel.DescriptionEnglish?" class="form-control" id="important" placeholder="وصف المسار بالإنجليزية"
+                                                  rows="4"></textarea>
+
+                                        <span class="text-danger" asp-validation-for="@Model.MasaratModel.DescriptionEnglish" class="text-error">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>ملفات الميديا</h3>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="row">
+
+
+                                <div class="col-md-3 col-12">
+                                    <div class="">
+                                        <label for="name">أيقونة المسار</label> <span class="text-danger">*</span>
+
+                                        <div class="upload-container">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <div class="attachFile">
+                                                        <input style="width: 140px;height: 140px; display: inline-flex;" type="image" id="IconID" hidden />
+                                                        <label for="imgUpload1" id="imgUpload11">
+                                                            <span>
+                                                                <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                     alt="upload-icon"
+                                                                     class="" />
+                                                            </span>
+                                                            <p>
+                                                                أيقونة المسار
+                                                            </p>
+                                                            <p>
+                                                                الحد الاقصى 300 kb <br />
+                                                                Bmp ,jpg ,png ,jpeg <br />
+                                                                المقاس ( 140 - 140 )
+                                                            </p>
+                                                        </label>
+
+                                                        <input type="file" asp-for="@Model.MasaratModel.IconDto" class="form-control fileIcon" onchange="CheckDimension(event,140,140,true,'imgUpload1','IconID','imgUpload11','DeleteIconID')" id="imgUpload1" accept=".jpg, .jpeg, .png" placeholder="upload" />
+                                                        <span class="text-danger" asp-validation-for="@Model.MasaratModel.IconDto" class="text-error" id="nameValidation">
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="file-icon d-flex align-items-center justify-content-center">
+                                                        <button type="button" class="btn btn-warning" id="DeleteIconID" onclick="deleteImage('IconID','DeleteIconID','imgUpload1','imgUpload11')" hidden>
+                                                            <img class="m-0" src="~/cms_lib/img/icons/Delete.svg">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 col-12">
+                                    <label for="name"></label> <span class="text-danger" hidden >-</span>
+
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-12">
+
+                                            <div class="upload-container">
+
+                                                <div class="row">
+
+                                                    <div class="col-12">
+                                                        <div class="attachFile">
+                                                            <img style="width: 140px;height: 140px; display: inline-flex;" id="main" hidden />
+                                                            <label for="imgUpload2" id="imgUpload12">
+                                                                <span>
+                                                                    <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                         alt="upload-icon"
+                                                                         class="" />
+                                                                </span>
+                                                                <p>
+                                                                    أضف صور المسار 
+                                                                </p>
+                                                                <p>
+                                                                    الحد الأقصى لكل الصور @Model.MasaratImgMaxMB MB <br />
+                                                                    Bmp ,jpg ,png ,jpeg <br />
+                                                                    المقاس ( 1920 - 1080 )
+                                                                </p>
+                                                            </label>
+                                                            <input name="xx" multiple type="file" id="imgUpload2" onchange="CheckDimension(event,1920,1080,false,'imgUpload2','main','imgUpload12','DeleteMainID') ; " class="form-control fileFile" accept=".jpg, .jpeg, .png" placeholder="upload" />
+                                                            <input multiple type="file" asp-for="@Model.MasaratModel.OtherImageDto" id="imgUpload3" accept=".jpg, .jpeg, .png" />
+
+                                                            <span class="text-danger" asp-validation-for="@Model.MasaratModel.OtherImageDto" class="text-error" id="nameValidation">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                            
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-12">
+                                    <div class="upload-container" style="margin-top:15px">
+                                        <div class="row" id="DynamicAttachment">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</form>
+
+<div class="modal fade body-modal" id="CancelMasarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء إضافة مسار؟ </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div> 
+            <div class="modal-button">
+
+                <a id="BackList" class=" btn btn-primary" href="/Masarat/index/">
+                    نعم
+                </a>
+                <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/masaratscript.js"></script>
+    <script>
+var ImageMax =@Model.MasaratImgMax;
+ var MasaratImgMaxMB = @Model.MasaratImgMaxMB;
+    </script>
+    <script>
+        $("#submitbutton").click(function(){
+            debugger
+            if ($("#imgUpload1").val()=='')
+            {
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: "حقل الأيقون اجبارى",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                });
+                return false;
+            }
+            else
+            {
+
+                $("#loading").css("display", "block");
+            }
+        })
+    </script>
+
+}

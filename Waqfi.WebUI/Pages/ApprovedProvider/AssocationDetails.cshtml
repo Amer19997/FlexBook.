@@ -1,0 +1,832 @@
+﻿@page
+@using WebUI.Enums;
+@using WebUI.IntegrationServices;
+@model WebUI.Pages.ApprovedProvider.AssocationDetailsModel
+@{
+    var bankindex = 1;
+    var delegator = 1;
+    var member = 1;
+    var OtherAttachmentIndex = 1;
+}
+
+<div class="row">
+    <div class="col-12">
+        <!-- heading  -->
+        <div class="app-heading">
+            <div class="app-title">
+                <a href="/ApprovedProvider/index" class="ps-1">
+                    <img class="rotated"
+                         src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                         alt="details-icon"
+                         class="icons" />
+                </a>
+                <h3 class="m-0">بيانات تسجيل الجهة</h3>
+            </div>
+            @if ((int)Model.AssociationDetails.Status == (int)RequestStatusEnum.Pending)
+            {
+
+                <div class="form-buttons">
+                    <a class="btn btn-tertiary"
+                   data-bs-toggle="modal"
+                   data-bs-target="#accept-Modal">قبول الطلب</a>
+                    @if (User.IsInRole(SystemRoles.ViewProvidersApprovalList) || User.IsInRole(SystemRoles.SuperAdmin))
+                    {
+                        <a class="btn btn-light-primary" href="" onclick="AccessModal()" data-bs-toggle="modal" data-bs-target="#reject-Modal">رفض الطلب</a>
+                    }
+                    @if (User.IsInRole(SystemRoles.ViewProvidersApprovalList) || User.IsInRole(SystemRoles.SuperAdmin))
+                    {
+                        <a class="btn btn-transparent" href="" onclick="OpenReturnModal()" data-bs-toggle="modal" data-bs-target="#edit-Modal">
+                            <img src="~/Cms_Lib/img/icons/back-arrow.svg"
+                         alt="search-icon" />اعادة للتعديل
+                        </a>
+                    }
+                </div>
+            }
+            @if ((int)Model.AssociationDetails.Status == (int)RequestStatusEnum.Rejected)
+            { }
+            @if ((int)Model.AssociationDetails.Status == (int)RequestStatusEnum.New)
+            { }
+
+        </div>
+
+        <div class="app-form">
+            <!-- form content -->
+
+            <form class="form-wrapper">
+                <div class="accordion" id="accordionExample">
+                    @*<!-- ===========first=========== -->*@
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingOne">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                <h3 class="accordion-header">البيانات الأساسية</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+
+                        <div id="collapseOne"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label class="w-100" for="">
+                                                نوع الجهة
+                                            </label>
+                                            <div class="d-flex align-items-center">
+                                                <input type="radio"
+                                                       class="form-check-input ms-3"
+                                                       id=""
+                                                       checked
+                                                       readonly />
+                                                <p class="mb-1">مؤسسة وقفية</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> رقم التسجيل</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.BasicInfoDto.AssociationNumber ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.BasicInfoDto.AssociationNumber?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> اسم الجهة</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.BasicInfoDto.AssociationName ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.BasicInfoDto.AssociationName?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> تاريخ التسجيل بالهجري</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.BasicInfoDto.LicenseStartDate ?? "لايوجد")</p>
+                                           @* <input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.BasicInfoDto.LicenseStartDate?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">تاريخ نهاية التسجيل بالهجري</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.BasicInfoDto.LicenseEndDate?? "لايوجد" )</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.BasicInfoDto.LicenseEndDate?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">رقم السجل التجاري</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.BasicInfoDto.CommercialRegisterNo ?? "لايوجد")</p>
+                                             @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.BasicInfoDto.CommercialRegisterNo?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">الجنس المخدوم</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.BasicInfoDto.Gender ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.BasicInfoDto.Gender?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<!-- ==========2en======= -->*@
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingTwo">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo"
+                                    aria-expanded="true"
+                                    aria-controls="collapseTwo">
+                                <h3 class="accordion-header">بيانات الاتصال</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+
+                        <div id="collapseTwo"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingTwo"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> رقم الجوال</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.ContactInfo.MobileNumber ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   readonly
+                                                   class="form-control phoneNumber"
+                                                   placeholder='@(Model.AssociationDetails.ContactInfo.MobileNumber ?? "لايوجد" ) '>*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> رقم الهاتف</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.ContactInfo.LandLineNumber ?? "لايوجد")</p>
+
+                                            @*<input type="text" readonly
+                                                   class="form-control phoneNumber"
+                                                   placeholder='@(Model.AssociationDetails.ContactInfo.LandLineNumber?? "لايوجد")'>*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> البريد الإلكتروني</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.ContactInfo.Email ?? "لايوجد")</p>
+
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.ContactInfo.Email?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">الموقع الإلكتروني</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.ContactInfo.Website ?? "لايوجد")</p>
+
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.ContactInfo.Website?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<!-- ==========3rd======= -->*@
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingThree">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree"
+                                    aria-expanded="true"
+                                    aria-controls="collapseThree">
+                                <h3 class="accordion-header">بيانات العنوان</h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+                        <div id="collapseThree"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingThree"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> المنطقة</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.Regoin ?? "لايوجد")</p>
+                                           @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.Regoin?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> المدينة</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.City ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.City?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-12 mb-3">
+                                            <label for=""> العنوان</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.DetailedAddress ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.DetailedAddress?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+
+                                        <p>العنوان الوطني</p>
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> العنوان المختصر</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.BriefAddress ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.BriefAddress?? "لايوجد")'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> رقم المبنى</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.BuildingNumber ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.BuildingNumber?? "لايوجد" )'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> الشارع</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.Street ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.Street?? "لايوجد")'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> الرقم الفرعي</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.SideNumber ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.SideNumber?? "لايوجد")'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> الحي</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.District ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.District?? "لايوجد")'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> الرمز البريدي</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.PostalCode ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.PostalCode?? "لايوجد")'
+                                                   readonly />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> المدينة</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.AddressInfo.CityLookUp ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   placeholder='@(Model.AssociationDetails.AddressInfo.CityLookUp?? "لايوجد")'
+                                                   readonly />*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<!-- 4th -->*@
+                    <div class="accordion-item form-content mb-3">
+                        <div class="form-title" id="headingFour">
+                            <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour"
+                                    aria-expanded="true"
+                                    aria-controls="collapseFour">
+                                <h3 class="accordion-header">
+                                    بيانات مجلس النظارة
+                                </h3>
+                                <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                            </button>
+                        </div>
+                        <div id="collapseFour"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingFour"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body card custom-card">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="d-flex">
+                                            <span>
+                                                <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                            </span>
+                                            <p class="me-1">بيانات رئيس مجلس النظارة</p>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> اسم رئيس مجلس النظارة</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.BoardPresident.Name ?? "لايوجد")</p>
+                                           @* <input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.BoardPresident.Name?? "لايوجد" )' />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                رقم هوية رئيس مجلس النظارة
+                                            </label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.BoardPresident.IdentityNumber ?? "لايوجد")</p>
+
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.BoardPresident.IdentityNumber?? "لايوجد") ' />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                رقم التواصل لرئيس مجلس النظارة
+                                            </label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.BoardPresident.MobileNumber ?? "لايوجد")</p>
+
+                                         @*   <input type="text"
+                                                   class="form-control phoneNumber"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.BoardPresident.MobileNumber?? "لايوجد" )' />*@
+                                        </div>
+                                        @if (Model.AssociationDetails.DirectorsBoard.BoardMembers.Count > 0)
+                                        {
+                                            <div class="d-flex">
+                                                <span>
+                                                    <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                                </span>
+                                                <p class="me-1">بيانات اعضاء مجلس النظارة</p>
+                                            </div>
+
+                                            <div class="col-10 m-auto">
+                                                <!--strat table -->
+
+                                                <div class="app-table table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr class="table-header">
+                                                                <th scope="col">م</th>
+                                                                <th scope="col-6">
+                                                                    اسم عضو مجلس النظارة
+                                                                </th>
+                                                                <th scope="col">رقم هوية العضو</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model.AssociationDetails.DirectorsBoard.BoardMembers)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @(
+                                                                            member++
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.Name ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.IdentityNumber ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="d-flex">
+                                            <span>
+                                                <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                            </span>
+                                            <p class="me-1">بيانات المدير التنفيدي</p>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> اسم المدير التنفيذي</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.Ceo.Name ?? "لايوجد")</p>
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.Ceo.Name?? "لايوجد" )' />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for=""> رقم هوية المدير التنفيذي</label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.Ceo.IdentityNumber ?? "لايوجد")</p>
+
+                                           @* <input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.Ceo.IdentityNumber?? "لايوجد" )' />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                رقم التواصل للمدير التنفيذي
+                                            </label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.Ceo.MobileNumber?? "لايوجد" )</p>
+
+                                           @* <input type="text"
+                                                   class="form-control phoneNumber"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.Ceo.MobileNumber?? "لايوجد" )' />*@
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="">
+                                                البريد الالكتروني للمدير التنفيذي
+                                            </label>
+                                            <p class="mb-1">@(Model.AssociationDetails.DirectorsBoard.Ceo.Email ?? "لايوجد")</p>
+
+                                            @*<input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   placeholder='@(Model.AssociationDetails.DirectorsBoard.Ceo.Email?? "لايوجد" )' />*@
+                                        </div>
+                                        @if (Model.AssociationDetails.DirectorsBoard.Delegators.Count > 0)
+                                        {
+                                            <div class="d-flex">
+                                                <span>
+                                                    <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                                     alt=""
+                                                     width="13px"
+                                                     height="13px" />
+                                                </span>
+                                                <p class="me-1">بيانات المفوضين</p>
+                                            </div>
+
+                                            <div class="col-10 m-auto">
+                                                <!--strat table -->
+                                                <div class="app-table table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr class="table-header">
+                                                                <th scope="col">م</th>
+                                                                <th scope="col">اسم المفوض</th>
+                                                                <th scope="col">رقم الهوية</th>
+                                                                <th scope="col">رقم التواصل</th>
+                                                                <th scope="col">البريد الالكتروني</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model.AssociationDetails.DirectorsBoard.Delegators)
+                                                            {
+                                                                <tr>
+                                                                    <td>@(delegator++)</td>
+                                                                    <td>@(item.Name ?? "لايوجد") </td>
+                                                                    <td>@(item.IdentityNumber ?? "لايوجد") </td>
+                                                                    <td class="phoneNumber">@(item.MobileNumber ?? "لايوجد") </td>
+                                                                    <td>@(item.Email ?? "لايوجد") </td>
+                                                                </tr>
+                                                            }
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<!-- 5th -->*@
+                    @if (Model.AssociationDetails.BankInfoList.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingFive">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive"
+                                    aria-expanded="true"
+                                    aria-controls="collapseFive">
+                                    <h3 class="accordion-header">البيانات المالية</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseFive"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingFive"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="d-flex">
+                                        <span>
+                                            <img src="~/Cms_Lib/img/icons/bullet.svg"
+                                             alt=""
+                                             width="13px"
+                                             height="13px" />
+                                        </span>
+                                        <p class="me-1">بيانات الحسابات البنكية للجهة</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10 m-auto">
+
+                                                <!--strat table -->
+                                                <div class="app-table table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr class="table-header">
+                                                                <th scope="col">م</th>
+                                                                <th scope="col">اسم البنك</th>
+                                                                <th scope="col">رقم الحساب البنكي</th>
+                                                                <th scope="col">
+                                                                    رقم حساب الآيبان البنكي
+                                                                </th>
+                                                                <th scope="col">
+                                                                    اسم حساب الجمعية بالبنك
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in @Model.AssociationDetails.BankInfoList)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @(
+                                                                            bankindex++
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.BankName ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.BankAccountNumber ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @(
+                                                                            item.IbanAccountNumber ?? "لايوجد"
+                                                                            )
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.BeneficiaryName
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @*<!-- 6th -->*@
+                    @if (Model.AssociationDetails.SocialInfo != default)
+                    {
+                        <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingSix">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix"
+                                    aria-expanded="true"
+                                    aria-controls="collapseSix">
+                                    <h3 class="accordion-header">حسابات التواصل</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseSix"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingSix"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""> حساب تويتر</label>
+                                                <p class="mb-1">@(Model.AssociationDetails.SocialInfo.Twitter ?? "لايوجد")</p>
+
+                                                @*<input type="text"
+                                            class="form-control"
+                                            readonly
+                                            placeholder='@(Model.AssociationDetails.SocialInfo.Twitter ?? "لايوجد" )' />*@
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""> حساب الانستغرام</label>
+                                                <p class="mb-1">@(Model.AssociationDetails.SocialInfo.Instgram ?? "لايوجد")</p>
+                                                @*<input type="text"
+                                            class="form-control"
+                                            readonly
+                                            placeholder='@(Model.AssociationDetails.SocialInfo.Instgram ?? "لايوجد")' />*@
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""> حساب تيك توك</label>
+                                                <p class="mb-1">@(Model.AssociationDetails.SocialInfo.TickTok ?? "لايوجد")</p>
+                                                @*<input type="text"
+                                            class="form-control"
+                                            readonly
+                                            placeholder='@(Model.AssociationDetails.SocialInfo.TickTok?? "لايوجد")' />*@
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""> حساب يوتيوب</label>
+                                                <p class="mb-1">@(Model.AssociationDetails.SocialInfo.Youtube ?? "لايوجد")</p>
+                                                @*<input type="text"
+                                            class="form-control"
+                                            readonly
+                                            placeholder='@(Model.AssociationDetails.SocialInfo.Youtube?? "لايوجد" )' />*@
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-12 mb-3">
+                                                <label for=""> حساب سناب شات</label>
+                                                <p class="mb-1">@(Model.AssociationDetails.SocialInfo.Snapchat ?? "لايوجد")</p>
+                                                @*<input type="text"
+                                            class="form-control"
+                                            readonly
+                                            placeholder='@(Model.AssociationDetails.SocialInfo.Snapchat?? "لايوجد" )' />*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+                    @*<!-- 7th -->*@
+                    @if (Model.AssociationDetails.FileInfo.Count > 0)
+                    {
+                        <div class="accordion-item form-content mb-3">
+                            <div class="form-title" id="headingSeven">
+                                <button class="accordion-button bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSeven"
+                                    aria-expanded="true"
+                                    aria-controls="collapseSeven">
+                                    <h3 class="accordion-header">المرفقات</h3>
+                                    <img class="rotated"
+                                     src="~/Cms_Lib/img/icons/collabse.svg"
+                                     alt="collabse-icon"
+                                     class="icons" />
+                                </button>
+                            </div>
+
+                            <div id="collapseSeven"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="headingSeven"
+                             data-bs-parent="#accordionExample">
+                                <div class="accordion-body card custom-card">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            @foreach (var item in Model.AssociationDetails.FileInfo)
+                                            {
+                                                @if (!item.OtherAttachmentFlage)
+                                                {
+                                                    <div class="col-lg-2 col-md-4 col-12">
+
+
+
+                                                        <label for=""> @item.Type</label>
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                            <div class="p-2 m-1">
+                                                                <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt="" />
+                                                            </div>
+                                                            <span class="w-75 text-center">
+                                                                <p>@item.FileName</p>
+                                                                <span cal>@item.Size M.B</span>
+                                                                <img onclick="dowenloadFile('@item.FileId')"
+                                                         class="me-4"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                                <img onclick="previewFile('@item.FileId')"
+                                                         class=""
+                                                         src="~/Cms_Lib/img/icons/preview.png"
+                                                         alt=""
+                                                         srcset="" />
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                            }
+                                            @foreach (var item in Model.AssociationDetails.FileInfo)
+                                            {
+                                                @if (item.OtherAttachmentFlage)
+                                                {
+                                                    <div class="col-lg-2 col-md-4 col-12">
+                                                        @if (item.OtherAttachmentFlage && OtherAttachmentIndex <= 1)
+                                                        {
+                                                            OtherAttachmentIndex = OtherAttachmentIndex + 1;
+                                                            <label for=""> @item.Type</label>
+                                                        }
+                                                        @if (item.OtherAttachmentFlage && OtherAttachmentIndex > 1)
+                                                        {
+                                                            <label for="">  </label>
+                                                        }
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                            <div class="p-2 m-1">
+                                                                <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                         alt="" />
+                                                            </div>
+                                                            <span class="w-75 text-center">
+                                                                <p>@item.FileName</p>
+                                                                <span cal>@item.Size M.B</span>
+                                                                <img onclick="dowenloadFile('@item.FileId')"
+                                                         class="me-4"
+                                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                         alt=""
+                                                         srcset="" />
+                                                                <img onclick="previewFile('@item.FileId')"
+                                                         class=""
+                                                         src="~/Cms_Lib/img/icons/preview.png"
+                                                         alt=""
+                                                         srcset="" />
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-12">
+        <!-- Add your content here -->
+    </div>
+    <input id="RequestId" value="@Model.AssociationId" hidden />
+</div>
+<div id="result">
+    @*    <partial name="_RejectionAction.cshtml" />
+    <partial name="_ReturnAction.cshtml" model="@Model.Steps"/>*@
+</div>
+
+@*<partial name="_ApproveForm.cshtml" model="@Model.RequestApprovalModel" />*@
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/returnaction.js"></script>
+    <script src="~/js/downloadattachment.js"></script>
+    <script src="~/js/provider/providerscript.js?version=@(DateTime.Now.Ticks)"></script>
+}

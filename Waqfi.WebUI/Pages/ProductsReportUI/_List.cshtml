@@ -1,0 +1,107 @@
+﻿@model GetProductsReportResultPaginatedList
+@using Newtonsoft.Json;
+
+@{
+    var i = ((Model.PageNumber==0 ?1: Model.PageNumber) * Model.PageSize) - Model.PageSize + 1;
+
+}
+<style>
+    .app-table {
+        width: calc(100vw - 300px)
+    }
+    table {
+        table-layout: fixed;
+    }
+    .fixed-column {
+        position: sticky;
+        right: 0;
+        z-index: 1;
+        border: 1px solid #7070702b;
+    }
+    .app-table .fixed-third-column thead th:nth-child(3), .app-table .fixed-third-column tbody td:nth-child(3) {
+    position: static;
+    right: initial;
+    border-right: initial;
+    border-collapse: collapse;
+    padding-inline: 5px;
+    max-width: initial;
+    word-wrap: break-word;
+        width: initial;
+        min-width: initial;
+        overflow: initial;
+    white-space: normal;
+        margin-inline: initial;
+}
+</style>
+<div class="app-title" style=" padding-bottom: 1%; ">
+    <h3>عدد السجلات (@Model.TotalCount)</h3>
+</div>
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive rounded-3">
+        <table id="Questiontable" class="table fagtable table-bordered fixed-third-column">
+            <thead>
+                <tr class="table-header">
+                    <th class="fixed-column" scope="col">م</th>
+                    <th scope="col">رقم المنتج</th>
+                    <th scope="col">اسم المنتج</th>
+                    <th scope="col">اسم الجهه</th>
+                    <th scope="col">رقم IBAN</th>
+                    <th scope="col">  قيمة المنتج </th>
+                    <th scope="col">  المتبقي لاكمال المنتج </th>
+                    <th scope="col">  تبرعات اونلاين</th>
+                    <th scope="col">  تبرعات اوفلاين</th>
+                    <th scope="col">  تبرعات كبار المانحين  </th>
+                    <th scope="col">منتج موازى</th>
+                    <th scope="col">اجمال تبرعات المنصة</th>
+                    <th scope="col">اجمالي المبالغ المجمعة</th>
+                    <th scope="col">اجمالي المبالغ المحوله </th>
+                    <th scope="col">اجمالي المبالغ المستحقة </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Any())
+                {
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td class="fixed-column">@(i++)</td>
+                            <td>@item.ProductNumber</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.ProviderName</td>
+                            <td>@item.IBan</td>
+                            <td>@(item.TotalAmountOfProduct == 0 ? "-" : item.TotalAmountOfProduct?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) + " رس")</td>
+                            <td>@item.RemainingAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                            <td>@item.TotalOnline?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                            <td>@item.OfflineTotal?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                            <td>@item.TopGiversTotal?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                            <td>@(item.IsParallelProduct ? "نعم" : "لا" )</td>
+                            <td>@item.TotalDonationManasa?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                            <td>@item.TotalCollectedAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                            <td>-</td>
+                            <td>@item.MeritTotal?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty) رس</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد بيانات</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber">
+
+    </vc:pager>
+
+</div>

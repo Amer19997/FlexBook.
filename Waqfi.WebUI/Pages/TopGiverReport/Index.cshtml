@@ -1,0 +1,181 @@
+﻿@page
+@model WebUI.Pages.TopGiverReport.IndexModel
+@{
+
+}
+
+@Html.AntiForgeryToken()
+
+<div class="app-title">
+    <h3 class="m-0">تقرير تبرعات كبار المانحين </h3>
+</div>
+<div class="app-heading d-flex justify-content-between">
+
+    <div class="app-heading-end  w-100">
+
+        <div class="app-filter d-block">
+
+            <div class="filter-form d-block">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="myform top-form mb-2  flex-nowrap">
+
+                        <div class="d-flex align-items-center justify-content-start flex-wrap  w-100">
+
+
+                            <input type="text" asp-for="@Model.Filters.DonatorName" id="donarname" class="form-control me-3 filteration" placeholder=" إسم المتبرع" />
+
+                            <input type="text" asp-for="@Model.Filters.MobileNumber" id="donarphone" class="form-control me-3 filteration" placeholder=" رقم الجوال" />
+                            <input type="text" asp-for="@Model.Filters.Email" id="DonatorEmail" class="form-control me-3 filteration" placeholder="البريد" />
+
+                            <input type="text" asp-for="@Model.Filters.Provider" id="providerName" class="form-control me-3 filteration" placeholder="الجهة" />
+                       
+                            <input type="text" asp-for="@Model.Filters.Amount" id="donnerAmount" class="form-control me-3 filteration" placeholder="قيمة التبرع" />
+
+                            <input asp-for="@Model.Filters.FromDate" type="text" class="form-control datepickerCustoms filteration" placeholder="من تاريخ التبرع">
+
+                            <input asp-for="@Model.Filters.ToDate" type="text" class="form-control datepickerCustoms filteration" placeholder="الى تاريخ التبرع " />
+
+
+                        </div>
+
+
+
+                        <a class="close-filter" id="btnclose" onclick="Closebtn()" asp-page="Index" asp-page-handler="GetAjax" type="reset">
+
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+
+                        <button type="submit" class="btn btn-secondary">
+                            تصفية
+                        </button>
+
+                        <a class="btn btn-tertiary mx-3" asp-page="Index" asp-page-handler="ExportExcel">تصدير Excel</a>
+
+
+                    </div>
+
+                    <div id="search-result">
+                        <partial name="_TopGiversReportList.cshtml" model="@Model.TopGiversDTO" />
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $('.filteration').on('change', function (e) {
+            console.log('test');
+            var Getval = $(this).val();
+            if (Getval != '') {
+                console.log('tttttttt');
+                $('#btnclose').removeClass('d-none');
+                $('#btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+
+        document.getElementById('btnclose').style.display = "none";
+
+        $('#donarname').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+        $('#donarphone').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+        $('#DonatorEmail').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+        $('#providerName').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+        $('#FromDate').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+        $('#ToDate').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+        $('#donnerAmount').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+
+        $('#providerFilter').on('change', function (e) {
+
+            document.getElementById('btnclose').style.display = "block";
+        });
+
+    </script>
+}

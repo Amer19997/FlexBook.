@@ -1,0 +1,61 @@
+﻿@using WebUI.Models.NetworkDonator;
+@model NetworkDonatorDTO
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+
+}
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">اسم المتبرع</th>
+                    <th scope="col">  البريد الالكترونى </th>
+                    <th scope="col">  رقم الجوال </th>
+                    <th scope="col">  عدد المتبرعين من رابط المشاركة </th>
+                    <th scope="col">  اجمالى قيمة التبرعات</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ProductsRequest.Any())
+                {
+                    foreach (var item in Model.ProductsRequest)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>@item.MobileNumber</td>
+                            <td>@item.TotalDonateCount</td>
+                            <td>@item.TotalDonateAmount.ToString("c0",new System.Globalization.CultureInfo("en-US")).Replace("$", string.Empty) ر.س</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد بيانات </span>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber ?? 1">
+
+    </vc:pager>
+
+</div>

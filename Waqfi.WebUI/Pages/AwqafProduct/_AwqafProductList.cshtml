@@ -1,0 +1,74 @@
+﻿@model AwqafProductRequestDtoPaginatedList
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">اسم المتبرع</th>
+                    <th scope="col"> البريد الالكترونى </th>
+                    <th scope="col"> رقم الجوال </th>
+                    <th scope="col"> اسم المنتج </th>
+                    <th scope="col"> المسار </th>
+                    <th scope="col">قيمه التبرع</th>
+                    <th scope="col">تاريخ ارسال الطلب </th>
+                    <th scope="col">حاله الطلب </th>
+                    <th scope="col"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Any())
+                {
+                    foreach (var item in Model.Items)
+                    {
+                                <tr>
+                                    <td>@(i++)</td>
+                                    <td>@item.DonatorName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.MobileNumber</td>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.MasarName</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.RequestDate</td>
+                                    <td>@item.Status</td>
+                                    <td>
+                                        <div class="controls">
+                                            <ul>
+                                                <li>
+                                            <a href="/AwqafProduct/RequestDetalies?RequestId=@item.Id"><img src="~/cms_lib/img/icons/document.svg" /></a>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                    }
+                }
+                else
+                {
+                        <tr>
+                            <td colspan="10" class="no-items-cont">
+                                <span>لا يوجد نتائج للبحث</span>
+                            </td>
+                        </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber">
+
+    </vc:pager>
+
+</div>

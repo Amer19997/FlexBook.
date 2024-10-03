@@ -1,0 +1,125 @@
+﻿@page
+@model WebUI.Pages.News.IndexModel
+
+@Html.AntiForgeryToken()
+
+@if (Model.NewsList.NewsViewModals.Any())
+{
+    <div class="app-heading d-flex justify-content-between">
+        <div class="app-title">
+            <h3 class="m-0">إدارة الاخبار</h3>
+        </div>
+        <div class="app-filter">
+           <form class="filter-form"
+                      method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-donator-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+                    <div class="myform"> 
+
+                    <label for="">التصفية بواسطة :</label>
+                        <input type="text" id="neewstitle"  asp-for="@Model.Filters.Title" class="form-control" style="width:20rem" placeholder="عنوان الخبر" />
+                      <select asp-for="@Model.Filters.Status" class="form-select filteration" asp-items="@(new SelectList(Model.Status,"Id","NameAr"))">
+                                    <option value="" selected>الحالة </option>
+                          </select>
+                    <button type="submit" class="btn btn-secondary-main">تصفية</button>
+                    <a class="close-filter " id="btnclose" onclick="Closebtn()" asp-page="/News/Index" type="reset">
+                        <img src="~/cms_lib/img/icons/close-filter.svg" />
+                    </a>
+                    </div>
+                    <div class="app-heading-end d-flex w-50 filter-form">
+                    <a class="btn btn-tertiary line-befor me-5" href="/News/CreateNews">
+                        اضافة خبر جديد
+                    </a>
+                </div>
+                </form>
+        </div>
+    </div>
+    <div id="search-result">
+        <partial name="_NewsList.cshtml" model="@Model.NewsList" />
+    </div>
+
+    <!--start delete modal-->
+    <div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <form method="post"
+                  data-ajax="true"
+                  data-ajax-url="?handler=Delete"
+                  data-ajax-method="post"
+                  data-ajax-success="deleteNewsSuccess"
+                  data-ajax-failure="deleteNewsFailed"
+                  id="deleteProductUnitform">
+                    <div class="modal-body">
+                        <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                        <h3> هل تريد حذف الخبر</h3>
+                        <p>
+                            في حالة الموافقة ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                        </p>
+                    </div>
+                    <input type="hidden" id="newsId" name="newsId" />
+                    <div class="modal-button">
+                        <button type="submit" id="YesValue" class="btn btn-primary" data-bs-dismiss="modal">نعم</button>
+                        <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد أخبار</h2>
+
+            </div>
+            @if (User.IsInRole(SystemRoles.ViewNewsList)|| User.IsInRole(SystemRoles.SuperAdmin))
+            {
+                <a asp-page="/News/CreateNews" class="btn btn-tertiary">
+                    <img src="~/Cms_Lib/img/icons/add-user.svg" alt="search-icon" />
+                    إضافة خبر جديد
+                </a>
+            }
+
+        </div>
+
+    </div>
+}
+@section Scripts{
+    <script>
+        document.getElementById('btnclose').style.display = "none";
+        $('#neewstitle').on('input', function (e) {
+                document.getElementById('btnclose').style.display = "none";
+                if ('' == this.value) {
+                    document.getElementById('btnclose').style.display = "none";
+                } else {
+                    document.getElementById('btnclose').style.display = "block";
+                }
+            });
+             $('.filteration').on('change', function (e) {
+                document.getElementById('btnclose').style.display = "none";
+                var Getval = $(this).val();
+                if (Getval != '') {
+                    document.getElementById('btnclose').style.display = "block";
+                }
+                else
+                {
+                    document.getElementById('btnclose').style.display = "none";
+                }
+            });
+        </script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/news/NewsScript.js"></script>
+}

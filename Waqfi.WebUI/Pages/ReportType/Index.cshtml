@@ -1,0 +1,94 @@
+﻿@page
+@using System.Globalization;
+@model WebUI.Pages.ReportType.IndexModel
+@{
+}
+@if (Model.ReportTypes.Items.Any())
+{
+    <div class="app-heading d-flex justify-content-between">
+        <div class="app-title">
+            <a href="/ListLookup/Index" class="ps-1">
+                <img class="rotated"
+                 src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                 alt="details-icon"
+                 class="icons" />
+            </a>
+            <h3 class="m-0">إدارة انواع البلاغ</h3>
+        </div>
+        <div class="app-heading-end d-flex w-50">
+            @if (User.IsInRole(SystemRoles.SuperAdmin))
+            {
+                <a class="btn btn-tertiary line-befor me-5" href="/ReportType/Add">
+                    إضافة نوع البلاغ
+                </a>
+            }
+
+        </div>
+    </div>
+
+    <div id="search-result">
+        <partial name="_ReportTypeList.cshtml" model="@Model.ReportTypes" />
+    </div>
+
+    <!--start delete modal-->
+    <div class="modal fade body-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <form method="post"
+                  data-ajax="true"
+                  data-ajax-url="?handler=Delete"
+                  data-ajax-method="post"
+                  data-ajax-success="deleteReportTypeSuccess"
+                  data-ajax-failure="deleteReportTypeFailed"
+                  id="deleteReportTypeform">
+                    <div class="modal-body">
+                        <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                        <h3> هل تريد حذف هذه نوع البلاغ</h3>
+                        <p>
+                            في حالة الموافقة ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                        </p>
+                    </div>
+                    <input type="hidden" id="reportTypeId" name="reportTypeId" />
+                    <div class="modal-button">
+                        <button type="submit" id="YesValue" class="btn btn-primary" data-bs-dismiss="modal">نعم</button>
+                        <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد نوع البلاغ </h2>
+
+            </div>
+            @if ( User.IsInRole(SystemRoles.SuperAdmin))
+            {
+                <a asp-page="/ReportType/Add" class="btn btn-tertiary">
+                    <img src="~/Cms_Lib/img/icons/add-user.svg" alt="search-icon" />
+                    إضافة نوع البلاغ
+                </a>
+            }
+
+        </div>
+
+    </div>
+}
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/Lookups/ReportTypeScript.js?version=@(DateTime.Now.Ticks)"></script>
+}

@@ -1,0 +1,154 @@
+﻿@page
+@model WebUI.Pages.HomePageSection.IndexModel
+@{
+}
+@inject IResourceService ResourceService
+@Html.AntiForgeryToken()
+
+
+<div class="app-heading d-flex justify-content-between">
+    <div class="app-title">
+       
+        <h3 class="m-0">إدارة الصفحة الرئيسية </h3>
+    </div>
+
+</div>
+
+<div id="search-result">
+    <partial name="_HomePageList.cshtml" model="@Model.HomePageModel" />
+</div>
+
+<div class="modal fade body-modal" id="HomePageHidden" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="/cms_lib/img/icons/active.svg" alt="details-icon" class="icons" /></span>
+                <h3 id="HeaderHomePageModal"> </h3>
+                <p id="BodHomePageModal"> </p>
+
+            </div>
+            <div class="modal-button">
+                <button id="ChangeHomepageModal" data-id="" data-isActive="" class=" btn btn-tertiary"> @ResourceService.GetMessage("yes", "ar-SA")</button>
+                <button id="ActiveHomePageNo" class=" btn btn-light-primary" data-bs-dismiss="modal"> @ResourceService.GetMessage("No", "ar-SA")</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    @*        <script src="~/js/Gender.js?version=@(DateTime.Now.Ticks)"></script>
+*@        <script>
+                  $(document).on("click", ".input_Switch_productHomePageStatues", function () {
+
+
+                      var GetProductId = $(this).attr("data-id");
+                      var IsActiveorNo = $(this).hasClass("active");
+
+                      $('#ChangeHomepageModal').attr("data-id", GetProductId);
+                      $('#ChangeHomepageModal').attr("data-isActive", IsActiveorNo);
+                      $('#ActiveHomePageNo').attr("data-id", GetProductId);
+                      if (IsActiveorNo) {
+
+                          $('#HeaderHomePageModal').text('هل تريد اخفاء هذا القسم من الصفحة الرئيسية ؟')
+                          $('#BodHomePageModal').text('')
+                      } else {
+                          console.log(IsActiveorNo);
+                          $('#HeaderHomePageModal').text('هل عرض هذا القسم فى الصفحة الرئيسية؟')
+                          $('#BodHomePageModal').text('')
+                      }
+
+                  });
+
+
+
+                  $(document).on("click", "#ChangeHomepageModal", function () {
+
+
+                      var GetProductId = $(this).attr("data-id");
+                      var GetActiveDeactive = $(this).attr("data-isActive");
+
+                      
+                      ReloadChangeStatuesHomePage(GetProductId, GetActiveDeactive);
+
+
+                  });
+
+                  $(document).on("click", "#ActiveModal", function () {
+
+
+                      var GetProductId = $(this).attr("data-id");
+                      var GetActiveDeactive = $(this).attr("data-isActive");
+
+                      ReloadDeactive(GetProductId, GetActiveDeactive);
+
+
+                  });
+
+                  //function ReloadDeactive(GetVal, GetActiveDeactive) {
+
+                  //    $.ajax({
+                  //        url: "?handler=Acvtive",
+                  //        type: "Post",
+                  //        contentType: 'application/x-www-form-urlencoded',
+                  //        dataType: "json",
+                  //        data: { "secctionId": GetVal, "ActiveOrDeactive": GetActiveDeactive },
+                  //        headers:
+                  //        {
+                  //            "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                  //        },
+                  //        success: function (result) {
+
+                  //            var IfSucces = result.success;
+                  //            if (IfSucces) {
+                  //                location.reload(true)
+
+                  //            } else {
+                  //                debugger;
+                  //                $('#ApperonHomePage').modal('hide');
+                  //                $("#ActiveDeactiveBlockMessage").html(result.errors[0])
+
+                  //                $('#Active-Warning-Modal').modal('show');
+                  //            }
+                  //        }
+                  //    });
+                  //}
+                  function ReloadChangeStatuesHomePage(GetVal, GetActiveDeactive) {
+
+                      $.ajax({
+                          url: "?handler=ChangeStues",
+                          type: "Post",
+                          contentType: 'application/x-www-form-urlencoded',
+                          dataType: "json",
+                          data: { "SectionId": GetVal, "ActiveOrDeactive": GetActiveDeactive },
+                          headers:
+                          {
+                              "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                          },
+                          success: function (result) {
+
+                              var IfSucces = result.success;
+                              if (IfSucces) {
+                                  location.reload(true)
+
+                              } else {
+                                  debugger;
+                                  $('#HomePageHidden').modal('hide');
+                                  $("#ActiveDeactiveBlockMessage").html(result.errors[0])
+
+                                  $('#Active-Warning-Modal').modal('show');
+                              }
+                          }
+                      });
+                  }
+    </script>
+}
+
+
+

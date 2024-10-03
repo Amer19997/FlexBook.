@@ -1,0 +1,229 @@
+﻿@page
+@model WebUI.Pages.News.CreateNewsModel
+@{
+}
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="BeforeSubmit"
+      data-ajax-success="addNewsSuccess"
+      data-ajax-failure="addNewsFailed"
+      id="addNewsform"
+      enctype="multipart/form-data">
+<div class="app-heading">
+    <div class="app-title">
+        <h3 class="m-0">إضافة خبر جديد </h3>
+    </div>
+    <div class="form-buttons">
+            @if (User.IsInRole(SystemRoles.ViewNewsList)|| User.IsInRole(SystemRoles.SuperAdmin))
+            {
+                <button type="submit" id="saveNewsbutton" class="btn btn-tertiary">اضافة</button>
+            }
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+    </div>
+</div>
+<div class="app-form">
+        <div class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">عنوان الخبر بالعربية </label><span class="text-danger">*</span>
+                                        <input asp-for="@Model.NewsDto.TitleAr" type="text" class="form-control" onkeypress="return onlycharKey(event)" maxlength="150" placeholder="اكتب عنوان الخبر" />
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.TitleAr" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">عنوان الخبر بالانجليزية </label><span class="text-danger">*</span>
+                                        <input asp-for="@Model.NewsDto.TitleEn" type="text" class="form-control" onkeypress="return onlycharKey(event)" maxlength="150" placeholder="اكتب عنوان الخبر" />
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.TitleEn" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- ==========2en======= -->
+
+                            <div class="col-12">
+                                <div class="row">
+
+                                    <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                        <label for="">الحاله </label><span class="text-danger">*</span>
+                                        <select asp-for="@Model.NewsDto.NewsStatus" class="form-select" asp-items="@(new SelectList(Model.Status,"Id","NameAr"))">
+                                            <option value="" selected>أختر حالة النشر </option>
+                                        </select>
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.NewsStatus" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- ==========3en======= -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for=""> صوره الخبر </label><span class="text-danger">*</span>
+                                        <div class="upload-container">
+
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <div class="attachFile">
+                                                        <img style="width: 140px;height: 140px; display: inline-flex;" id="newsimage" hidden />
+                                                        <label for="imgUpload" id="imgUploadlbl">
+                                                            <span>
+                                                                <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                     alt="upload-icon"
+                                                                     class="" />
+                                                            </span>
+                                                            <p>
+                                                                صوره الخبر
+                                                            </p>
+
+                                                            <p>
+                                                                اضف صوره
+                                                                <br />
+                                                                الحد الاقصى 2 MB <br />
+                                                                Bmp ,jpg ,png ,jpeg <br />
+                                                                المقاس ( 410 * 560 )
+                                                            </p>
+                                                        </label>
+                                                        <input type="file" asp-for="@Model.NewsDto.ImageDto" id="imgUpload" onchange="CheckDimension(event,560,410,'imgUpload','newsimage','imgUploadlbl','DeleteNewsImage')" class="form-control fileFile" accept=".jpg, .jpeg, .png, .bmp" placeholder="upload" />
+                                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.ImageDto" class="text-error" id="nameValidation">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="button" value="Delete" class="btn btn-warning " id="DeleteNewsImage" onclick="deleteImage('newsimage','DeleteNewsImage','imgUpload','imgUploadlbl')" hidden />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- ==========4en======= -->
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">ملخص الخبر بالعربية</label><span class="text-danger">*</span>
+                                        <textarea asp-for="@Model.NewsDto.SummaryAr" class="form-control" rows="3" maxlength="300" placeholder="اكتب ملخص الخبر"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.SummaryAr" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">ملخص الخبر بالانجليزية</label><span class="text-danger">*</span>
+                                        <textarea asp-for="@Model.NewsDto.SummaryEn" class="form-control" rows="3" maxlength="300" placeholder="اكتب ملخص الخبر"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.SummaryEn" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">تفاصيل الخبر بالعربية</label><span class="text-danger">*</span>
+                                        <textarea asp-for="@Model.NewsDto.DetailsAr" class="form-control" rows="6" maxlength="2500" placeholder="اكتب تفاصيل الخبر"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.DetailsAr" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- ==========4en======= -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                        <label for="">تفاصيل الخبر بالإنجليزية</label><span class="text-danger">*</span>
+                                        <textarea asp-for="@Model.NewsDto.DetailsEn" class="form-control" rows="6" maxlength="2500" placeholder="اكتب تفاصيل الخبر"></textarea>
+                                        <span class="text-danger" asp-validation-for="@Model.NewsDto.DetailsEn" class="text-error">
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</form>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء إضافة خبر؟  </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/News/Index">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/news/NewsScript.js"></script>
+    <script>
+        function BeforeSubmit() {
+            $("#saveNewsbutton").attr("disabled", true);
+        }
+    </script>
+    }

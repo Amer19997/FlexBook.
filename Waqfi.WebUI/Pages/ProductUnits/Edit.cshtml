@@ -1,0 +1,105 @@
+﻿@page
+@model WebUI.Pages.ProductUnits.EditModel
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-success="editProductUnitSuccess"
+      data-ajax-failure="editProductUnitFailed"
+      id="editProductUnitform">
+    <div class="app-heading">
+        <div class="app-title">
+            <h3 class="m-0">تعديل بيانات الوحدة </h3>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-tertiary">حفظ التعديلات</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+        </div>
+    </div>
+    <div class="app-form">
+        <div class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row">
+                            <input type="hidden" asp-for="@Model.ProductUnitModel.Id" />
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">اسم الوحدة بالعربية</label> <span class="text-danger">*</span>
+                                <input type="text" asp-for="@Model.ProductUnitModel.NameAr" class="form-control" placeholder="اكتب اسم الوحدة بالعربية" />
+                                <span class="text-danger" asp-validation-for="@Model.ProductUnitModel.NameAr" class="text-error">
+                                </span>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-3">
+                                <label for="name">اسم الوحدة  بالإنجليزية</label> <span class="text-danger">*</span>
+                                <input type="text" asp-for="@Model.ProductUnitModel.NameEn" class="form-control" placeholder="اكتب اسم الوحدة بالإنجليزية" />
+                                <span class="text-danger" asp-validation-for="@Model.ProductUnitModel.NameEn" class="text-error">
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</form>
+
+
+<div class="app-footer">
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+
+<!--start delete modal-->
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء تعديل وحدة؟   </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/ProductUnits/Index">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end delete modal-->
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/js/productunit/productunitscript.js?version=@(DateTime.Now.Ticks)"></script>
+}

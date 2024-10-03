@@ -1,0 +1,550 @@
+﻿@page
+@model WebUI.Pages.Banner.CreateBannerModel
+@{
+}
+
+
+
+<form class="form-wrapper"
+      method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-url="?handler=CreateBanner"
+      data-ajax-success="CreateBannerSuccess"
+      data-ajax-failure="CreateBannerFailed"
+      id="Banner-Edit-form"
+      enctype="multipart/form-data">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="app-heading">
+                <div class="app-title">
+                    <h3 class="m-0">اضافة محتوي بانر جديد</h3>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-tertiary">
+                        <img src="~/cms_lib/img/icons/save-icon.svg" />
+                        اضافة
+                    </button>
+                    <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#EditModal">الغاء</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-6">
+
+            <div class="app-form">
+                <!-- form content -->
+                <!-- ===========first=========== -->
+                <div class="form-wrapper">
+
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>البيانات الرئيسيه</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="name"> محتوى البانر </label> <span class="text-danger fs-3">*</span>
+
+
+
+
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <input onclick="ChangeDonationMethod()" value=2 asp-for="@Model.ProductBanner" class="DonationMethodClass" type="radio" name="Banner" id="DonationMethodId" checked />
+                            <label for="name">محتوى اعلانى </label>
+
+                            <input onclick="ChangeDonationMethod()" class="DonationMethodClass me-5" type="radio" name="Banner" id="DonationMethodId" asp-for="@Model.ProductBanner" value=1 />
+                            <label for="name"> منتج</label>
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="row">
+
+                                <div hidden class="col-lg-6 col-md-6 col-12  mb-3" id="productbannerId">
+                                    <label for=""> اسم المنتج المراد ادراجه داخل البانر</label><span class="text-danger">*</span>
+                                    <select asp-for="@Model.BannerModel.ProductId" id="productbannerid" class="selectpicker form-select ps-5 js-select2" data-show-subtext="false" data-live-search="true" aria-label="Default select example" onchange="getproductname()" asp-items="@(new SelectList(Model.ProductBanner,"ProductId","Display"))">
+                                        <option value="" selected>اسم المنتج</option>
+
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="@Model.BannerModel.ProductId" class="text-error"></span>
+
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for="">اسم البانر بالعربية </label><span class="text-danger">*</span>
+                                    <input type="text" class="form-control" onkeypress="return onlycharKey(event)" asp-for="@Model.BannerModel.NameAr?" maxlength="200" id="bannernameAr" placeholder="اضافة اسم البانر بالعربية" />
+                                    <span class="text-danger" id="bannernamrAr" asp-validation-for="@Model.BannerModel.NameAr" class="text-error"></span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for=""> اسم البانر بالإنجليزية </label><span class="text-danger">*</span>
+                                    <input type="text" class="form-control" onkeypress="return onlycharKey(event)" asp-for="@Model.BannerModel.NameEn?" maxlength="200" id="bannernameEn" placeholder="اضافة اسم البانر بالانجليزية" />
+                                    <span class="text-danger" id="bannernamrEn" asp-validation-for="@Model.BannerModel.NameEn" class="text-error"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ==========2en======= -->
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for="">  تاريخ الظهور </label><span class="text-danger">*</span>
+                                    <input type="date" id="DateFrom" class="form-control" onkeypress="return onlycharKey(event)" asp-for="@Model.BannerModel.StartAt?" placeholder="اختر تاريخ ظهور البانر" />
+                                    <span class="text-danger" asp-validation-for="@Model.BannerModel.StartAt" class="text-error"></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for=""> تاريخ الإخفاء</label>
+                                    <input type="date" class="form-control" id="DateTo" onkeypress="return onlycharKey(event)" asp-for="@Model.BannerModel.EndAt?" placeholder="اختر تاريخ اختفاء البانر" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for="">الحاله </label><span class="text-danger">*</span>
+                                    <select id="Statues" asp-for="@Model.BannerModel.status" class="form-select filteration" asp-items="@(new SelectList(Model.LookUps,"Id","NameAr"))">
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12  mb-3">
+                                    <label for="">الأولوية </label><span class="text-danger">*</span>
+                                    <select id="Periorty" asp-for="@Model.BannerModel.Periorty" class="form-select filteration">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ==========3en======= -->
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for=""> الرابط </label>
+                                    <input type="text" class="form-control" onkeypress="return onlycharKey(event)" maxlength="200" asp-for="@Model.BannerModel.URL?" id="productbannerUrl" placeholder="اضف الرابط داخل القائمة" />
+                                    <span class="text-danger" asp-validation-for="@Model.BannerModel.URL" class="text-error"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- ==========4en======= -->
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for=""> صوره البانر / فيديو البانر </label><span class="text-danger">*</span>
+                                    <div class="upload-container main-image" id="uploadimage">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img style="width: 140px;height: 140px; display: inline-flex;" id="main" hidden />
+                                                    <label for="imgUpload2" id="imgUpload12">
+                                                        <span>
+                                                            <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                 alt="upload-icon"
+                                                                 class="" />
+                                                        </span>
+                                                        <p>
+                                                            صوره البانر / فيديو البانر
+                                                        </p>
+
+                                                        <p>
+                                                          اضف فيديو  /اضف صوره
+                                                            <br />
+                                                            فى حالة الصورة الحد الاقصى 2 MP /فى حالة الفيديو الحد الاقصى 5 ميجا <br />
+                                                            Bmp ,jpg ,png ,jpeg,mp4,avi <br />
+                                                            المقاس ( 1080 - 1920 )
+                                                        </p>
+                                                    </label>
+                                                    <input type="file" id="imgUpload2" asp-for="@Model.BannerModel.ImageDto" onchange="CheckDimension(event,1920,1080,'imgUpload2','main','imgUpload12','DeleteMainID')" class="form-control fileFile" accept=".jpg, .jpeg, .png, .mp4,.avi" placeholder="upload" />
+                                                    <span class="text-danger" id="nameValidation">
+                                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.ImageDto" class="text-error"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="button" value="Delete" class="btn btn-warning " id="DeleteMainID" onclick="deleteImage('main','DeleteMainID','imgUpload2','imgUpload12')" hidden />
+
+                                </div>
+
+                                <div class="col-md-12 col-12" id="IconFileId" hidden>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div id="displayimage" class="attachFile">
+                                                    <img id="productimage" src="" style="width: 560px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ==========4en======= -->
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for=""> صوره الجوال </label><span class="text-danger"></span>
+                                    <div class="upload-container main-image" id="uploadphoneimage">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img style="width: 140px;height: 140px; display: inline-flex;" id="mainPhone" hidden />
+                                                    <label for="imgPhoneUpload2" id="imgUpload22">
+                                                        <span>
+                                                            <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                 alt="upload-icon"
+                                                                 class="" />
+                                                        </span>
+                                                        <p>
+                                                            صوره الجوال
+                                                        </p>
+
+                                                        <p>
+                                                            اضف فيديو  /اضف صوره
+                                                            <br />
+                                                            فى حالة الصورة الحد الاقصى 2 MP /فى حالة الفيديو الحد الاقصى 5 ميجا <br />
+                                                            Bmp ,jpg ,png ,jpeg,mp4,avi <br />
+                                                            المقاس الامثل ( 1000 - 1000 )
+                                                        </p>
+                                                    </label>
+                                                    <input type="file" id="imgPhoneUpload2" asp-for="@Model.BannerModel.PhoneImage" onchange="CheckDimension(event,0,0,'imgPhoneUpload2','mainPhone','imgUpload22','DeleteBannerPhoneMainID')" class="form-control fileFile" accept=".jpg, .jpeg, .png, .mp4,.avi" placeholder="upload" />
+                                                    <span class="text-danger" id="nameValidation">
+                                                        <span class="text-danger" asp-validation-for="@Model.BannerModel.PhoneImage" class="text-error"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="button" value="Delete" class="btn btn-warning " id="DeleteBannerPhoneMainID" onclick="deleteBannerPhoneImage('mainPhone','DeleteBannerPhoneMainID','imgPhoneUpload2','imgUpload22')" hidden />
+
+                                </div>
+
+                                <div class="col-md-12 col-12" id="IconFileMobileId" hidden>
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div id="displayimage" class="attachFile">
+                                                    <img id="productimageMobile" src="" style="width: 560px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ==========4en======= -->
+
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for="">تفاصيل البانر بالعربية</label>
+                                    <textarea class="form-control" rows="5" maxlength="300" id="DescriptionProductBannerArbic" asp-for="@Model.BannerModel.DescriptionArbic?" placeholder="اضف تفاصيل البانر بالعربية"></textarea>
+                                    <span class="text-danger" asp-validation-for="@Model.BannerModel.DescriptionArbic" class="text-error"></span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ==========4en======= -->
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <label for="">تفاصيل البانر بالإنجليزية</label>
+                                    <textarea class="form-control" rows="5" maxlength="300" id="DescriptionProductBannerEnglish" asp-for="@Model.BannerModel.DescriptionEnglish?" placeholder="اضف تفاصيل البانر بالانجليزية"></textarea>
+                                    <span class="text-danger" asp-validation-for="@Model.BannerModel.DescriptionEnglish" class="text-error"></span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade body-modal" id="EditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>هل تريد إلغاء إضافة البانر؟  </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <button id="BackList" class=" btn btn-tertiary">نعم</button>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/banner/banner.js"></script>
+    <script>
+
+
+
+        function ChangeDonationMethod() {
+
+            document.getElementsByName("Banner").forEach(function (input, i) {
+
+                if (input.checked && input.value == '2') {
+                    console.log('textproduct')
+                    $("#productbannerId").prop("hidden", true)
+                    $("#UnitPriceId").prop("hidden", true)
+                    $("#UnitCountId").prop("hidden", true)
+                    var NameAr = document.getElementById("bannernameAr").value = '';
+                    var NameAr = document.getElementById("bannernameEn").value = '';
+                    var NameAr = document.getElementById("DescriptionProductBannerArbic").value = '';
+                    var NameAr = document.getElementById("DescriptionProductBannerEnglish").value = '';
+                    var NameAr = document.getElementById("productbannerUrl").value = '';
+                    var NameAr = document.getElementById("DateFrom").value = '';
+                    var NameAr = document.getElementById("DateTo").value = '';
+                    var NameAr = document.getElementById("Statues").value = '';
+                    var NameAr = document.getElementById("Periorty").value = '';
+                    var NameAr = document.getElementById("main").src = '';
+                    $("#main").prop("hidden", true)
+                    $("#displayimage").prop("hidden", true)
+                    $("#imgUpload12").prop("hidden", false)
+                    $("#imgUpload22").prop("hidden", false)
+                    $("#DeleteMainID").prop("hidden", true)
+                    $("#DeleteBannerPhoneMainID").prop("hidden", true)
+                    $("#uploadimage").css("display", "block");
+                    $("#uploadphoneimage").css("display", "block");
+
+                    document.getElementById("bannernameAr").readOnly = false
+
+                    document.getElementById("bannernameEn").readOnly = false;
+
+
+                    document.getElementById("productbannerUrl").readOnly = false;
+
+                    document.getElementById("DescriptionProductBannerArbic").readOnly = false;
+
+                    console.log('hjdhjd');
+                    document.getElementById("DescriptionProductBannerEnglish").readOnly = false;
+                }
+                else if (input.checked && input.value == '1') {
+                    console.log('dddddd');
+                    $("#productbannerId").prop("hidden", false)
+                    $("#UnitPriceId").prop("hidden", false)
+                    $("#UnitCountId").prop("hidden", false)
+                    var NameAr = document.getElementById("bannernameAr").value = '';
+                    var NameAr = document.getElementById("bannernameEn").value = '';
+                    var NameAr = document.getElementById("DescriptionProductBannerArbic").value = '';
+                    var NameAr = document.getElementById("DescriptionProductBannerEnglish").value = '';
+                    var NameAr = document.getElementById("productbannerUrl").value = '';
+                    var NameAr = document.getElementById("DateFrom").value = '';
+                    var NameAr = document.getElementById("DateTo").value = '';
+                    var NameAr = document.getElementById("Statues").value = '';
+                    var NameAr = document.getElementById("Periorty").value = '';
+                    var NameAr = document.getElementById("productbannerid").value = '';
+                    var NameAr = document.getElementById("main").src = '';
+
+                    var spanElement = document.getElementById("select2-productbannerid-container");
+                    spanElement.innerHTML = "";
+                    //var NameAr = document.getElementById("select2-productbannerid-container").title = '';
+                    //var NameAr = document.getElementById("select2-productbannerid-container").value = '';
+                    console.log('alaa');
+
+                    $("#main").prop("hidden", true)
+                    $("#imgUpload12").prop("hidden", false)
+                    $("#imgUpload22").prop("hidden", false)
+                    $("#DeleteMainID").prop("hidden", true)
+                    $("#DeleteBannerPhoneMainID").prop("hidden", true)
+                    $("#uploadimage").css("display", "block");
+                    $("#uploadphoneimage").css("display", "block");
+                }
+            });
+        }
+
+        function getproductname() {
+
+           
+
+            console.log('test');
+            var selectedValue = $("#productbannerid").val();
+
+
+            var NameAr = document.getElementById("bannernameAr").value = '';
+            var NameAr = document.getElementById("bannernameEn").value = '';
+            var NameAr = document.getElementById("DescriptionProductBannerArbic").value = '';
+            var NameAr = document.getElementById("DescriptionProductBannerEnglish").value = '';
+            var NameAr = document.getElementById("productbannerUrl").value = '';
+            var NameAr = document.getElementById("DateFrom").value = '';
+            var NameAr = document.getElementById("DateTo").value = '';
+            var NameAr = document.getElementById("Statues").value = '';
+            var NameAr = document.getElementById("Periorty").value = '';
+            var NameAr = document.getElementById("main").src = '';
+            console.log('alaa5555');
+            $("#IconFileId").prop("hidden", true)
+            $("#IconFileMobileId").prop("hidden", true)
+            $("#uploadimage").css("display", "block");
+
+
+
+
+            $("#bannernamrAr").prop("hidden", true)
+            $("#bannernamrEn").prop("hidden", true)
+
+
+            $.ajax({
+                url: "?handler=ProductBannerDetalies",
+                method: "GET",
+                data: { "BannerId": selectedValue },
+                success: function (response) {
+
+
+                    console.log(response);
+                    console.log(response.result.productDetails.whoBenefitAr);
+                    console.log(response.result.productImage.bannerUrl);
+
+                    var NameAr = document.getElementById("bannernameAr").value = response.result.nameAr;
+                    document.getElementById("bannernameAr").readOnly = true;
+
+                    var NameEn = document.getElementById("bannernameEn").value = response.result.nameEn;
+                    document.getElementById("bannernameEn").readOnly = true;
+
+
+                    var Url = document.getElementById("productbannerUrl").value = response.result.url;
+                    document.getElementById("productbannerUrl").readOnly = true;
+
+
+                    var DescriptionAr = document.getElementById("DescriptionProductBannerArbic").value = response.result.productDetails.whoBenefitAr;
+
+                    document.getElementById("DescriptionProductBannerArbic").readOnly = true;
+
+
+
+                    var DescriptionEn = document.getElementById("DescriptionProductBannerEnglish").value = response.result.productDetails.whoBenefitEn;
+
+                    document.getElementById("DescriptionProductBannerEnglish").readOnly = true;
+
+
+                    var bannerImages = document.getElementsByClassName("main-image");
+
+                    for (var i = 0; i < bannerImages.length; i++) {
+                        bannerImages[i].style.display = "none";
+                    }
+                    console.log('alaa222');
+                    var attachment = document.getElementById("IconFileId");
+                    var attachmentMobile = document.getElementById("IconFileMobileId");
+                    attachment.removeAttribute("hidden");
+                    attachmentMobile.removeAttribute("hidden");
+
+                    document.getElementById("productimage").src = response.result.productImage.bannerUrl;
+                    document.getElementById("productimageMobile").src = response.result.productMobileImage.bannerMobileUrl;
+
+                    document.getElementById("productimage").readOnly = true;
+                    document.getElementById("productimageMobile").readOnly = true;
+
+                }
+            });
+
+
+
+        }
+
+        function CreateBannerSuccess(result) {
+            if (result.errors.length > 0) {
+                Swal.fire({
+                    imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                    title: result.errors[0],
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+
+            }
+            else {
+                swal.fire({
+                    title: "تمت عملية الحفظ بنجاح",
+                    imageUrl: '/Cms_Lib/img/icons/add-user-popup.svg',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer: 5000
+                }).then(() => { window.location.replace("/Banner/Index/"); });
+            }
+        }
+        function CreateBannerFailed(xhr) {
+            Swal.fire({
+                imageUrl: `/Cms_Lib/img/icons/warning-popup.svg`,
+                title: "حدث خطأ ما",
+                showCancelButton: false,
+                showConfirmButton: false,
+            });
+        }
+
+
+        $(document).ready(function () {
+            $('.js-select2').select2();
+
+            // Get the Select2 dropdown element
+            //var select2Dropdown = $('.select2-dropdown');
+
+            //// Find and remove the first option in the dropdown
+            //select2Dropdown.find('.select2-results__option').first().remove();
+
+
+             var firstSpan = document.querySelector('#select2-productbannerid-results + li');
+            firstSpan.style.display = 'none';
+
+
+        });
+
+
+                //$(document).ready(function () {
+
+                //    $('.js-select2').select2()({
+                //        placeholder: 'Select an option'
+                //    });
+
+                //    // Get the Select2 dropdown element
+                //    var select2Dropdown = $('.select2-dropdown');
+
+                //    // Find and remove the first option in the dropdown
+                //    select2Dropdown.find('.select2-results__option').first().remove();
+                //});
+
+    </script>
+    }
+
+
+

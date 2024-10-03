@@ -1,0 +1,263 @@
+﻿@page
+@model WebUI.Pages.SiteContents.EditAboutUsModel
+@{
+}
+<form method="post"
+      data-ajax="true"
+      data-ajax-url="?handler=EditItem"
+      data-ajax-method="post"
+      data-ajax-success="EditItemSuccess"
+      data-ajax-failure="EditItemFailed"
+      id="approve-request-form"
+      enctype="multipart/form-data">
+<div class="app-heading">
+    <div class="app-title">
+        <h3 class="m-0">تعريف المنصة</h3>
+    </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-tertiary" href="">حفظ التعديلات</button>
+            <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#CancelSiteContent">الغاء</a>
+        </div>
+   
+</div>
+<div class="row">
+    <div class="col-7">
+        <div class="app-form">
+            <!-- form content -->
+
+                <div class="form-wrapper">
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>صورة الواجهة</h3>
+                            </div>
+                        </div>
+                        <!-- ==========1en======= -->
+                        <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12  mb-3">
+                                    <input id="MIconIsEdit" name="@Model.SiteContentModel.IconIsEdit" value="false" hidden />
+
+                                    <div class="col-md-12 col-12" id="IconFileDefultId" hidden>
+
+
+                                        <div class="upload-container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="attachFile">
+                                                        <input style="width: 560px;height: 410px; display: inline-flex;" type="image" id="IconID" hidden />
+                                                        <label for="imgUpload1" id="imgUpload11">
+                                                            <span>
+                                                                <img src="~/Cms_Lib/img/icons/upload-img.svg"
+                                                                     alt="upload-icon"
+                                                                     class="" />
+                                                            </span>
+                                                            <p>
+                                                                اضف صورة
+                                                            </p>
+                                                            <p>
+                                                                الحد الاقصى 300 kb <br />
+                                                                Bmp ,jpg ,png ,jpeg <br />
+                                                                المقاس ( 410 - 560 )
+                                                            </p>
+                                                        </label>
+                                                        <input asp-for="@Model.SiteContentModel.ImageDto class="form-control" onchange="CheckDimension(event,560,410,'imgUpload1','IconID','imgUpload11','DeleteIconID')" id="imgUpload1" accept=".jpg, .jpeg, .png" placeholder="upload" hidden />
+                                                        <span class="text-danger" asp-validation-for="@Model.SiteContentModel.ImageDto" class="text-error" id="nameValidation">
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            <img id="DeleteIconID" onclick="deleteImage('IconID','DeleteIconID','imgUpload1','imgUpload11')" hidden src="~/cms_lib/img/icons/Delete.svg">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12" id="IconFileId">
+                                    <div class="upload-container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="attachFile">
+                                                    <img src="@Model.SiteContentModel.SiteContentImage" style="width: 560px;height: 140px; display: inline-flex;" />
+
+                                                </div>
+                                                
+                                                    <div class="file-icon">
+                                                        <button type="button">
+                                                            <img onclick="DeleteIcon()" src="~/cms_lib/img/icons/Delete.svg">
+                                                        </button>
+                                                    </div>
+                                                
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>منصة وقفي</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <textarea asp-for="@Model.SiteContentModel.WaqfiPlatformARDescsription" rows="5" class="form-control " maxlength="300" ></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.WaqfiPlatformARDescsription" class="text-error">
+                            </span>
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <textarea asp-for="@Model.SiteContentModel.WaqfiPlatformEnDescription" rows="5" class="form-control " maxlength="300"></textarea>
+                          
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.WaqfiPlatformEnDescription" class="text-error">
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>الفكرة</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <textarea asp-for="@Model.SiteContentModel.IdeaArDescription" rows="5" class="form-control" maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.IdeaArDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <textarea asp-for="@Model.SiteContentModel.IdeaEnDescription" rows="5" class="form-control" maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.IdeaEnDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>الأثر المتوقع للمنصة</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <textarea asp-for="@Model.SiteContentModel.PlatformExpectedEffectArDescription" rows="5" class="form-control " maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.PlatformExpectedEffectArDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <textarea asp-for="@Model.SiteContentModel.PlatformExpectedEffectEnDescription" rows="5" class="form-control" maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.PlatformExpectedEffectEnDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>الهدف</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <textarea asp-for="@Model.SiteContentModel.TargetArDescription" rows="5" class="form-control " maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.TargetArDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <textarea asp-for="@Model.SiteContentModel.TargetEnDescription" rows="5" class="form-control " maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.TargetEnDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <div class="d-flex align-items-center">
+                                <div class="point"></div>
+                                <h3>منتجاتها</h3>
+                            </div>
+                        </div>
+                        <div class="card card-edit">
+                            <textarea asp-for="@Model.SiteContentModel.ProductArDescription" rows="5" class="form-control " maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.ProductArDescription" class="text-error">
+                            </span>
+
+
+                        </div>
+                        <div class="card card-edit" dir="ltr">
+                            <textarea asp-for="@Model.SiteContentModel.ProductEnDescription" rows="5" class="form-control " maxlength="300"></textarea>
+
+                            <span class="text-danger" asp-validation-for="@Model.SiteContentModel.ProductEnDescription" class="text-error">
+                            </span>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+</form>
+<div class="modal fade body-modal" id="CancelSiteContent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3>  هل تريد إلغاء تعديل المنصة؟  </h3>
+                <p>
+                    في حالة الموافقة على الإلغاء لن تستطيع استعادة هذه البيانات مرة أخرى
+                </p>
+            </div>
+            <div class="modal-button">
+
+                <a id="BackList" class=" btn btn-primary" href="/SiteContents/index/">
+                    نعم
+                </a>
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/js/SiteContent.js"></script>
+
+<!--end delete modal-->
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/app.js"></script>
+}

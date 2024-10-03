@@ -1,0 +1,83 @@
+﻿@using WebUI.Common;
+@using WebUI.Models.HomePage;
+@model List<HomePageModel>
+
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th></th>
+                    <th scope="col">اسم قسم الصفحة الرئيسية</th>
+                    <th scope="col">الاجراء</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>
+                                @if (item.HomePageKey.ToLowerInvariant() == Constant.LatestWagfyprojectsSection.ToLowerInvariant())
+                                {
+                                    <text>
+                                        آخر المشاريع الوقفية
+                                    </text>
+                                }
+                                @if (item.HomePageKey.ToLowerInvariant() == Constant.MosttradedproductsSection.ToLowerInvariant())
+                                {
+                                    <text>
+                                        المنتجات الأكثر تفاعلاً
+
+                                    </text>
+                                }
+
+                                @if (item.HomePageKey.ToLowerInvariant() == Constant.CompletedprojectsSection.ToLowerInvariant())
+                                {
+                                    <text>
+                                        المشاريع المكتملة
+
+                                    </text>
+                                }
+
+                                @if (item.HomePageKey.ToLowerInvariant() == Constant.MasartSection.ToLowerInvariant())
+                                {
+                                    <text>
+                                        قسم المسارات
+                                    </text>
+                                }
+                            </td>
+                            <td>
+                                <div class="toggle-Section">
+                                    <label class="switch input_Switch_productHomePageStatues @(string.Equals(item.IsHidden, "true", StringComparison.OrdinalIgnoreCase) ? "active" : "")" data-id="@item.id">
+                                        <input type="checkbox" class="input_Switch_productStatues" data-bs-toggle="modal" data-bs-target="#HomePageHidden" />
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد جنس مخدوم</span>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+

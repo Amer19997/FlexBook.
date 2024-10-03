@@ -1,0 +1,21 @@
+:root {
+
+    --bs-primary-main: #006165;
+    --bs-primary-dark: #407F88;
+    --bs-primary-light: #75A4AC;
+
+    --bs-secondary-main: #34BAA1;
+    --bs-secondary-light: #8ED1C7;
+    --bs-secondary-dark: #27B9A0;
+
+    --bs-tertiary-main: #F88930;
+    --bs-light-tertiary: #8DB7E1;
+    --bs-dark-tertiary: #649BD3;
+
+    --bs-light-grey: #F4F6FB;
+    --white-color: #FFFFFF;
+    --black-color: #000000;
+    --bs-dropdown-divider-bg: #F0F3F4;
+    --text-grey: #B9BEC8;
+    --text-green: #1E999D;
+}

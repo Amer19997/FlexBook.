@@ -1,0 +1,321 @@
+﻿@page
+@model WebUI.Pages.ContactUsRequest.ContactUsDetaliesModel
+@{
+}
+<div class="col-12">
+    <!-- heading  -->
+    <div class="app-heading">
+        <div class="app-title">
+            <a href="/ContactUsRequest/index" class="ps-1">
+                <img class="rotated"
+                     src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon"
+                     class="icons" />
+            </a>
+            <h3 class="m-0">بيانات مقدم الطلب : @Model.GetContactUs.RequestNumber</h3>
+        </div>
+
+        <div class="row" style="margin-left:2px">
+            <div class="row" style="margin-left:2px">
+                <div class="row">
+                    @if ((int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Close)
+                    {
+                        <div style="display: contents;">
+                            <label for="">
+                                <img src="~/Cms_Lib//img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                الحالة
+                            </label>
+                            <span class="@((int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Close ? "badge closed" :(int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Open ?  "badge open" : (int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Waitingcustomer ? "badge waiting" : "badge hold")">@(Model.GetContactUs.StatusAsString) </span>
+                        </div>
+                    }
+                </div>
+
+
+                <div class="form-buttons">
+                    @if ((int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Open || (int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Waitingcustomer)
+                    {
+                        <a class="btn btn-tertiary"
+                       data-bs-toggle="modal"
+                       data-bs-target="#accept-Modal">الرد على الطلب</a>
+                    }
+                    @if ((int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Open || (int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.hold || (int)Model.GetContactUs.ContactUsStatues == (int)WebUI.Enums.ContactUsStatues.Waitingcustomer)
+                    {
+                        <a class="btn btn-light-primary" id="RejectModal" data-bs-toggle="modal" data-bs-target="#reject-Modal">اغلاق الطلب</a>
+
+                    }
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="app-form">
+        <!-- form content -->
+
+        <form class="form-wrapper">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="d-flex align-items-center">
+                        <div class="point"></div>
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                </div>
+                <div class="user-info info-card">
+                    @*<div class="info">
+                    <span>رقم الطلب : </span>
+                    <span>@Model.GetContactUs.RequestNumber</span>
+                    </div>*@
+
+                    <div class="info">
+                        <span>اسم مقدم الطلب : </span>
+                        <span>@Model.GetContactUs.PersonName</span>
+                        <br />
+                        <span>@(string.IsNullOrEmpty(Model.GetContactUs.ProviderName) ? "" : $"({Model.GetContactUs.ProviderName})")</span>
+                    </div>
+
+
+                    <div class="info">
+                        <span>البريد الالكتروني : </span>
+                        <span>@Model.GetContactUs.PersonEmail</span>
+                    </div>
+
+                    <div class="info">
+                        <span>رقم الجوال : </span>
+                        <span> @Model.GetContactUs.MobilNumber</span>
+                    </div>
+
+                    <div class="info">
+                        <span>نوع مرسل الطلب : </span>
+                        <span>
+                            @(Model.GetContactUs.ContactUsType)
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <div id="result">
+
+        <partial name="_ReplayRequestAction.cshtml" model="@Model.RequestReplayMessageModel" />
+        <partial name="_CloseRequestAction.cshtml" model="@Model.CloseRequestModel" />
+    </div>
+
+
+    <div class="content-wrapper">
+
+        <section class="w-50 border-left border-gray ">
+            <div>
+                <p class="text-primaryContact m-0 p-0">تاريخ انشاء الطلب </p>
+                <div class="info-card">
+                    <span class="text-secondary">
+                        @Model.GetContactUs.ContactUsCreatedData
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-primaryContact m-0 p-0">عنوان الرسالة</p>
+                <div class="info-card">
+                    <span class="text-secondary">
+                        @Model.GetContactUs.Title
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+
+                <p class="text-primaryContact m-0 p-0">نص الرسالة</p>
+                <div class="info-card mt-1">
+                    <p class="text-secondary">
+                        @Html.Raw(Model.GetContactUs.Message.Replace("\n", "<br>"))
+
+                    </p>
+                </div>
+            </div>
+
+            @if (Model.GetContactUs.ContactUsMainAtchemnt != null)
+            {
+                <div class="col-lg-6 col-md-6 col-12">
+
+                    <label for=""> المرفقات</label>
+
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                        <div class="p-2 m-1">
+                            <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                             alt="" />
+                        </div>
+
+                        <span class="w-75 text-center">
+                            <p>@Model?.GetContactUs?.ContactUsMainAtchemnt?.Name</p>
+                            <span cal> M.B @Model?.GetContactUs?.ContactUsMainAtchemnt?.Size</span>
+                            <img onclick="dowenloadFile('@Model.GetContactUs.Id', '@Model?.GetContactUs?.ContactUsMainAtchemnt?.Id')"
+                             class="me-4"
+                             src="~/Cms_Lib/img/icons/Paper Download.svg"
+                             alt=""
+                             srcset="" />
+
+
+                           @* <img onclick="previewFile('@Model.GetContactUs.Id', '@Model?.GetContactUs?.ContactUsMainAtchemnt?.Id')"
+                             class=""
+                             src="~/Cms_Lib/img/icons/preview.png"
+                             alt=""
+                             srcset="" />*@
+                        </span>
+                    </div>
+                </div>
+            }
+
+        </section>
+
+
+
+        <section class="w-50" style="position: relative;">
+            <p class="text-primaryContact m-0 p-0">الردود على الطلب / الرسالة</p>
+            <hr>
+
+            <section class="position">
+
+                @foreach (var item in Model.GetContactUs.Replies)
+                {
+
+                    <div class="messages-wrapper ">
+                        <div class="message-div">
+                            <div class="message">
+                                <img src='@(item.IsAdmin ? Url.Content("~/cms_lib/img/icons/contactus/setting.svg") : Url.Content("~/cms_lib/img/icons/contactus/profile.svg"))' />
+                            </div>
+                            <div class="triangle gap-x-1">
+
+                                <div style="width:100%;" class="w-3/12  md:w-2/12 flex flex-col justify-start items-end">
+                                    <small class="text-[8px]">
+                                        @item.DateTime - المسؤول: @(item.IsAdmin ? item.DelegatorName : item.DelegatorName)
+                                    </small>
+                                    <p *ngIf="reply.delegatorName p-0" class="text-[8px]">
+                                        @Html.Raw(item.Message.Replace("\n", "<br>"))
+                                    </p>
+
+                                    @if (item.ContactUsAttachment != null)
+                                    {
+                                        <div style="display:flex;justify-content:end;">
+                                            <img onclick="dowenloadFile('@Model.GetContactUs.Id', '@item?.ContactUsAttachment?.Id')"
+                                         class="me-4"
+                                         src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                         alt=""
+                                         srcset="" />
+
+                                        @*    <img onclick="previewFile('@Model.GetContactUs.Id', '@item?.ContactUsAttachment?.Id')"
+                                         class=""
+                                         src="~/Cms_Lib/img/icons/preview.png"
+                                         alt=""
+                                         srcset="" />*@
+
+                                            <p>@item?.ContactUsAttachment?.Name</p>
+
+
+
+
+                                        </div>
+
+
+                                    }
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </section>
+
+            @* <div class="main-text">
+            <p class="text">تم إغلاق الطلب . لن تستطيع إرسال رسائل مرة اخرى</p>
+            </div>*@
+
+
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="app-footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-12 text-center">
+                        <p class="m-0">
+                            كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    @section scripts {
+        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/js/contactus.js"></script>
+
+        <script>
+
+            $('#RejectModal').on('click', function () {
+
+                $('#RejectionReason').val('');
+            })
+
+            function dowenloadFile(contactusId, fileId) {
+                debugger;
+                $.ajax({
+                    url: "?handler=DownloadFile",
+                    method: "GET",
+                    data: { "contactusId": contactusId, "fileId": fileId },
+                    success: function (response) {
+
+                        var a = document.createElement("a");
+                        a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                        a.download = response.result.fileName;
+                        a.click();
+                    }
+                });
+            }
+
+            function previewFile(contactusId, fileId) {
+                debugger;
+                $.ajax({
+                    url: "?handler=DownloadFile",
+                    method: "GET",
+                    data: { "contactusId": contactusId, "fileId": fileId },
+                    success: function (response) {
+                        debugger
+                        const base64String = response.result.file; // Replace with actual Base64-encoded string
+                        const contentType = response.result.contentType; // Replace with actual content type
+                        const byteCharacters = atob(base64String);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: contentType });
+                        const url = URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                    }
+                });
+            }
+
+        </script>
+    }

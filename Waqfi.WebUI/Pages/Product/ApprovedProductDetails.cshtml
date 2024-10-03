@@ -1,0 +1,678 @@
+﻿@page
+@using System.Globalization;
+@model WebUI.Pages.Product.ApprovedProductDetailsModel
+@{
+    string bankInformationData = Model.ProductDetailsResult.BankName + "-" + Model.ProductDetailsResult.BankAccountNumber;
+    var otherAttachmentIndex = 0;
+}
+
+<div class="special-form">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- heading  -->
+                <div class="app-heading sticky-top bg-white fixed-header">
+                    <div class="app-title">
+                        <a href="/ApprovedProducts/Index" class="ps-1">
+                            <img class="rotated"
+                                 src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                                 alt="details-icon"
+                                 class="icons" />
+                        </a>
+                        <h3 class="m-0">بيانات المنتج</h3>
+                    </div>
+
+                    <div class="d-flex w-100 justify-content-between">
+
+                        @if (Model.ProductDetailsResult.BidPercentage != "0")
+                        {
+                            <div class="d-flex flex-column w-25 after-col">
+                                @* <label for="">نسبة العطاء</label>
+                            <p class="">@Model.ProductDetailsResult.BidPercentage %</p> *@
+
+                                <label for="">مقابله العطاء</label>
+                                <div class="d-flex">
+                                    <p class="">نسبة العطاء : @Model.ProductDetailsResult.BidPercentage %</p>-
+
+                                    <p class="">المستحق: @Model.ProductDetailsResult.PaymentAmount</p>
+
+
+                                </div>
+
+                            </div>
+
+                        }
+
+                        <div class="d-flex flex-column w-25 after-col">
+                            <label for="">نشر علي البانر الرئيسي</label>
+                            <p class="">
+
+                                @if (Model.ProductDetailsResult.AppearOnTheBanner)
+                                {
+                                    <span>
+
+                                        <img src="~/Cms_Lib/img/icons/correct-icon.svg" alt="correct-icon" />
+                                        نعم
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>لا</span>
+                                }
+
+
+                            </p>
+                        </div>
+                        @if (Model.ProductDetailsResult.AppearOnTheBanner && Model.ProductDetailsResult.IsApproved)
+                        {
+                            <div class="d-flex w-50 me-1 pe-4">
+                                <div class="d-flex flex-column w-50">
+                                    <label for="">تاريخ الظهور</label>
+                                    <p class="">@Model.ProductDetailsResult.AppearOnTheBannerstartDate</p>
+                                </div>
+                                <div class="d-flex flex-column w-50">
+                                    <label for="">تاريخ الاخفاء</label>
+                                    <p class="">@Model.ProductDetailsResult.AppearOnTheBannerEndDate</p>
+                                </div>
+
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+
+                <div class="app-form">
+                    <!-- form content -->
+
+                    <form class="form-wrapper">
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            <!-- ===========first=========== -->
+                            <div class="accordion-item form-content mb-3">
+                                <div class="form-title" id="headingOne">
+                                    <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne"
+                                            aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                        <h3 class="accordion-header">البيانات الأساسية</h3>
+                                        <img class="rotated"
+                                             src="~/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                    </button>
+                                </div>
+                                <div id="collapseOne"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingOne"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body card custom-card">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        اسم المنتج
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.NameAr  (@Model.ProductDetailsResult.ProductNo)</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        اسم المنتج بالانجليزية
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.NameEn  (@Model.ProductDetailsResult.ProductNo)</p>
+                                                </div>
+                                                <div class="col-12  mb-3">
+                                                    <img style="max-width:26%" src="@Model.ProductDetailsResult.ProductUrl" alt="buulet-icon" />
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(Model.ProductDetailsResult.MobileImageUrl))
+                                                {
+                                                    <div class="col-12  mb-3">
+                                                        <label for="">
+                                                            <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                            صوره الجوال 
+                                                        </label> <span class="text-danger"></span>
+                                                        <img style="max-width:26%" src="@Model.ProductDetailsResult.ProductUrl" alt="buulet-icon" />
+                                                    </div>
+                                                }
+                                                <div class="col-12  mb-3">
+                                                    <div class="d-flex">
+                                                        <div class="porfileIcon-2">
+                                                            <img src="~/Cms_Lib/img/icons/profile-replacement.svg" alt="">
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                @Model.ProductDetailsResult.ProviderName
+                                                            </label>
+                                                            <p class="">
+                                                                <img src="~/Cms_Lib/img/icons/Location.svg" alt="buulet-icon" />
+                                                                @Model.ProductDetailsResult.RegionName
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        نوع المنتج
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.ProductType</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        مسار المنتج
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.MasarFile</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        مفعل
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@(Model.ProductDetailsResult.IsActive ? "نعم" : "لا") </p>
+                                                </div>
+                                                @if (Model.ProductDetailsResult.ShowParallelLabel)
+                                                {
+                                                    <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                        <label for="">
+                                                            <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                            حالة المنتج
+                                                        </label> <span class="text-danger"></span>
+                                                        <p class="bg-warning rounded py-2 text-left">
+                                                            @(
+                                                                Model.ProductDetailsResult.IsParallelProduct ? "منتج موازى" : "منتج غير موازى"
+                                                                )
+                                                        </p>
+                                                    </div>
+                                                }
+
+                                                <div class="col-12 mb-3 details-product ">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        تفاصيل المنتج بالعربية
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="qu-details">لمن هذا الوقف ؟</p>
+                                                    <p class="">@Model.ProductDetailsResult.ForWhomIsThisProductAr</p>
+                                                    <hr>
+                                                    <p class="qu-details">نوع الفئة المستهدفة ؟</p>
+                                                    <p class="">@Model.ProductDetailsResult.TheTypeOfBeneficiariesAr</p>
+                                                    <hr>
+
+                                                    <p class="qu-details">لماذا أساعدهم ؟</p>
+                                                    <p class="">@Model.ProductDetailsResult.WhyDoISupportThemAr</p>
+                                                    <hr>
+                                                    <p class="qu-details">كيف أساعدهم ؟</p>
+                                                    <p class="">@Model.ProductDetailsResult.HowDoISupportThemAr</p>
+
+                                                </div>
+                                                <div class="col-12 mb-3 details-product">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        تفاصيل المنتج بالانجليزية
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="qu-details en text-start">Who is this endowment for?</p>
+                                                    <p class="text-start">@Model.ProductDetailsResult.ForWhomIsThisProductEn</p>
+                                                    <hr>
+                                                    <p class="qu-details en text-start">The type of beneficiary for?</p>
+                                                    <p class="text-start">@Model.ProductDetailsResult.TheTypeOfBeneficiariesEn</p>
+
+                                                    <hr>
+                                                    <p class="qu-details en text-start">Why do i support them?</p>
+                                                    <p class="text-start">@Model.ProductDetailsResult.WhyDoISupportThemEn</p>
+                                                    <hr>
+                                                    <p class="qu-details en text-start">How do i support them?</p>
+                                                    <p class="text-start">@Model.ProductDetailsResult.HowDoISupportThemEn</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        المنطقة
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.RegionName</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        المدينة
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.CityName</p>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                <label for="">
+                                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                الفئة المستهدفة
+                                                </label> <span class="text-danger"></span>
+                                                <p class="">@(string.Join(",",Model.ProductDetailsResult.ProductTargetCategory.Select(_=>_.Name)))</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        عدد المستفيدين
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.NumberOfBeneficairies</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        نوع الجنس المخدوم
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.Gender</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        طريقة التبرع
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.DonationMethod</p>
+
+                                                </div>
+                                                @if (Model.ProductDetailsResult.DonationMethod != "" && Model.ProductDetailsResult.DonationMethod?.Trim() == "وحدات")
+                                                {
+                                                    <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                        <label for="">
+                                                            <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                            نوع الوحدة
+                                                        </label> <span class="text-danger"></span>
+                                                        <p class="">@Model.ProductDetailsResult.UnitType</p>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                        <label for="">
+                                                            <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                            قيمة الوحدة
+                                                        </label> <span class="text-danger"></span>
+                                                        <p class="">@Model.ProductDetailsResult.UnitPrice</p>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                        <label for="">
+                                                            <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                            عدد الوحدات
+                                                        </label> <span class="text-danger"></span>
+                                                        <p class="">@Model.ProductDetailsResult.UnitsCount</p>
+                                                    </div>
+                                                }
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        المبلغ الاجمالي
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.TotalAmount</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        المبلغ المستهدف
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.TargetAmount</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        المبلغ المجمع
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.GatheredAmount</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        رابط اليوتيوب
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.YouTubeUrl</p>
+                                                </div>
+                                                <div class=" col-12  mb-3">
+                                                    <label for="">
+                                                        <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                        رابط العرض المباشر
+                                                    </label> <span class="text-danger"></span>
+                                                    <p class="">@Model.ProductDetailsResult.ViewLink</p>
+                                                </div>
+                                                @if (!Model.ProductDetailsResult.HideBankInformation)
+                                                {
+                                                    <div class=" col-12  mb-3">
+                                                        <label for="">
+                                                            <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                                            رقم حسابات التبرع
+                                                        </label> <span class="text-danger"></span>
+                                                        <p class="">@bankInformationData</p>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <!-- ==========2en======= -->
+                            @if (Model.ProductDetailsResult.ProductSeasons.Any())
+                            {
+                                <div class="accordion-item form-content mb-3">
+                                    <div class="form-title" id="headingTwo">
+                                        <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseTwo"
+                                            aria-expanded="true"
+                                            aria-controls="collapseTwo">
+                                            <h3 class="accordion-header">بيانات المواسم</h3>
+                                            <img class="rotated"
+                                             src="~/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                        </button>
+                                    </div>
+
+                                    <div id="collapseTwo"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingTwo"
+                                     data-bs-parent="#accordionExample">
+                                        <div class="accordion-body card custom-card">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    @foreach (var item in @Model.ProductDetailsResult.ProductSeasons.ToList())
+                                                    {
+                                                        <div class="col-lg-2 col-md-6 col-12 mb-3">
+                                                            <div class="green-back">
+
+                                                                <p class="">@item.Name</p>
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <!-- ==========3rd======= -->
+                            @if (Model.ProductDetailsResult?.ProductPhases?.Count > 0)
+                            {
+                                <div class="accordion-item form-content mb-3">
+                                    <div class="form-title" id="headingFive">
+                                        <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseFive"
+                                            aria-expanded="true"
+                                            aria-controls="collapseFive">
+                                            <h3 class="accordion-header">بيانات المراحل</h3>
+                                            <img class="rotated"
+                                             src="~/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                        </button>
+                                    </div>
+
+                                    <div id="collapseFive"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingFive"
+                                     data-bs-parent="#accordionExample">
+                                        <div class="accordion-body card custom-card">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-10 m-auto">
+                                                        <!--strat table -->
+                                                        <div class="app-table table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr class="table-header">
+                                                                        <th scope="col">المرحلة</th>
+                                                                        <th scope="col">قيمة المرحلة</th>
+                                                                        <th scope="col">نسبة المرحله</th>
+                                                                        <th scope="col">الحالة</th>
+                                                                        <th scope="col">نسبة اكنمال المرحله</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var item in @Model.ProductDetailsResult.ProductPhases.OrderBy(m => m.Order).ToList())
+                                                                    {
+                                                                        <tr>
+                                                                            <td>@item.Name</td>
+                                                                            <td>@item.Amount.ToString("C0", new CultureInfo("en-SA")).Replace("SAR", string.Empty) ر.س</td>
+                                                                            <td>@item.Percentage %</td>
+                                                                            <td>@item.PhaseStatus</td>
+                                                                            <td>
+                                                                                <div class="progress" style="position: relative;">
+                                                                                    <span style="position:absolute;margin-right: 45%;">@item.CollectedPercentage %</span>
+                                                                                    <!-- cahnge chart by change width and title -->
+                                                                                    <div class="progress-bar" role="progressbar" style="width:@item.CollectedPercentage%;" aria-valuenow="@item.Percentage" aria-valuemin="0" aria-valuemax="100">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <!-- ===========fourth=========== -->
+                            @if (Model.ProductDetailsResult.ProductAttachmentsDto.Count(m => !m.IsBidFile) > 0)
+                            {
+                                <div class="accordion-item form-content mb-3">
+
+
+                                    <div class="form-title" id="headingFour">
+                                        <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapsefour"
+                                            aria-expanded="true"
+                                            aria-controls="collapsefour">
+                                            <h3 class="accordion-header"> المرفقات </h3>
+                                            <img class="rotated"
+                                             src="~/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                        </button>
+                                    </div>
+
+                                    <div id="collapsefour"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingFour"
+                                     data-bs-parent="#accordionExample">
+                                        <div class="accordion-body card custom-card">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    @foreach (var item in Model.ProductDetailsResult.ProductAttachmentsDto.Where(m => !m.OtherAttachmentFlag && !m.IsBidFile))
+                                                    {
+                                                        if (!item.OtherAttachmentFlag && !item.IsBidFile)
+                                                        {
+                                                            <div class="col-lg-2 col-md-4 col-12">
+
+                                                                <label for=""> @item.TypeAr</label>
+
+
+                                                                <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                                    <div class="p-2 m-1">
+                                                                        <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                                 alt="" />
+                                                                    </div>
+                                                                    <span class="w-75 text-center">
+                                                                        <p>@item.FileName</p>
+                                                                        <span cal> M.B @item.Size</span>
+                                                                        <img onclick="dowenloadFile('@Model.ProductDetailsResult.Id', '@item.FileId')"
+                                                                 class="me-3"
+                                                                 src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                                 alt=""
+                                                                 srcset="" />
+                                                                        <img onclick="previewFile('@Model.ProductDetailsResult.Id', '@item.FileId')"
+                                                                 class=""
+                                                                 src="~/Cms_Lib/img/icons/preview.png"
+                                                                 alt=""
+                                                                 srcset="" />
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                    @foreach (var item in Model.ProductDetailsResult.ProductAttachmentsDto.Where(m => m.OtherAttachmentFlag))
+                                                    {
+                                                        if (item.OtherAttachmentFlag)
+                                                        {
+                                                            otherAttachmentIndex = otherAttachmentIndex + 1;
+
+                                                            <div class="col-lg-2 col-md-4 col-12">
+                                                                @if (otherAttachmentIndex <= 1)
+                                                                {
+                                                                    <label for=""> @item.TypeAr</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label for=""> . </label>
+                                                                }
+                                                                <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                                    <div class="p-2 m-1">
+                                                                        <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                                 alt="" />
+                                                                    </div>
+                                                                    <span class="w-75 text-center">
+                                                                        <p>@item.FileName</p>
+                                                                        <span cal> M.B @item.Size</span>
+                                                                        <img onclick="dowenloadFile('@Model.ProductDetailsResult.Id', '@item.FileId')"
+                                                                 class="me-3"
+                                                                 src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                                 alt=""
+                                                                 srcset="" />
+                                                                        <img onclick="previewFile('@Model.ProductDetailsResult.Id', '@item.FileId')"
+                                                                 class=""
+                                                                 src="~/Cms_Lib/img/icons/preview.png"
+                                                                 alt=""
+                                                                 srcset="" />
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <!-- ===========bidFile=========== -->
+                            @if (Model.ProductDetailsResult.ProductAttachmentsDto.Count(m => m.IsBidFile) > 0)
+                            {
+                                <div class="accordion-item form-content mb-3">
+
+
+                                    <div class="form-title" id="headingBid">
+                                        <button class="accordion-button bg-transparent"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseBid"
+                                            aria-expanded="true"
+                                            aria-controls="collapseBid">
+                                            <h3 class="accordion-header">المرفقات الداخلية (نموذج اعتماد مقابلة العطاء) </h3>
+                                            <img class="rotated"
+                                             src="~/Cms_Lib/img/icons/collabse.svg"
+                                             alt="collabse-icon"
+                                             class="icons" />
+                                        </button>
+                                    </div>
+
+                                    <div id="collapseBid"
+                                     class="accordion-collapse collapse show"
+                                     aria-labelledby="headingBid"
+                                     data-bs-parent="#accordionExample">
+                                        <div class="accordion-body card custom-card">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    @foreach (var item in Model.ProductDetailsResult.ProductAttachmentsDto.Where(m => m.IsBidFile))
+                                                    {
+                                                        if (item.IsBidFile)
+                                                        {
+                                                            <div class="col-lg-2 col-md-4 col-12">
+
+
+
+
+                                                                <div class="d-flex justify-content-between align-items-center mb-3 img-card">
+                                                                    <div class="p-2 m-1">
+                                                                        <img src="~/Cms_Lib/img/icons/Image-icon.svg"
+                                                                 alt="" />
+                                                                    </div>
+                                                                    <span class="w-75 text-center">
+                                                                        <p>@item.FileName</p>
+                                                                        <span cal> M.B @item.Size</span>
+                                                                        <img onclick="dowenloadFile('@Model.ProductDetailsResult.Id', '@item.FileId')"
+                                                                 class="me-3"
+                                                                 src="~/Cms_Lib/img/icons/Paper Download.svg"
+                                                                 alt=""
+                                                                 srcset="" />
+                                                                        <img onclick="previewFile('@Model.ProductDetailsResult.Id', '@item.FileId')"
+                                                                 class=""
+                                                                 src="~/Cms_Lib/img/icons/preview.png"
+                                                                 alt=""
+                                                                 srcset="" />
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+
+        function dowenloadFile(productId, fileId) {
+
+            $.ajax({
+                url: "/Product/ProductDetsils?handler=DownloadFile",
+                method: "GET",
+                data: { "productId": productId, "fileId": fileId },
+                success: function (response) {
+                    var a = document.createElement("a");
+                    a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                    a.download = response.result.fileName;
+                    a.click();
+                }
+            });
+        }
+        function previewFile(productId, fileId) {
+            $.ajax({
+                url: "/Product/ProductDetsils?handler=DownloadFile",
+                method: "GET",
+                data: { "productId": productId, "fileId": fileId },
+                success: function (response) {
+
+                    const base64String = response.result.file; // Replace with actual Base64-encoded string
+                    const contentType = response.result.contentType; // Replace with actual content type
+                    const byteCharacters = atob(base64String);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: contentType });
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                }
+            });
+        }
+    </script>
+}

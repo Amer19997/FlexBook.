@@ -1,0 +1,36 @@
+﻿@using WebUI.Models.ProductBanner;
+@model ProductBannerRequestApproveModel
+
+<div class="modal fade body-modal"
+     id="Pop-UP-Modal"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" id="date-Modal">
+        <div class="modal-content text-center p-0">
+            <div class="modal-body text-end">
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="ProductDetalies?handler=ApproveRequest"
+                      data-ajax-method="post"
+                      data-ajax-success="approveRequestSuccess"
+                      data-ajax-failure="approveRequestFailed"
+                      id="approve-request-form">
+
+                    <h3>تم قبول الطلب بنجاح</h3>
+                    <p>سيتم </p>
+                    
+                    @*//onclick="Trim()" id="deactive-id"*@
+                    <div class="modal-button">
+                           <button type="submit" onclick="Trim()" id="deactive-id" class=" btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#add-note-Modal">اعادة توجية </button>
+                      @*  <button class=" btn btn-tertiary" onclick="checkdates()">
+                            <img src="~/Cms_Lib/img/icons/Send.svg" alt="details-icon" class="icons ms-1 mt-1" />ارسال
+                        </button>*@
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

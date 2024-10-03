@@ -1,0 +1,295 @@
+﻿@page
+@model WebUI.Pages.Admin.LoginModel
+@*@model WebUI.ViewModel.Login*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waqfy Login</title>
+    <link rel="icon" type="image/png" href="~/cms_lib/img/layout/waqfiLogo.png">
+    <!--styles-->
+    <link href="~/cms_lib/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/cms_lib/css/login.css" rel="stylesheet" />
+    <link href="~/cms_lib/css/app.css" rel="stylesheet" />
+    <script type="text/javascript">
+        var onloadCallback = function () {
+            grecaptcha.render('html_element', {
+                'sitekey': '6LdcYyYkAAAAAHEn5yGfv8jn2bfqE5L7h0iWzB6w'
+            });
+        };
+    </script>
+
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="mx-auto text-center">
+            <img class="mb-4 logo" src="~/cms_lib/img/layout/waqfi-white.png" alt="">
+        </div>
+        <div class="form-signin">
+            <div class="login-title">
+                <h1>تسجيل الدخول</h1>
+                <p>
+                    يمكنك استخدام بريدك الالكتروني الخاص بك للدخول الي النظام
+                </p>
+            </div>
+            <form method="post">
+                <div id="login">
+                    <div class="form-group">
+                        @*<input type="email" id="inputEmail" name="Email" class="form-control mb-4" placeholder="البريد الإلكتروني"  autofocus />*@
+                        <input type="email" id="inputEmail" asp-for="@Model.login.Email" class="form-control" onchange="setCustomValidity('')" oninvalid="setCustomValidity('برجاء ادخال بريد الكتروني صحيح')"
+                               placeholder="البريد الإلكتروني"  autofocus />
+
+                    </div>
+                    <div class="invalid-feedback d-block  mb-4">
+                        <span class="text-danger" asp-validation-for="@Model.login.Email" class="text-error" id="LoginEmail" ></span>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="password" asp-for="@Model.login.Password" id="inputPassword"  class="form-control" placeholder="كلمة المرور" />
+                        <img src="~/cms_lib/img/icons/password-show.svg" class="toggle-password" />
+                    </div>
+                    <div class="invalid-feedback d-block  mb-4">
+                        <span class="text-danger" asp-validation-for="@Model.login.Password" class="text-error" id="LoginEmail"></span>
+
+                    </div>
+                    <div class="remember-me mb-4 mt-2 d-flex align-items-center justify-content-between">
+                        <a class="forgot" href="/Admin/ForgetPassword">نسيت كلمة المرور؟</a>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="remember-me">
+                            <label class="checkmark" for="remember-me">تذكرني</label>
+                        </div>
+                    </div>
+                    @*                    <form action="?" method="POST">
+                    <div id="html_element"></div>
+                    <br>
+                    </form>*@
+
+
+
+                    <button class="btn btn-success w-100" type="submit">تسجيل الدخول</button>
+                </div>
+            </form>
+            <div class="sponsers">
+                <ul>
+                    <li><img width="120PX" src="~/cms_lib/img/layout/logofooter.svg" /></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade body-modal" id="panModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body text-center">
+
+                    <div class="circle-timer">
+                        <div class="timer-text">
+                            <div id="remaining"></div>
+                        </div>
+                        <svg version="1.1" x="0px" y="0px" width="210px" height="210px" viewBox="0 0 210 210" enable-background="new 0 0 210 210" xml:space="preserve">
+                        <defs>
+                        <clipPath id="clip">
+                        <circle cx="105" cy="105" r="99"></circle>
+                                </clipPath>
+                        <linearGradient id="grad" gradientUnits="userSpaceOnUse" x1="160" y1="105" x2="80" y2="160">
+                        <stop id="stop1" offset="0" style="stop-color:#F88930" />
+                        <stop id="stop2" offset="1" style="stop-color:#F88930" />
+                                </linearGradient>
+                            </defs>
+
+                        <circle fill="url(#grad)" cx="105" cy="105" r="99" stroke-width="1" />
+                        <g transform="rotate(270.1 105 105)">
+                        <circle id="ticker" fill="transparent" cx="105" cy="105" r="95.4" stroke="#E7F7F4" stroke-width="13" clip-path="url(#clip)" />
+                            </g>
+                        <circle fill="#E7F7F4" cx="105" cy="105" r="90" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-white">تحذير</h3>
+                    <p class="text-white">لقد استنفذت محاولات الدخول إلى حسابك داخل المنصة</p>
+                    <p class="text-white"> يرجى انتظار الوقت المحدد ثم المحاولة لاحقاً مرة أخرى</p>
+
+                </div>
+
+
+                <div class="modal-button">
+                    <button class=" btn btn-tertiary " id="panBtn" data-bs-dismiss="modal">عودة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--start add modal-->
+    <div class="modal fade body-modal" id="UserInvaled" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body text-center">
+                    <span class="ps-1"><img src="~/cms_lib/img/icons/warning-popup.svg" alt="details-icon" class="icons" /></span>
+                    <h3>البريد الالكتروني او كلمة المرور غير صحيحة</h3>
+         
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--end add modal-->
+
+
+    <div class="copyright text-center">
+        <p>
+            @{
+                int currentYear = DateTime.Now.Year;
+
+            }
+            جميع الحقوق محفوظة© لمنصة وقفي @currentYear
+        </p>
+    </div>
+
+    <!--Javascript-->
+    <script src="~/cms_lib/js/jquery-3.5.1.js"></script>
+    <script src="~/cms_lib/js/popper.min.js"></script>
+    <script src="~/cms_lib/js/bootstrap.min.js"></script>
+
+    <script>
+        $(".toggle-password").click(function () {
+            var input = $('#inputPassword');
+            if (input.attr("type") == "password") {
+                $(this).attr('src', '/cms_lib/img/icons/password-hide.svg')
+                input.attr("type", "text");
+            } else {
+                $(this).attr('src', '/cms_lib/img/icons/password-show.svg')
+                input.attr("type", "password");
+            }
+        });
+    </script>
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
+
+    @if (TempData["sweet1"] != null)
+    {
+        <script>
+                 $(function () {
+            $('#UserInvaled').modal('show');
+            })
+        </script>
+    }
+
+    @if (TempData["sweet"] != null)
+    {
+        <script>
+           
+                $(function () {
+                    
+                var remainingTime = parseFloat(@TempData["sweet"]);
+                console.log(remainingTime);
+                    $('#panModal').modal('show');
+                var dealTimer = (function () {
+                    var expires = new Date().getTime() + (remainingTime * 60 * 1000);
+                    var val = 100;
+                    var mask = document.querySelector('#ticker');
+                    var radius = mask.getAttribute('r');
+                    var circum = Math.ceil(radius * 2 * Math.PI);
+                    var interval = 1;
+                    var dashOff;
+                    var grad = document.getElementById('grad');
+                    var cs1 = document.getElementById('stop1');
+                    var cs2 = document.getElementById('stop2');
+                    var txt = document.getElementById('remaining');
+                    var tocolor = '#F88930';
+                    var rotated = false;
+                    var remaining;
+                    var maxTime = remainingTime * 60 * 1000;
+                    var ticked = [];
+
+                    var colors = {
+                        25: '#F88930'
+                    }
+
+                    var rotateGradient = function () {
+                        grad.setAttribute('x1', 100);
+                        grad.setAttribute('x2', 100);
+                        grad.setAttribute('y1', 0);
+                        grad.setAttribute('y2', 150);
+                        rotated = true;
+                    }
+
+                    var changeColors = function (c) {
+                        console.log('color change');
+                        if (!rotated) rotateGradient();
+                        cs2.style.stopColor = tocolor;
+                        cs1.style.stopColor = c;
+                        txt.style.color = tocolor;
+                        tocolor = c;
+                    };
+
+                    mask.style.strokeDasharray = circum + ' ' + circum;
+
+                    var progress = function () {
+                        var tickby = remaining / maxTime * 1000;
+                        var perc = (tickby * 100) << 0;
+                        console.log(perc);
+                        dashOff = (100 - tickby) * circum;
+                        mask.style.strokeDashoffset = dashOff;
+                        if (perc in colors && ticked.indexOf(perc) == -1) {
+                            ticked.push(perc);
+                            changeColors(colors[perc]);
+                        }
+                    };
+                    var tick = function () {
+                        remaining--;
+                        progress()
+                       
+                        txt.innerHTML = timeText(remaining);
+
+                        if (remaining > 0) {
+                            window.setTimeout(tick, 1000);
+                        } else {
+                            mask.style.stroke = 'none';
+                        }
+                        if (remaining == 0) {
+                            // $( "#panModal" ).modal('hide');
+                            document.getElementById('panBtn').classList.remove("disabled")
+                        }
+                    }
+
+                    var timeText = function (ms) {
+                        var min = (ms / 60) << 0,
+                            sec = (ms) % 60;
+                        return min + ':' + (sec < 10 ? '0' : '') + sec;
+
+                    }
+
+                    var timeLeft = function () {
+                        var endTime = new Date().getTime() + maxTime;
+                        remaining = Math.floor((endTime - new Date().getTime()) / 1000);
+                        interval = remaining / circum;
+                    };
+
+                    var init = function () {
+                        timeLeft();
+                        tick();
+                    }
+                    init();
+                })();
+
+
+
+            })
+
+        </script>
+    }
+
+</body>
+
+</html>

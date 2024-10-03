@@ -1,0 +1,47 @@
+﻿@page
+@model WebUI.Pages.IndexModel
+@{
+}
+<div class="d-flex align-items-center">
+    <div class="app-heading">
+        <div class="app-title">
+            <span class="ps-1">
+                <img class="rotated" src="~/cms_lib/img/icons/Arrow-Right Square.svg"
+                     alt="details-icon" class="icons" />
+            </span>
+            <h3 class="m-0">اكتب عنوان الصفحة هنا</h3>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade body-modal" id="WellcomeUser" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body text-center">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/add-user-popup.svg" alt="details-icon" class="icons" /></span>
+                <h3>تم تسجيل الدخول بنجاح</h3>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    @if (TempData["SuccesLogin"] != null)
+    {
+        <script>
+            $(function () {
+                $('#WellcomeUser').modal('show');
+            })
+
+            setTimeout(function () {
+                $('#WellcomeUser').modal('hide');
+            }, 2000);
+        </script>
+    }
+
+    }

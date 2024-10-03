@@ -1,0 +1,209 @@
+﻿@using WebUI.Models.ProductBanner;
+@model ProductBannerRequestApproveModel
+
+<style>
+
+    .btn-pre .btn {
+        border: none;
+        background-color: #EFF8F8 !important;
+        outline: none;
+        color: #ADD6D8 !important;
+    }
+
+        .btn-pre .btn:hover {
+            border: 1px solid #198754;
+            background-color: white !important;
+            color: #198754 !important;
+        }
+
+    .btn-check:active + .btn-outline-success, .btn-check:checked + .btn-outline-success, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show, .btn-outline-success:active {
+        border: 1px solid #198754;
+        background-color: white !important;
+        color: #198754 !important;
+    }
+
+        .btn-check:active + .btn-outline-success:focus, .btn-check:checked + .btn-outline-success:focus, .btn-outline-success.active:focus, .btn-outline-success.dropdown-toggle.show:focus, .btn-outline-success:active:focus {
+            box-shadow: unset !important;
+        }
+
+    .btn-check:focus + .btn-outline-success, .btn-outline-success:focus {
+        box-shadow: unset;
+    }
+
+    .priority label {
+        padding: 0px 16px !important;
+    }
+
+</style>
+<div class="modal fade body-modal"
+     id="Pop-UP-Modal"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" id="date-Modal">
+        <div class="modal-content text-center p-0">
+            <div class="modal-body text-end">
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="ProductDetalies?handler=ApproveRequest"
+                      data-ajax-method="post"
+                      data-ajax-begin="BeforeSubmit"
+                      data-ajax-success="approveRequestSuccess"
+                      data-ajax-failure="approveRequestFailed"
+                      id="approve-request-form">
+
+                    <h3>قبول الطلب</h3>
+                    <p><small>برجاء استكمال طلب القبول عن طريق اضافة البيانات التالية</small></p>
+                    <hr style="color: #23C1C6;">
+                    <input type="hidden" asp-for="@Model.ProductId" />
+                    <div class="row">
+                        <div class="col-6">
+
+                            <label for="">
+                                تاريخ الظهور
+                            </label>
+                            <input id="startDate" type="text" onchange="checkdates()" asp-for=@Model.Publishdate class="form-control datepickerCustom w-100 mt-1" placeholder="اختر التاريخ  " />
+                            <span id="text" style="color:red" asp-validation-for="@Model.Publishdate"></span>
+                        </div>
+
+                        <div class="col-6">
+
+                            <label for="">
+                                تاريخ الاخفاء
+                            </label>
+                            <input id="DateEndTest" type="text" onchange="checkdates()" asp-for=@Model.Disappearancedate class="form-control datepickerCustom w-100 mt-1" placeholder="اختر التاريخ  " />
+                        </div>
+                    </div>
+                    <hr style="color: #23C1C6;">
+
+                    <p>الاولوية</p>
+                    <div class="priority">
+                        <div class="row">
+
+                            @foreach (var priority in Model.Prioritys)
+                            {
+
+                                <div class="col-1 pre btn-pre">
+                                    <input type="radio" class="btn-check" name="priority" value="@priority" id="@priority" autocomplete="off" asp-for="priority">
+                                    <label class="btn btn-outline-success" for=@priority>@priority</label>
+                                    @* <input type="radio" asp-for="priority" value="@priority" id="@priority">*@
+                                    @*@priority*@
+                                </div>
+
+
+                            }
+                        </div>
+                    </div>
+                    <span style="color:red" asp-validation-for="@Model.priority"></span>
+
+
+
+                    <hr style="color: #23C1C6;">
+                    @*//onclick="Trim()" id="deactive-id"*@
+                    <div class="modal-button">
+                        @* <button type="submit" onclick="SubmitRequest()" id="deactive-id" class=" btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#add-note-Modal">قبول الطلب</button>*@
+
+                        <button type="submit" class=" btn btn-tertiary">قبول الطلب</button>
+                        @*  <button class=" btn btn-tertiary" onclick="checkdates()">
+                        <img src="~/Cms_Lib/img/icons/Send.svg" alt="details-icon" class="icons ms-1 mt-1" />ارسال
+                        </button>*@
+                        <button type="button" class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end ur modal -->
+<script>
+
+
+
+    function BeforeSubmit() {
+        debugger
+
+
+        var fromdate, Todate, dt;
+
+        fromdate = new Date($('#startDate').val());
+        Todate = new Date($('#DateEndTest').val());
+        dt = new Date();
+
+        $('#text').text('');
+        if (Todate.toLocaleDateString() == 'Invalid Date') {
+
+
+            if (fromdate.toLocaleDateString() < dt.toLocaleDateString()) {
+
+                $('#text').text('لا يجب أن يكون تاريخ الظهور أقل من تاريخ اليوم');
+
+                return false;
+            }
+
+
+        }
+        if (Todate.toLocaleDateString() != 'Invalid Date') {
+
+            if (fromdate > Todate) {
+
+                $('#text').text('يجب أن يكون تاريخ الظهور أقل من تاريخ الإخفاء');
+
+                return false
+            }
+
+            if (fromdate < Todate && fromdate.toLocaleDateString() < dt.toLocaleDateString()) {
+
+                $('#text').text('لا يجب أن يكون تاريخ الظهور أقل من تاريخ اليوم');
+                return false
+            }
+
+        }
+
+
+
+        return true;
+    }
+
+
+    function checkdates() {
+        debugger
+
+        var fromdate, Todate, dt;
+
+        fromdate = new Date($('#startDate').val());
+        Todate = new Date($('#DateEndTest').val());
+        dt = new Date();
+
+        $('#text').text('');
+        if (Todate.toLocaleDateString() == 'Invalid Date') {
+
+
+            if (fromdate.toLocaleDateString() < dt.toLocaleDateString()) {
+
+                $('#text').text('لا يجب أن يكون تاريخ الظهور أقل من تاريخ اليوم');
+            }
+
+        }
+        if (Todate.toLocaleDateString() != 'Invalid Date') {
+
+
+            if (fromdate > Todate) {
+
+                $('#text').text('يجب أن يكون تاريخ الظهور أقل من تاريخ الإخفاء');
+            }
+
+            if (fromdate < Todate && fromdate.toLocaleDateString() < dt.toLocaleDateString()) {
+
+                $('#text').text('لا يجب أن يكون تاريخ الظهور أقل من تاريخ اليوم');
+            }
+
+        }
+
+
+    }
+     
+</script>
+

@@ -1,0 +1,75 @@
+﻿@using WebUI.Models.TopGivers;
+@model TopGiversDTO
+@using Newtonsoft.Json;
+
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+  
+
+}
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">اسم المتبرع</th>
+                    <th scope="col">  رقم الجوال </th>
+                    <th scope="col">  البريد الالكترونى </th>
+                    <th scope="col">  اسم المنتج</th>
+                    <th scope="col">  اسم الجهة </th>
+                    <th scope="col">  قيمة التبرع </th>
+                    <th scope="col">  تاريخ التبرع </th>
+                    <th scope="col">وثيقة التبرع </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.TopGiversList.Any())
+                {
+                    foreach (var item in Model.TopGiversList)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@item.TopDonatorName</td>
+                            <td>@item.MobileNumber</td>
+                            <td>@item.Email</td>
+                            <td>@item.PrductName  @(item.ProductNo==0 ? "" : "("+item.ProductNo+")")</td>
+                            <td>@item.GehaName</td>
+                            <td>@item.DonationAmount ر.س</td>
+                            <td>@item.DonationDate</td>
+                            <td>
+                                <a onclick="dowenloadFile('@item.Id')">
+                                    <img src="~/cms_lib/img/icons/Download.svg" />
+                                </a>
+                              
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لايوجد بيانات</span>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber ?? 1">
+
+    </vc:pager>
+
+</div>

@@ -1,0 +1,56 @@
+﻿@using WebUI.Models.contactusDto;
+@model ContactUsRequestReplayMessageModel
+<!--start add modal-->
+
+<div class="modal fade body-modal"
+     id="accept-Modal"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content text-center p-0">
+            <div class="modal-body text-end">
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=RejectRequest"
+                      data-ajax-method="post"
+                      data-ajax-success="swlSuccess"
+                      enctype="multipart/form-data"
+                      data-ajax-failure="SwlReturnError"
+                      id="approve-request-form">
+
+                    <h3>الرد على الطلب</h3>
+                    <p><small>يرجى مراعاة الاداب العامة والسلوك الطيب اثناء الرد على طلبات العملاء.</small></p>
+
+                    <div class="d-flex justify-content-start align-items-center">
+
+                        <input class="w-50" type="file" asp-for="@Model.ConatctUsFile" />
+                        <span id="customFileLabel" style="display: none;"> ارفاق ملف</span>
+
+
+                    </div>
+
+
+                    <div class="">
+                        <textarea asp-for="@Model.Message" maxlength="1000" id="RejectionReason" class="form-control w-100" rows="7" placeholder="اكتب رسالتك الان"></textarea>
+                        <span id="error" style="color:red"></span>
+                        <p><small>عدد الاحرف المسموح بها 1000 حرف.</small></p>
+                        <span style="color:red" asp-validation-for="@Model.Message"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="@Model.Id" />
+
+                    <div class="modal-button">
+                        <button type="submit" onclick="TrimReject()" id="deactiveContactUsBtn-id" class=" btn btn-tertiary">
+                            <img src="~/Cms_Lib/img/icons/Send.svg" alt="details-icon" class="icons ms-1 mt-1" />ارسال
+                        </button>
+                        <button type="button" id="RejectModelDeactive" class=" btn btn-light-primary" data-bs-dismiss="modal">الغاء</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

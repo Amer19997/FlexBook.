@@ -1,0 +1,132 @@
+﻿@model ComprehensiveReportQueryResult
+@using Newtonsoft.Json;
+
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<style>
+    .app-table {
+        width: calc(100vw - 300px)
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    .fixed-column {
+        position: sticky;
+        right: 0;
+        z-index: 1;
+        border: 1px solid #7070702b;
+    }
+
+        .fixed-column:first-child {
+            display: inline-block
+        }
+     .fixed-column:nth-child(2) {
+            display: inline-block;
+            right: 19px;
+     }
+
+        .fixed-column:nth-child(3) {
+            right: 170px;
+            
+        }
+        
+
+</style>
+<div class="app-title" style=" padding-bottom: 1%; ">
+    <h3>عدد السجلات (@Model.TotalCount)</h3>
+</div>
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered fixed-third-column">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col" width="@(Model.ComprehensiveReportList.Any() ? "20px" : "")" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")" >م</th>
+                    <th scope="col" width="@(Model.ComprehensiveReportList.Any() ? "150px" : "")" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">رقم المنتج</th>
+                    <th scope="col" width="@(Model.ComprehensiveReportList.Any() ? "150px" : "")" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">اسم المنتج</th>
+                    <th scope="col" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">اسم الجهه</th>
+                    <th scope="col">اسم البنك</th>
+                    <th scope="col">رقم IBAN</th>
+                    <th scope="col">قيمة المنتج </th>
+                    <th scope="col">متوسط تبرعات المنصه للمنتج </th>
+                    <th scope="col">اجمالى  تبرعات المنصة للمنتج</th>
+                    <th scope="col">المتبقى لأكتمال المنتج  </th>
+                    <th scope="col">المستحق للمنتج</th>
+                    <th scope="col">المحول للمنتج</th>
+                    <th scope="col">اجمالى تبرعات المنتج </th>
+                    <th scope="col">منتج موازى </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ComprehensiveReportList.Any())
+                {
+                    @foreach (var item in Model.ComprehensiveReportList)
+                    {
+                        <tr>
+                            <td width="@(Model.ComprehensiveReportList.Any() ? "20px" : "")" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">@(i++)</td>
+                            <td width="@(Model.ComprehensiveReportList.Any() ? "150px" : "")" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">@item.ProductNumber</td>
+                            <td width="@(Model.ComprehensiveReportList.Any() ? "150px" : "")" class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">@item.ProdcutName</td>
+                            <td class="@(Model.ComprehensiveReportList.Any() ? "fixed-column" : "")">@item.ProviderName</td>
+                            <td>@item.BankName</td>
+                            <td>@item.BankIBAN</td>
+                            <td>@(item?.ProductAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                            <td>@item?.Average رس </td>
+                            <td>@(item?.TotalOnlinePaid?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                            <td>@(item?.Remaining?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                            <td>@(item?.DeservedAmount?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                            <td>@item?.Converted</td>
+                            <td>@(item?.TotalPaid?.ToString("C2", new System.Globalization.CultureInfo("en-SA")).Replace("SAR", string.Empty)) رس</td>
+                            <td>@(item?.IsParallelProduct==true ? "نعم" : "لا")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد تبرعات</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<div class="col-12 mb-3">
+    <div class="row">
+        @if (Model.ComprehensiveReportList.Any())
+        {
+            <div class="col-3">
+                <div class="d-flex justify-content-start">
+
+                    <a class="btn btn-secondary  mx-3" id="Arrow" asp-page-handler="Search" asp-route-pageSize="@(Model.PageSize == 15 ? 50 : 15)">
+                        @if (Model.PageSize == 15)
+                        {
+                            <img src="~/Cms_Lib/img/icons/arrow-down-solid (2).svg" class="center" />
+                        }
+                        else
+                        {
+                            <img src="~/Cms_Lib/img/icons/arrow-up-solid.svg" />
+                        }
+                    </a>
+                <span class="border  rounded p-2">@(Model.PageSize == 15 ? 50 : 15)</span>
+            </div>
+        </div>
+        }
+    <div class="col-6">
+            <div class="app-pagination">
+                <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber" size="@Model.PageSize">
+
+                </vc:pager>
+            </div>
+    </div>
+    </div>
+</div>
+
+
+

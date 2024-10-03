@@ -1,0 +1,75 @@
+﻿@using WebUI.Models.Reports;
+@model DonationPaymentReportQueryResultPaginatedList
+@using Newtonsoft.Json;
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<div class="app-title" style=" padding-bottom: 1%; ">
+    <h3>عدد السجلات (@Model.TotalCount)</h3>
+</div>
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">رقم عملية التبرع</th>
+                    <th scope="col">حالة السداد</th>
+                    <th scope="col">قيمة التبرع</th>
+                    <th scope="col">التاريخ/ الوقت</th>
+                    <th scope="col">طريقة الدفع</th>
+                    <th scope="col">المسار/ المنتج </th>
+                    <th scope="col">رقم المنتج </th>
+                    @*<th scope="col">البريد الالكتروني </th>
+                    <th scope="col">الجوال </th>*@
+                    <th scope="col">عرض الايصال </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Any())
+                {
+                    foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td data-DonationPaymentNumber="@item.DonationPaymentNumber">@item.DonationPaymentNumber</td>
+                            <td data-PaymentStatus="@item.PaymentStatus">@item.PaymentStatus</td>
+                            <td data-Amount="@item.Amount">@item.Amount ر.س</td>
+                            <td data-DateTimeDonation="@item.DateTimeDonation">@item.DateTimeDonation</td>
+                            <td data-PaymentMethod="@item.PaymentMethod">@item.PaymentMethod</td>
+                            <td data-ProductProvider="@item.ProductProvider">@item.ProductProvider</td>
+                            <td data-ProductNumber="@item.ProductNumber">@item.ProductNumber</td>
+                            <td style="display:none" data-Email="@item.Email">@item.Email</td>
+                            <td style="display:none" data-Mobile="@item.Mobile">@item.Mobile</td>
+                            <td>
+                                @if (item.PaymentStatus == "نجاح")
+                                {
+                                    <a id="view-invoice" data-toggle="modal" data-target="#ViewPaymentInvoice" data-id="@item.DonationPaymentNumber" style="cursor:pointer" title="عرض إيصال الدفع"><img src="/cms_lib/img/icons/document.svg"></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد نتائج بحث</span>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber">
+
+    </vc:pager>
+
+</div>

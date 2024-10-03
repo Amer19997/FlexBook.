@@ -1,0 +1,95 @@
+﻿@page
+@model WebUI.Pages.Seasons.DetailsModel
+@{
+}
+
+      <div class="app-heading">
+    <a href="/Seasons/index" class="ps-1">
+        <img class="rotated"
+             src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+             alt="details-icon"
+             class="icons" />
+    </a>
+                                    <div class="app-title">
+                                    <h3 class="m-0">تفاصيل الموسم</h3>
+                                    </div>
+      </div>
+
+
+<div class="app-form">
+    <!-- form content -->
+
+    <form class="form-wrapper">
+        <div class="form-content">
+            <div class="form-header">
+                <div class="d-flex align-items-center">
+                    <div class="point"></div>
+                    <h3>البيانات الأساسية</h3>
+                </div>
+            </div>
+            <div class="card">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">
+                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                اسم الموسم بالعربية
+                            </label> <span class="text-danger">*</span>
+                            <p class="">@Model.Season.NameAr</p>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">
+                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                اسم الموسم بالانجليزية
+                            </label><span class="text-danger">*</span>
+                            <p>@Model.Season.NameEn</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">
+                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" /> تاريخ بداية الموسم
+                            </label>
+                            <p class="">@Model.Season.StartAt</p>
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">
+                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                تاريخ انتهاء الموسم
+                            </label>
+                            <p class="">@Model.Season.EndAt</p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                            <label for="">
+                                <img src="~/Cms_Lib/img/icons/bullet-dark.svg" alt="buulet-icon" />
+                                وصف الموسم
+                            </label>
+                            <p class="">@Model.Season.Description</p>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+
+
+<footer class="footer">
+    <div class="app-footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

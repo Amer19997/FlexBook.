@@ -1,0 +1,110 @@
+﻿@using WebUI.IntegrationServices;
+@model ProviderApprovedDtoPaginatedList
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">إسم الجهة</th>
+                    <th scope="col">تاريخ الانضمام للبوابة</th>
+                    <th scope="col"> النوع </th>
+                    <th scope="col">رقم التسجيل</th>
+                    <th scope="col">تاريخ التسجيل</th>
+                    <th scope="col"> تاريخ انتهاء التسجيل</th>
+                    <th scope="col">الجنس المخدوم</th>
+                    <th scope="col">الحالة </th>
+                    <th scope="col"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Any())
+                {
+                    foreach (var item in Model.Items)
+                    {
+                        <tr style="@(item.IsActive==false ? "background-color: #e5b1b6;":"")">
+
+
+                            <td>@(i++)</td>
+                            <td>@item.Name</td>
+                            <td>@item.JoinDate</td>
+                            <td>@item.TypeName</td>
+                            <td>@item.IdentityNumber</td>
+                            <td>@item.LicenseStartDate</td>
+                            <td>@item.LicenseEndDate</td>
+                            <td>@item.TargetGenderName</td>
+                            <td>
+                                <div class="toggle-Section">
+                                    <label class="switch input_Switch_De @(item.IsActive==true ? "active":"")" data-id="@item.Id">
+                                        <input type="checkbox input_Switch_De" data-bs-toggle="modal" data-bs-target="#ActivateProviderModal" />
+                                        <span class="slider round "></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="controls">
+
+                                    <ul>
+
+                                        @*           <li>
+
+                                <a href="#"><img src="~/cms_lib/img/icons/document.svg" /></a>
+
+                                </li>*@
+
+                                        @if (item.Type == (int)Enums.ProviderTypeEnum.Association)
+                                        {
+                                            <li>
+                                                <a href="/Provider/UpdateAssociation?associationId=@item.Id"><img src="/cms_lib/img/icons/Edit.svg" alt="Edit-icon" /></a>
+                                            </li>
+                                            <li>
+                                                <a href="/ApprovedProvider/AssocationDetails?associationId=@item.Id"><img src="~/cms_lib/img/icons/document.svg" /></a>
+
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="/Provider/UpdateSociety?societyId=@item.Id"><img src="/cms_lib/img/icons/Edit.svg" alt="Edit-icon" /></a>
+                                            </li>
+                                            <li>
+                                                <a href="/ApprovedProvider/SocietyDetails?socityId=@item.Id"><img src="~/cms_lib/img/icons/document.svg" /></a>
+
+
+                                            </li>
+
+                                        }
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد طلبات تسجيل</span>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber">
+
+    </vc:pager>
+
+</div>

@@ -1,0 +1,93 @@
+﻿@using WebUI.IntegrationServices;
+@using WebUI.Models.News;
+
+@model NewsList
+
+@{
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+<div class="app-table table-responsive">
+    <table id="News" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    م
+                </th>
+                <th style="width:30%">
+                    عنوان الخبر
+                </th>
+                <th style="width:45%">
+                    ملخص الخبر
+                </th>
+                <th>
+                    الحالة
+                </th>
+                <th>
+                    تاريخ النشر
+                </th>
+                @if (User.IsInRole(SystemRoles.ViewNewsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                {
+                    <th>
+                        الاجراء
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.NewsViewModals.Any())
+            {
+                foreach (var item in Model.NewsViewModals)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@item.TitleAr</td>
+                        <td  >
+                            @item.SummaryAr
+                        </td>
+                        <td>@item.StatusNameAr</td>
+                        <td>@item.PublishDate</td>
+                        <td>
+                            <div class="controls">
+                                <ul>
+                                    @if (User.IsInRole(SystemRoles.ViewNewsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="/News/NewsDetails?id=@item.NewsId"><img src="~/cms_lib/img/icons/document.svg" /></a>
+
+                                        </li>
+
+                                        <li>
+                                            <a href="/News/EditNews?id=@item.NewsId"><img src="~/cms_lib/img/icons/Edit.svg" /></a>
+
+                                        </li>
+
+                                        <li>
+                                            <a class="del" href="javascript:showDeletePopup('@item.NewsId')"> <img src="/cms_lib/img/icons/Delete.svg" alt="users-icon" /></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            }
+            else
+            {
+                  <tr>
+                        <td colspan="10" class="no-items-cont">
+                            <span>لا يوجد أخبار</span>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div class="app-pagination">
+    <vc:pager total-items-count="@Model.TotalCount" current-page="@Model.PageNumber ?? 1">
+
+    </vc:pager>
+
+</div>

@@ -1,0 +1,535 @@
+﻿@using WebUI.IntegrationServices
+@{
+    var currentUrl = Context.Request.Path.ToString().ToLower();
+    var t = 0;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waqfi</title>
+    <link rel="icon" type="image/png" href="~/cms_lib/img/layout/waqfilogo.png">
+    <!--styles-->
+    <link href="~/cms_lib/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/cms_lib/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="~/cms_lib/css/select2.min.css" rel="stylesheet" />
+    <link href="~/cms_lib/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/cms_lib/css/datepicker.css" rel="stylesheet" />
+    <link href="~/cms_lib/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    @*<link href="~/select2/css/select2.css" rel="stylesheet" />
+    <link href="~/select2/css/select2.min.css" rel="stylesheet" />*@
+    <link href="~/cms_lib/css/app.css" rel="stylesheet">
+   
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="pre-container">
+            <div class="app-heading app-title" id="loading" style="display:none;color:#3e7fc1"> جارى الأن تحميل الصور برجاء الأنتظار ....</div>
+            <img src="~/cms_lib/img/icons/loader.svg" data-aos="zoom-in" data-aos-duration="200" data-aos-easing="linear"
+                 alt="" />
+        </div>
+    </div>
+    <div class="wrapper">
+        <!--top-fixed-navbar-->
+        <div class="app-navbar">
+            <nav class="navbar navbar-expand navbar-light navbar-bg">
+                <div class="navbar-brand">
+                    <a class="sidebar-brand" href="~/Index">
+                        <img src="~/cms_lib/img/layout/waqfiLogo.png" alt="Waqfy">
+                    </a>
+                    <button class="navbar-toggler bx-menu collapsed" type="button">
+                        <span class="icon-bar top-bar mt-0"></span>
+                        <span class="icon-bar middle-bar"></span>
+                        <span class="icon-bar bottom-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav navbar-align">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center user-dropdown" href="#"
+                               data-bs-toggle="dropdown">
+                                <div class="porfileIcon">
+                                    <img src="~/cms_lib/img/avatars/Profile.svg" class="avatar img-fluid  me-1" alt="userName" />
+                                </div>
+                                <div class="d-none d-sm-flex flex-column justify-content-center align-items-center">
+                                    <h5 class="ms-2">@User?.Claims?.FirstOrDefault(x=>x.Type=="Name")?.Value</h5>
+                                    <span class="text-muted">منصة وقفي للاعمال الخيرية</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end  user-dropdown-details">
+                                @*<a class="dropdown-item" href="#">
+                                <img src="~/cms_lib/img/icons/replace-icon.svg" alt="logout" class="align-middle me-1">
+                                تغيير الكيان
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                <img src="~/cms_lib/img/icons/update-icon.svg" alt="logout" class="align-middle me-1"> تحديث
+                                بياناتي
+                                </a>
+                                <div class="dropdown-divider"></div>*@
+                                <a class="dropdown-item" asp-page="/Admin/Logout">
+                                    <img src="~/cms_lib/img/icons/logout.svg" alt="logout" class="align-middle me-1"> تسجيل
+                                    الخروج
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!--top-fixed-navbar-->
+        <div class="app-main ">
+            <aside>
+                <nav class="sidebar-nav">
+                    <ul class="nav-links">
+                        @*   <li class="sidebar-item @(currentUrl == "/index"  ? "active" : "" )">
+                        <div class="dropdown">
+                        <a href="#">
+                        <img src="~/cms_lib/img/icons/sidebar-icon/dashboard.svg" alt="">
+                        <span class="link_name">القائمة الرئيسية</span>
+                        </a>
+                        <img class="dropdown-arrow" src="~/cms_lib/img/icons/sidebar-icon/dropdown-arrow.svg" alt="">
+                        </div>
+                        <ul class="sub-menu">
+                        @if (User.IsInRole(SystemRoles.ViewDonatorList) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                        <li><a href="/NetworkDonator/Index" class="@(currentUrl.Contains("/NetworkDonator")? "activeItem" : "")"> إدارة التبرع الشبكى</a></li>
+                        }
+                        </ul>
+                        </li>*@
+                        @if (User.IsInRole(SystemRoles.NetworkDonationList) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/NetworkDonator")?"active" : "")">
+                                <a href="~/NetworkDonator/Index" class="@(currentUrl.Contains("/NetworkDonator")? "activeItem" : "")">
+                                    <img src="~/cms_lib/img/icons/sidebar-icon/dashboard.svg" alt="">
+
+                                    <span class="link_name">إدارة بنيان </span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(SystemRoles.ViewUserList) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/usermangment")?"active" : "")">
+                                <a href="~/UserMangment/Index">
+                                    <img src="~/cms_lib/img/icons/sidebar-icon/users.svg" alt="">
+                                    <span class="link_name">إدارة المستخدمين </span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/donationreport") ? "active showMenu" :
+                                                         currentUrl.Contains("/productsreportui") ? "active showMenu" :
+                                                         currentUrl.Contains("/comprehensivereportui")? "active showMenu" :
+                                                         currentUrl.Contains("/offlinedonationreport")? "active showMenu" :
+                                                         currentUrl.Contains("/topgiverreport")? "active showMenu" :
+                                                         currentUrl.Contains("/donationpaymentreport")? "active showMenu" :
+                                                         currentUrl.Contains("/entitiesreport")? "active showMenu":"")">
+
+                                <div class="dropdown">
+                                    <a href="#">
+                                        <img src="~/cms_lib/img/icons/sidebar-icon/users.svg" alt="">
+                                        <span class="link_name">إدارة التقارير</span>
+                                    </a>
+                                    <img class="dropdown-arrow" src="~/cms_lib/img/icons/sidebar-icon/dropdown-arrow.svg" alt="">
+                                </div>
+                                <ul class="sub-menu">
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="/DonationReport/Index" class="@(currentUrl.Contains("/donationreport")? "activeItem" : "")">
+                                                تقرير تبرعات المنصة
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/ProductsReportUI/Index" class="@(currentUrl.Contains("/productsreportui")? "activeItem" : "")">
+                                                تقرير المنتجات
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/ComprehensiveReportUI/Index" class="@(currentUrl.Contains("/comprehensivereportui")? "activeItem" :"")">
+                                                التقرير الشامل
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/DonationPaymentReport/Index" class="@(currentUrl.Contains("/donationpaymentreport")? "activeItem" :"")">
+                                                تقرير عمليات التبرع
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/TopGiverReport/Index" class="@(currentUrl.Contains("/topgiverreport")? "activeItem" :"")">
+                                                تقرير كبار المانحين
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/OfflineDonationReport/Index" class="@(currentUrl.Contains("/offlinedonationreport")? "activeItem" :"")">
+                                                تقرير التبرعات الاوفلاين
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(SystemRoles.ViewReports) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/EntitiesReport/Index" class="@(currentUrl.Contains("/entitiesreport")? "activeItem" :"")">
+                                                تقرير الجهات
+                                            </a>
+                                        </li>
+                                    }
+
+
+                                </ul>
+                            </li>
+
+                        }
+
+
+                        @if (User.IsInRole(SystemRoles.ViewDonatorList) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/donator/donators")?"active" : "")">
+                                <a href="/Donator/Donators">
+                                    <img src="~/cms_lib/img/icons/sidebar-icon/main.svg" alt="">
+                                    <span class="link_name">إدارة المتبرعين </span>
+                                </a>
+                            </li>
+                            @* <li class="sidebar-item @(currentUrl.Contains("/NetworkDonator")?"active" : "")">
+                        <a href="/NetworkDonator/Index">
+                        <img src="~/cms_lib/img/icons/sidebar-icon/main.svg" alt="">
+                        <span class="link_name">إدارة التبرع الشبكى </span>
+                        </a>
+                        </li>*@
+                        }
+
+                        @if (User.IsInRole(SystemRoles.TopGiverDonationViewList) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/topgivers")?"active" : "")">
+                                <a href="~/TopGivers/Index">
+                                    <img src="~/cms_lib/img/icons/sidebar-icon/domains.svg" alt="">
+                                    <span class="link_name">تبرعات كبار المانحين</span>
+                                </a>
+                            </li>
+
+                        }
+                        @if (User.IsInRole(SystemRoles.ViewProvidersApprovalList) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/approvedprovider")?"active" : "")">
+                                <a href="~/ApprovedProvider/Index">
+                                    <img src="~/cms_lib/img/icons/sidebar-icon/entities.svg" alt="">
+                                    <span class="link_name">ادارة الجهات الوقفية</span>
+                                </a>
+                            </li>
+
+                        }
+
+                        @if (User.IsInRole(SystemRoles.ViewSeasonList) || User.IsInRole(SystemRoles.ViewMasaratList) || User.IsInRole(SystemRoles.ViewProductUnitList) || User.IsInRole(SystemRoles.ApprovedProduct) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/approvedproducts")?"active showMenu" :
+                                                      currentUrl.Contains("/masarat") ? "active showMenu" :
+                                                      currentUrl.Contains("/seasons")? "active showMenu" :
+                                                      currentUrl.Contains("/productunits")? "active showMenu":"")">
+
+                                <div class="dropdown">
+
+                                    <a href="#">
+                                        <img src="~/cms_lib/img/icons/sidebar-icon/main.svg" alt="">
+                                        <span class="link_name">ادارة المنتجات الوقفية</span>
+                                    </a>
+                                    <img class="dropdown-arrow" src="~/cms_lib/img/icons/sidebar-icon/dropdown-arrow.svg" alt="">
+                                </div>
+
+                                <ul class="sub-menu">
+                                    @if (User.IsInRole(SystemRoles.ApprovedProduct) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li><a href="~/ApprovedProducts/Index" class="@(currentUrl.Contains("/approvedproducts")? "activeItem" : "")">إدارة المنتجات</a></li>
+                                    }
+
+                                </ul>
+                                <ul class="sub-menu">
+                                    @if (User.IsInRole(SystemRoles.ViewMasaratList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li><a href="/Masarat/Index" class="@(currentUrl.Contains("/masarat")? "activeItem" : "")">إدارة المسارات</a></li>
+
+                                    }
+                                    @if (User.IsInRole(SystemRoles.ViewSeasonList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li><a href="/Seasons/Index" class="@(currentUrl.Contains("/seasons")? "activeItem" : "")">إدارة المواسم</a></li>
+                                    }
+                                </ul>
+                                <ul class="sub-menu">
+                                    @if (User.IsInRole(SystemRoles.ViewProductUnitList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li><a href="/ProductUnits/Index" class="@(currentUrl.Contains("/productunits")? "activeItem" : "")">إدارة الوحدات</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(SystemRoles.ViewProvidersRequestsList) || User.IsInRole(SystemRoles.ViewAwqafProductRequests) || User.IsInRole(SystemRoles.ApprovedProduct) || User.IsInRole(SystemRoles.RequestProducts) || User.IsInRole(SystemRoles.SuperAdmin))
+                        {
+                            <li class="sidebar-item @(currentUrl.Contains("/provider/providersrequests")?"active showMenu":
+                                                      currentUrl.Contains("/productsrequest") ? "active showMenu":
+                                                      currentUrl.Contains("/awqafproduct") ? "active showMenu" :
+                                                      currentUrl.Contains("/OfflineDonation") ? "active showMenu" :
+                                                      currentUrl.Contains("/product/addingwaqfiproduct") ? "active showMenu" :"")">
+                                <div class="dropdown">
+                                    <a href="#">
+                                        <img src="~/cms_lib/img/icons/sidebar-icon/content.svg" alt="">
+                                        <span class="link_name">ادارةالطلبات</span>
+                                    </a>
+                                    <img class="dropdown-arrow" src="~/cms_lib/img/icons/sidebar-icon/dropdown-arrow.svg" alt="">
+                                </div>
+                                <ul class="sub-menu">
+                                    @if (User.IsInRole(SystemRoles.ViewProvidersRequestsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="/Provider/ProvidersRequests" class="@(currentUrl.Contains("/provider/providersrequests")? "activeItem" : "")">
+                                                إدارة طلبات تسجيل الجهات
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(SystemRoles.RequestProducts) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/ProductsRequest/Index" class="@(currentUrl.Contains("/productsrequest")? "activeItem" : "")">
+                                                إدارة طلبات إضافة المنتجات
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (User.IsInRole(SystemRoles.ViewAwqafProductRequests) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/AwqafProduct/Index" class="@(currentUrl.Contains("/awqafproduct")? "activeItem" : "")">
+                                                طلبات الوقف الخاص
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (User.IsInRole(SystemRoles.ContactUsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/contactusRequest/Index" class="@(currentUrl.Contains("/contactusRequest")? "activeItem" : "")">
+                                                ادارة طلبات التواصل
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (User.IsInRole(SystemRoles.OfflineDonationRequests) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                        <li>
+                                            <a href="~/OfflineDonation/Index" class="@(currentUrl.Contains("/OfflineDonation")? "activeItem" : "")">
+                                                التبرعات المجمعة (أوفلاين)
+                                            </a>
+                                        </li>
+                                    }
+
+                                </ul>
+
+
+
+                            </li>
+                        }
+
+
+
+                        <li class="sidebar-item @(currentUrl.Contains("/banner")? "active showMenu" :
+                                                  currentUrl.Contains("/productbanner") ? "active showMenu" :
+                                                  currentUrl.Contains("/question/questionlist") ? "active showMenu" :
+                                                  currentUrl.Contains("/sitecontents") ? "active showMenu" :
+                                                  currentUrl.Contains("/news") ? "active showMenu" :
+                                                  currentUrl.Contains("/listlookup") ? "active showMenu" :
+                                                  currentUrl.Contains("/region") ? "active showMenu" :
+                                                  currentUrl.Contains("/city") ? "active showMenu" :
+                                                  currentUrl.Contains("/governanceclassification") ? "active showMenu" :
+                                                  currentUrl.Contains("/qualitativeclassfication") ? "active showMenu" :
+                                                  currentUrl.Contains("/firstsubclass") ? "active showMenu" :
+                                                  currentUrl.Contains("/reporttype") ? "active showMenu" :
+                                                  currentUrl.Contains("/socialmedia") ? "active showMenu" :
+                                                  currentUrl.Contains("/productcategory") ? "active showMenu" :
+                                                  currentUrl.Contains("/paymentlookup") ? "active showMenu" :
+                                                  currentUrl.Contains("/secondsubclass") ? "active showMenu" :"" ) ">
+                            <div class="dropdown">
+                                <a href="#">
+                                    <img src="~/cms_lib/img/icons/sidebar-icon/content.svg" alt="">
+                                    <span class="link_name">ادارة محتوى الموقع</span>
+                                </a>
+                                <img class="dropdown-arrow" src="~/cms_lib/img/icons/sidebar-icon/dropdown-arrow.svg" alt="">
+                            </div>
+                            <ul class="sub-menu">
+
+                                @if (User.IsInRole(SystemRoles.Banner) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li><a href="~/Banner/Index" class="@(currentUrl.Contains("/banner")? "activeItem" : "")">ادراة البانر</a></li>
+                                    <li><a href="~/ProductBanner/Index" class="@(currentUrl.Contains("/productbanner")? "activeItem" : "")">ادراة المنتجات على البانر</a></li>
+                                }
+
+                                @if (User.IsInRole(SystemRoles.ViewQuestionsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li><a href="/Question/QuestionList" class="@(currentUrl.Contains("/question/questionlist")? "activeItem" : "")">ادارة مركز الاسئلة</a></li>
+                                }
+
+                                @if (User.IsInRole(SystemRoles.ViewQuestionsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li><a href="/HomePageSection/index" class="@(currentUrl.Contains("/HomePageSection/index")? "activeItem" : "")">ادارة التحكم فى الصفحة الرئيسية </a></li>
+                                }
+
+                                @* @if (User.IsInRole(SystemRoles.SiteContent)|| User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                <li><a href="~/SiteContents/Index" class="@(currentUrl.Contains("/news")? "activeItem" : "")">عن وقفي</a></li>
+                                }*@
+
+                                @if (User.IsInRole(SystemRoles.ViewNewsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li><a href="/News/Index" class="@(currentUrl.Contains("/news")? "activeItem" : "")">ادارة الاخبار</a></li>
+                                }
+
+                                @if (User.IsInRole(SystemRoles.ViewNewsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li><a href="/AboutUs/Index" class="@(currentUrl.Contains("/AboutUs")? "activeItem" : "")">عن وقفى</a></li>
+                                }
+
+                                @if (User.IsInRole(SystemRoles.ViewNewsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li><a href="/contactus/Index" class="@(currentUrl.Contains("/contactus")? "activeItem" : "")">عن تواصل معانا</a></li>
+                                }
+
+                                @if (User.IsInRole(SystemRoles.ViewNewsList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                {
+                                    <li>
+                                        <a href="/ListLookup/Index" class="@(currentUrl.Contains("/listlookup")? "activeItem" :
+                                                                             currentUrl.Contains("/region")? "activeItem" :
+                                                                             currentUrl.Contains("/city")? "activeItem" :
+                                                                             currentUrl.Contains("/governanceclassification")? "activeItem" :
+                                                                             currentUrl.Contains("/qualitativeclassfication")? "activeItem" :
+                                                                             currentUrl.Contains("/firstsubclass")? "activeItem" :
+                                                                             currentUrl.Contains("/reporttype")? "activeItem" :
+                                                                             currentUrl.Contains("/socialmedia")? "activeItem" :
+                                                                             currentUrl.Contains("/productcategory")? "activeItem" :
+                                                                             currentUrl.Contains("/paymentlookup")? "activeItem" :
+                                                                             currentUrl.Contains("/secondsubclass")? "activeItem" :"" )">ادارة القوائم</a>
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="app-content">
+                <div class="container-fluid ">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- heading  -->
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer">
+                    <div class="app-footer">
+                        <div class="container-fluid">
+                            <div class="row text-muted">
+                                <div class="col-12 text-center">
+                                    <p class="m-0">
+                                        @{
+                                            int currentYear = DateTime.Now.Year;
+
+                                        }
+                                        جميع الحقوق محفوظة© لمنصة وقفي @currentYear
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </main>
+        </div>
+    </div>
+    <script src="~/cms_lib/js/jquery-3.5.1.js"></script>
+    <script src="~/cms_lib/js/popper.min.js"></script>
+    <script src="~/cms_lib/js/bootstrap.min.js"></script>
+    <script src="~/cms_lib/js/jquery.dataTables.min.js"></script>
+    
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/cms_lib/js/sweetalert2.all.min.js"></script>
+    <script src="~/cms_lib/js/moment.min.js"></script>
+    <script src="~/cms_lib/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/cms_lib/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/cms_lib/js/bootstrap-hijri-datetimepickermin.js"></script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script src="~/cms_lib/js/select2.min.js"></script>
+    @*<script src="~/select2/js/select2.full.js"></script>
+    <script src="~/select2/js/select2.full.min.js"></script>
+    <script src="~/select2/js/select2.js"></script>
+    <script src="~/select2/js/select2.min.js"></script>
+    <script src="~/select2/js/select2.full.min.js"></script>*@
+    @*<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js'></script>*@
+    
+      <script id="rendered-js" >
+    $(document).ready(function () {
+            $(".form-select2").select2({
+                //allowClear: true
+            });
+    });
+//# sourceURL=pen.js
+    </script>
+
+    <script src="~/cms_lib/js/app.js?version=@(DateTime.Now.Ticks)"></script>
+
+    @* <script src="~/cms_lib/js/jquery-3.5.1.js"></script>
+    <script src="~/cms_lib/js/bootstrap.min.js"></script>
+
+    <script src=" ~/cms_lib/js/moment.min.js"></script>
+    <script src="~/cms_lib/bootstrap-datepicker.min.js"></script>
+    <script src="~/cms_lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/cms_lib/bootstrap-hijri-datetimepickermin.js"></script>
+
+    <script src="~/cms_lib/js/popper.min.js"></script>
+    <script src="~/cms_lib/js/jquery.dataTables.min.js"></script>
+    <script src="~/cms_lib/js/select2.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/cms_lib/js/sweetalert2.all.min.js"></script>
+    <script src="~/cms_lib/js/app.js?version=@(DateTime.Now.Ticks)"></script>*@
+
+
+
+    @*<script src="~/cms_lib/js/jquery-3.5.1.js"></script>
+    <script src="~/cms_lib/js/popper.min.js"></script>
+    <script src="~/cms_lib/js/bootstrap.min.js"></script>
+    <script src="~/cms_lib/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/cms_lib/js/select2.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/cms_lib/js/app.js?version=@(DateTime.Now.Ticks)"></script>*@
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

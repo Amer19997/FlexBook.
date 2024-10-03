@@ -1,0 +1,147 @@
+﻿@page
+@model WebUI.Pages.TopGivers.IndexModel
+@using Newtonsoft.Json;
+
+@{
+    var details = Model.topgivers;
+}
+@Html.AntiForgeryToken()
+
+  <div class="app-title">
+    <h3 class="mt-4">تبرعات كبار المانحين </h3>
+   </div>
+    <div class="app-heading d-flex justify-content-between">
+      
+        <div class="app-heading-end  w-100">
+
+        <div class="app-filter d-block">
+
+            <div class="filter-form d-block">
+
+                    <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="myform mb-4">
+                            <div class="d-flex align-items-center justify-content-end w-100">
+
+                                <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+
+                            <input type="text" asp-for="@Model.Filters.Name" id="donarname" class="form-control me-3 filteration" placeholder=" إسم المتبرع" />
+
+                            <input type="text" asp-for="@Model.Filters.phone" id="donarphone" class="form-control me-3 filteration" placeholder=" رقم الجوال" />
+
+                            <select asp-for="@Model.Filters.providerProducts.ID" id="productFilter" class="form-select2 filteration" asp-items="@(new SelectList(Model.LookupProd.Products,"Id","DisplayName"))">
+                                <option value="" selected>اسم المنتج</option>
+                            </select>
+
+                            </div>
+                          
+
+
+                        <a class="close-filter" id="btnclose" onclick="Closebtn()" asp-page="/TopGivers/Index" asp-page-handler="GetAjax" type="reset">
+
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+
+                            <button type="submit" class="btn btn-secondary">
+                                تصفية
+                            </button>
+
+                        <a class="btn btn-tertiary mx-3" asp-page="AddNewDonation">اضافة تبرع جديد</a>
+
+                            
+                        </div>
+
+                   
+
+                    </form>
+                <div id="search-result">
+                    <partial name="TopGiversList.cshtml" model="@Model.TopGiversDTO" />
+                </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+   @* <script src="~/js/downloadattachment.js"></script>*@
+   <script>
+
+        function dowenloadFile(fileId) {
+            debugger
+            var Id = $("#RequestId").val();
+            debugger
+            $.ajax({
+                url: "?handler=downloadImage",
+                method: "GET",
+                data: { "TopGiversDonation": fileId },
+                success: function (response) {
+                    debugger
+                    var a = document.createElement("a");
+                    a.href = `data:${response.result.contentType};base64,${response.result.file}`;
+                    a.download = response.result.fileName;
+                    a.click();
+                }
+            });
+        }
+        $('.filteration').on('change', function (e) {
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+
+     
+
+          document.getElementById('btnclose').style.display = "none";
+
+        $('#donarname').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+         $('#donarphone').on('input', function (e) {
+            document.getElementById('btnclose').style.display = "none";
+
+            if ('' == this.value) {
+                document.getElementById('btnclose').style.display = "none";
+            } else {
+                document.getElementById('btnclose').style.display = "block";
+
+            }
+        });
+
+
+        $('#productFilter').on('change', function (e) {
+
+            document.getElementById('btnclose').style.display = "block";
+        });
+
+        //$('#productFilter').on('change', fuction(){
+        //    debugger
+
+        //})
+    </script>
+
+}

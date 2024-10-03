@@ -1,0 +1,137 @@
+﻿@page
+@model WebUI.Pages.UserMangment.EditModel
+@{
+}
+@Html.AntiForgeryToken()
+<!-- heading  -->
+
+@Html.Hidden("UserId",@Model.UserModel.Id)
+@Html.Hidden("UserRole",@Model.UserModel.RolesString)
+
+<div class="app-heading">
+    <div class="app-title">
+        <a href="~/UserMangment/Index" class="ps-1">
+            <img class="rotated" src="~/cms_lib/img/icons/Arrow-Right Square.svg"
+                 alt="details-icon" class="icons" />
+        </a>
+        <h3 class="m-0">تعديل بيانات المستخدم</h3>
+    </div>
+
+    <div class="form-buttons">
+        <a class="btn btn-tertiary" href="#" onclick="EditUser()">
+            <img src="~/cms_lib/img/icons/save-icon.svg" />
+            حفظ التعديلات
+        </a>
+        <a class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#EditModal">الغاء</a>
+    </div>
+</div>
+
+<div class="app-form">
+
+    <div class="form-wrapper">
+        <div class="form-content">
+            <div class="form-header">
+                <div class="d-flex align-items-center">
+                    <div class="point"></div>
+                    <h3>البيانات الأساسية</h3>
+                </div>
+            </div>
+            <div class="card">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="name">الاسم كاملاً</label> <span class="text-danger">*</span>
+                            <input maxlength="100" onkeypress="return onlycharKey(event)" type="text" asp-for="@Model.UserModel.Name" class="form-control" id="UserName" placeholder="اكتب اسم كاملاً" />
+                            <span id="ValidNamel" class="text-danger d-none">هذا الحقل إلزامي</span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="email"> البريد الالكتروني :</label><span class="text-danger">*</span>
+                            <input type="email" asp-for="@Model.UserModel.Email" class="form-control" id="Email" placeholder="اضف البريد الالكتروني" readonly />
+                            <span id="ValidEmail" class="text-danger d-none">هذا الحقل إلزامي</span>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for=""> رقم الجوال</label>
+                            <input maxlength="10" onkeypress="return onlynumberKey(event)" type="text" asp-for="@Model.UserModel.MobileNumber" id="Phone" class="form-control" placeholder="ادخل رقم الجوال" />
+                            <span id="ValidPhone" class="text-danger d-none"> هذا الحقل إلزامي</span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <label for="relation">دور المستخدم :</label><span class="text-danger">*</span>
+                            <select class="js-select2 form-select ps-5 form-control" id="Roles" multiple="multiple">
+@*                                <option value="1C6EC857-E935-49FA-AFB6-5F2B2FFE425C" data-badge="">مدير محتوى</option>
+                                <option value="E2A77204-2709-4E01-ABE2-89E0D97A57D8" data-badge="">متبرع</option>
+                                <option value="B672283A-D696-4D68-A400-DAC448B089BF" data-badge="">مدير التقارير</option>
+                                <option value="08C81D41-EB37-4DC6-87EA-E6258A636DB6" data-badge="">مدير وسائل التواصل</option>*@
+                            </select>
+                            <span id="ValidRole" class="text-danger d-none"> هذا الحقل إلزامي</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+        <!--start add modal-->
+    <div class="modal fade body-modal" id="Edit-user-Modal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body text-center">
+                        <span class="ps-1"><img src="~/cms_lib/img/icons/add-user-popup.svg" alt="details-icon" class="icons"/></span>
+                <h3>تمت عملية التعديل بنجاح</h3>
+                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--end add modal-->
+
+    <div class="modal fade body-modal" id="EditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                <span class="ps-1"><img src="~/cms_lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                    <h3>هل تريد الغاء التعديلات ؟</h3>
+                    <p>
+                        في حالة الموافقة على الالغاء، لن تستطيع <br />استعادة  هذه البيانات مرة اخرى
+                    </p>
+                </div>
+                <div class="modal-button">
+                <button id="BackList" class=" btn btn-tertiary">نعم</button>
+                    <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade body-modal" id="Active-Warning-Modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content text-center">
+                    <div class="modal-body text-center">
+                    <span class="ps-1"><img src="~/cms_lib/img/icons/warning-popup.svg" alt="details-icon" class="icons" /></span>
+                      <h3 id="TextValidation"></h3>
+                 
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
+
+    
+   
+
+    @section scripts {
+
+    <script src="~/js/usermangment/edit.js"></script>
+    <script src="~/js/UserMangment/GeneralCheck.js"></script>
+
+    }

@@ -1,0 +1,119 @@
+﻿@page
+@model WebUI.Pages.DonationReport.DonationDetaliesModel
+@using Newtonsoft.Json;
+@{
+    var personId = TempData["person"];
+
+}
+
+
+  <div class="app-heading d-flex justify-content-between">
+    <div class="app-title">
+        <a href="/DonationReport/index" class="ps-1">
+            <img class="rotated"
+                 src="~/Cms_Lib/img/icons/Arrow-Right Square.svg"
+                 alt="details-icon"
+                 class="icons" />
+        </a>
+        <h3 class="m-0">تفاصيل تبرعات المتبرع </h3> <h4 class="m-0">( @Model.DonatorName )</h4>
+        </div>
+    <div class="app-heading-end d-flex w-100">
+
+            <div class="app-filter">
+
+                <div class="filter-form">
+
+                    <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                        <div class="myform">
+                            <div class="d-flex align-items-center justify-content-end w-100">
+
+                                <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+
+                 
+                            <input asp-for="@Model.Filters.DataFrom" type="text" class="form-control datepickerCustom filteration" id="Datasearchfrom" placeholder="تاريخ التبرع - من">
+
+                            <input asp-for="@Model.Filters.DataTo" type="text" class="form-control datepickerCustom filteration" id="Datasearchto" placeholder="تاريخ التبرع - الي" />
+                            </div>
+                            <input asp-for="@Model.Filters.PersonId" type="hidden" value="@Model.PersonId" />
+                        <a class="close-filter btnclose d-none" asp-page="/DonationReport/DonationDetalies" asp-route-PersonsId="@Model.PersonId" asp-page-handler="GetAjax" type="reset">
+                                <img src="~/cms_lib/img/icons/close-filter.svg" />
+                            </a>
+                     
+                            <button type="submit" class="btn btn-secondary">
+                                تصفية
+                            </button>
+                        <a class="btn btn-success mx-3" asp-page-handler="ExcelDownload" asp-route-personId="@Model.PersonId">تصدير</a>
+
+                        </div>
+                    </form>
+                  
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div id="search-result">
+    <partial name="_detaliesList.cshtml" model="@Model.ReportList" />
+    </div>
+
+    @section Scripts{
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+
+        $('.filteration').on('change', function (e) {
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+
+        function DeleteMasarat() {
+            debugger
+            $.ajax({
+                url: "?handler=DownloadExcel",
+                method: "Get",
+                success: function (data) {
+                    debugger
+                    console.log(data);
+                    var blob = new Blob([data]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "Report.csv";
+                    link.click();
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    debugger
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+
+
+                    alert("some error");
+                }
+
+            });
+        }
+
+
+        
+    </script>
+    }
+
+

@@ -1,0 +1,94 @@
+﻿@page
+@model WebUI.Pages.OfflineDonationReport.IndexModel
+@{
+}
+
+@Html.AntiForgeryToken()
+
+<div class="app-heading d-flex justify-content-between">
+    <div class="app-title">
+        <h3 class="m-0">تقرير تبرعات الأوفلاين </h3>
+    </div>
+    <div class="app-heading-end d-flex w-100">
+
+        <div class="app-filter">
+
+            <div class="filter-form">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="myform">
+                        <div class="d-flex align-items-center justify-content-end w-100">
+
+                            <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+
+                            @*<select asp-for="@Model.Filters.ProviderId" id="ProviderFilter" class="form-select filteration" asp-items="@(new SelectList(Model.Providers.Result,"Id","NameAr"))">
+                            <option value="" selected>الجهة</option>
+                            </select>*@
+                            <input type="text" asp-for="@Model.Filters.ProviderName" id="ProviderName" class="form-control me-3 filteration" placeholder=" اسم الجهة" />
+                            <input type="text" asp-for="@Model.Filters.ProductName" id="ProductName" class="form-control me-3 filteration" placeholder="اسم المنتج" />
+                            <input type="text" asp-for="@Model.Filters.ProductNumber" id="ProductNumber" class="form-control me-3 filteration" placeholder="رقم المنتج" />
+
+                            <input asp-for="@Model.Filters.DateFrom" id="DateFrom" type="text" class="form-control datepickerCustom filteration" placeholder="الفترة من">
+
+                            <input asp-for="@Model.Filters.DateTo" id="DateTo" type="text" class="form-control datepickerCustom filteration" placeholder="الفترة إلى " />
+
+                            <select asp-for="@Model.Filters.IsParallelProduct" class="form-select filteration">
+                                <option value=0 selected>منتج موازى</option>
+                                <option value=1 >نعم</option>
+                                <option value=2 >لا</option>
+                            </select>
+                        </div>
+
+
+                        <a class="close-filter d-none" id="btnclose" onclick="Closebtn()" asp-page="/OfflineDonationReport/Index" asp-page-handler="GetAjax" type="reset">
+
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+
+                        <button type="submit" class="btn btn-secondary">
+                            تصفية
+                        </button>
+
+                        <a class="btn btn-tertiary mx-3" asp-page="Index" asp-page-handler="ExcelDownload">Excel تصدير</a>
+
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div id="search-result">
+    <partial name="OfflineDonationList.cshtml" model="@Model.ReportOfflineDonationDto" />
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $('.filteration').on('change', function (e) {
+
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('#btnclose').removeClass('d-none');
+                $('#btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+    </script>
+
+}

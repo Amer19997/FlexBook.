@@ -1,0 +1,122 @@
+﻿@page
+@model WebUI.Pages.Seasons.AddModel
+@{
+}
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-success="addSeasonSuccess"
+      data-ajax-failure="addSeasonFailed"
+      id="addSeasonform">
+<div class="app-heading">
+    <div class="app-title">
+        <h3 class="m-0">اضافة موسم جديد</h3>
+    </div>
+
+    <div class="form-buttons">
+        <button class="btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#add-user-Modal">اضافة</button>
+            <a class="btn btn-light-primary del" data-bs-toggle="modal"
+               data-bs-target="#cancel-Modal">الغاء</a>
+    </div>
+</div>
+
+
+<div class="app-form">
+    <!-- form content -->
+
+    <div class="form-wrapper">
+        <div class="form-content">
+            <div class="form-header">
+                <div class="d-flex align-items-center">
+                    <div class="point"></div>
+                    <h3>البيانات الأساسية</h3>
+                </div>
+            </div>
+            <div class="card">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">اسم الموسم بالعربية</label> <span class="text-danger">*</span>
+                                <input type="text" class="form-control" id="name" placeholder="اكتب اسم الموسم كاملا بالعربية" asp-for="@Model.Season.NameAr" />
+                                <span class="text-danger" asp-validation-for="@Model.Season.NameAr" class="text-error">
+                                </span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for=""> اسم الموسم بالانجليزية</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" placeholder="اكتب اسم الموسم كاملا بالانجليزية" asp-for="@Model.Season.NameEn" />
+                                <span class="text-danger" asp-validation-for="@Model.Season.NameEn" class="text-error">
+                                </span>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for=""> تاريخ بداية الموسم</label>
+                                <input onkeydown="return false;" id="" type="text" class="form-control hijri-picker " placeholder="هجري" asp-for="@Model.Season.StartAt" />
+                                <span class="text-danger" asp-validation-for="@Model.Season.StartAt" class="text-error">
+                                </span>
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12  mb-3">
+                            <label for="">تاريخ انتهاء الموسم</label>
+                                <input onkeydown="return false;" id="" type="text" class="form-control hijri-picker " placeholder="هجري" asp-for="@Model.Season.EndAt" />
+                                <span class="text-danger" asp-validation-for="@Model.Season.EndAt" class="text-error">
+                                </span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-12  mb-3">
+                            <label for="">وصف الموسم</label>
+                                <textarea  class="form-control w-100" rows="7" placeholder="اضف وصف للموسم" asp-for="@Model.Season.Description"></textarea>
+                                <span class="text-danger" asp-validation-for="@Model.Season.Description" class="text-error">
+                                </span>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+</form>
+<footer class="footer">
+    <div class="app-footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-12 text-center">
+                    <p class="m-0">
+                        كل الحقوق محفوظة © للمركز الوطني لتنمية القطاع غير الربحي 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<div class="modal fade body-modal" id="cancel-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <span class="ps-1"><img src="~/Cms_Lib/img/icons/deletePopup.svg" alt="details-icon" class="icons" /></span>
+
+                <h3> هل تريد إلغاء إضافة موسم؟  </h3>
+                <p>
+                    في حالة الموافقةعلى الإلغاء ، فلن تستطيع <br />استعادة البيانات مره اخرى
+                </p>
+            </div>
+            <div class="modal-button">
+                <a class=" btn btn-primary" asp-page="/Seasons/Index">نعم </a>
+
+                <button class=" btn btn-light-primary" data-bs-dismiss="modal">لا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/Season.js?version=@(DateTime.Now.Ticks)"></script>
+}

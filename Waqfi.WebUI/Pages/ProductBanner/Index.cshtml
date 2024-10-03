@@ -1,0 +1,136 @@
+﻿@page
+@model WebUI.Pages.ProductBanner.IndexModel
+@{
+
+    var i = (Model.PageNumber * Model.PageSize) - Model.PageSize + 1;
+}
+@Html.AntiForgeryToken()
+
+
+@if (Model.ProductsBannerRequest.ProductsRequest.Any())
+{
+    <div class="app-heading d-flex justify-content-between">
+
+        <div class="app-title">
+
+            <h3 class="m-0">طلبات اضافة منتجات على البانر الرئيسي</h3>
+        </div>
+
+        <div class="app-heading-end d-flex ">
+
+            <div class="app-filter">
+
+                <div class="filter-form">
+
+                    <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                        <div class="myform">
+                            <div class="d-flex align-items-center justify-content-end w-100">
+
+                                <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+
+                                <input type="text" id="socName" asp-for="@Model.Filters.Name" class="form-control me-3 filteration" placeholder=" إسم المنتج" />
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-secondary">
+                                تصفية
+                            </button>
+                            <a class="close-filter btnclose d-none" id="btnclose" onclick="Closebtn()" asp-page="/ProductBanner/Index" asp-page-handler="GetAjax" type="reset">
+                                <img src="~/cms_lib/img/icons/close-filter.svg" />
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <span style="color:red"> . @Model.Error</span>
+
+        <br />
+    }
+    <div id="search-result">
+        <partial name="_ApproveProduct.cshtml" model="@Model.ProductsBannerRequest" />
+    </div>
+
+}
+else
+{
+
+    <div class="parent w-100 h-100">
+        <div class="child">
+            <div>
+                <img src="~/Cms_Lib/img/icons/no-users-icon.svg" alt="search-icon" />
+
+            </div>
+
+            <div>
+                <h2>لا يوجد طلبات بانر جديده</h2>
+
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+
+
+
+@section scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        //function Closebtn() {
+
+
+        //    $("#socName").val('');
+
+        //}
+
+
+        //document.getElementById('btnclose').style.display = "none";
+
+        //$('#socName').on('input', function (e) {
+        //    debugger
+        //    document.getElementById('btnclose').style.display = "none";
+
+        //    if ('' == this.value) {
+        //        document.getElementById('btnclose').style.display = "none";
+        //    } else {
+        //        document.getElementById('btnclose').style.display = "block";
+        //    }
+        //});
+
+
+
+        $('.filteration').on('input', function (e) {
+            debugger
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('.btnclose').removeClass('d-none');
+                $('.btnclose').addClass('d-block');
+            } else {
+                $('.btnclose').addClass('d-none');
+                $('.btnclose').removeClass('d-block');
+            }
+        });
+    </script>
+
+}

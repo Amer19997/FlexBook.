@@ -1,0 +1,45 @@
+﻿@model List<QuickPaymentAmount>
+@{
+    var i = 1;
+}
+
+<div class="col-12">
+    <!--strat table -->
+    <div class="app-table table-responsive">
+        <table id="Questiontable" class="table fagtable table-bordered">
+            <thead>
+                <tr class="table-header">
+                    <th scope="col">م</th>
+                    <th scope="col">القيمة</th>
+                    <th scope="col"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@item.Amount</td>
+                                <td>
+                                    <div class="controls">
+                                        <ul>
+                                    @if (User.IsInRole(SystemRoles.ViewProductUnitList) || User.IsInRole(SystemRoles.SuperAdmin))
+                                    {
+                                                    <li>
+                                            <a href="/PaymentLookUp/UpdateQuickPaymentAmount?id=@item.Id"><img src="/cms_lib/img/icons/Edit.svg" alt="Edit-icon" /></a>
+                                                    </li>
+                                    }
+
+
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

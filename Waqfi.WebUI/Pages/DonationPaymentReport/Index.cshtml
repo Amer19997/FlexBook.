@@ -1,0 +1,563 @@
+﻿@page
+@using System.Linq
+@model WebUI.Pages.DonationPaymentReport.IndexModel
+@{
+}
+
+@Html.AntiForgeryToken()
+
+<div class="app-title">
+    <h3 class="m-0">تقرير عمليات التبرع </h3>
+</div>
+<div class="app-heading d-flex justify-content-between">
+
+    <div class="app-heading-end w-100">
+
+        <div class="app-filter d-block">
+
+            <div class="filter-form d-block">
+
+                <form method="post"
+                      data-ajax="true"
+                      data-ajax-url="?handler=Search"
+                      data-ajax-method="post"
+                      id="search-Product-form"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#search-result">
+
+                    <div class="myform mb-2">
+                        <div class="d-flex align-items-center justify-content-end w-100">
+
+                            <label for="" class="form-label mb-0">التصفية بواسطة :</label>
+                            <select asp-for="@Model.Filters.RequestStatus" class="form-select filteration" asp-items="@(new SelectList(Model.PaymentStatus,"Id","PaymentMethodAR"))">
+                                <option value="" selected>حالة السداد</option>
+
+                            </select>
+
+                            <select asp-for="@Model.Filters.PaymentMethod" class="form-select filteration" asp-items="@(new SelectList(Model.PaymentMethod,"Id","PaymentMethodAR"))">
+                                <option value="" selected>طريقة الدفع</option>
+
+                            </select>
+
+                            <input asp-for="@Model.Filters.DateFrom" id="DateFrom" type="text" class="form-control datepickerCustom filteration" placeholder="الفترة من">
+
+                            <input asp-for="@Model.Filters.DateTo" id="DateTo" type="text" class="form-control datepickerCustom filteration" placeholder="الفترة إلى " />
+                        </div>
+
+
+                        <a class="close-filter d-none" id="btnclose" onclick="Closebtn()" asp-page="/DonationPaymentReport/Index" asp-page-handler="GetAjax" type="reset">
+
+                            <img src="~/cms_lib/img/icons/close-filter.svg" />
+                        </a>
+
+                        <button type="submit" class="btn btn-secondary">
+                            تصفية
+                        </button>
+
+                        <a class="btn btn-tertiary mx-3" asp-page="Index" asp-page-handler="ExcelDownload">Excel تصدير</a>
+
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+<div id="search-result">
+    <partial name="DonationPaymentList.cshtml" model="@Model.Result" />
+</div>
+
+
+<div class="modal fade" id="ViewPaymentInvoice" 
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <meta charset="utf-8" />
+    @*<div class="modal-dialog">*@
+    <div class="modal-content modal-dialog">
+        
+        <div class="card body-modal">
+            <meta charset="UTF-8">
+            @*<div class="container full-width text-center">
+                <div class="row header">
+                    <div class="col-6 text-right">
+                        <img src="/img/logo.png" />
+                    </div>
+                    <div class="col-6 text-left">
+                        <img src="/img/logofooter.svg" />
+                    </div>
+                </div>
+                <div class="">
+                    <div class="card-body card-title">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="reciep-title">تفاصيل ايصال الدفع</p>
+                            </div>
+                            <div class="col-6">
+                                <p>
+                                    <span> رقم المنتج : </span>
+                                    <span id="productNumber"> 123456 </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- date row -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex back-color">
+                                    <div class="svg-style">
+                                        <img src="/img/Calendar.svg" />
+                                    </div>
+                                    <div class="d-flex flex-data">
+                                        <span> التاريخ </span>
+                                        <span id="dateDonation"> 6-9-2021 </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex back-color">
+                                    <div class="svg-style">
+                                        <img src="/img/TimeCircle.svg" />
+                                    </div>
+                                    <div class="d-flex flex-data">
+                                        <span> الوقت </span>
+                                        <span id="timeDonation"> 9:45 ص </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- date row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/note.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> رقم عملية الدفع </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="donationPaymentNumber"> 152948 </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/Call.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> رقم الجوال </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="mobile">  </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/Message.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> البريد الالكتروني </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="email">  </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/Download.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> حالة السداد </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="paymentStatus"> نجاح العملية </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/pay.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> طريقة الدفع </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="paymentMethod">
+                                    <img style="width: auto; height: 35px" src="/img/ipay-fo.png" />
+                                </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/re.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> المسار / المنتج </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="productProvider"> تبرع سريع </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/currency.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> مبلغ المساهمة </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="amount"> 100 ريــــال </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <div id="invoice-btn" class="row">
+                            <button type="button" onclick="createPDF()" class="btn down-btn">
+                                <img src="/img/DownloadCopy.svg" />
+                                تحميل الايصال
+                            </button>
+                        </div>
+                        <!-- end of card body -->
+                    </div>
+
+                    <!-- end of card body -->
+                </div>
+                <div class="row invoice-footer">
+                    <div class="col-6 text-right">www.waqfy.sa</div>
+                    <div class="col-6 text-left">
+                        <span> waqfy_sa </span>
+                        <span> <img src="/img/twitter.svg" /> </span>
+                        <span> <img src="/img/instagram.svg" /> </span>
+                    </div>
+                </div>
+            </div>*@
+            <div class="container full-width text-center" id="payment-invoice">
+                
+                <div class="row header">
+                    <div class="col-6 text-right">
+                        <img src="/img/logo.png" />
+                    </div>
+                    <div class="col-6 text-left">
+                        <img src="/img/logofooter.svg" />
+                    </div>
+                </div>
+                <div class="">
+                    <div class="card-body card-title">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="reciep-title">تفاصيل ايصال الدفع</p>
+                            </div>
+                            <div class="col-6">
+                                <p>
+                                    <span> رقم المنتج : </span>
+                                    <span id="productNumber"> 123456 </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- date row -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex back-color">
+                                    <div class="svg-style">
+                                        <img src="/img/Calendar.svg" />
+                                    </div>
+                                    <div class="d-flex flex-data">
+                                        <span> التاريخ </span>
+                                        <span id="dateDonation"> 6-9-2021 </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex back-color">
+                                    <div class="svg-style">
+                                        <img src="/img/TimeCircle.svg" />
+                                    </div>
+                                    <div class="d-flex flex-data">
+                                        <span> الوقت </span>
+                                        <span id="timeDonation"> 9:45 ص </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- date row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/note.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> رقم عملية الدفع </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="donationPaymentNumber"> 152948 </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/Call.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> رقم الجوال </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="mobile">  </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/Message.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> البريد الالكتروني </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="email">  </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/Download.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> حالة السداد </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="paymentStatus"> نجاح العملية </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/pay.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> طريقة الدفع </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="paymentMethod">
+                                    <img style="width: auto; height: 35px" src="/img/ipay-fo.png" />
+                                </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/re.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> المسار / المنتج </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="productProvider"> تبرع سريع </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <!-- pay row -->
+                        <div class="row normal back-color">
+                            <div class="col-6 first-col">
+                                <span class="svg-style">
+                                    <img src="/img/currency.svg" />
+                                </span>
+
+                                <span class="flex-data">
+                                    <span> مبلغ المساهمة </span>
+                                </span>
+                            </div>
+                            <div class="col-6 sec-col">
+                                <span id="amount"> 100 ريــــال </span>
+                            </div>
+                        </div>
+                        <!-- end pay row -->
+                        <div id="invoice-hidden" class="row no-print">
+                            <button type="button" onclick="createPDF()" class="btn down-btn">
+                                <img src="/img/DownloadCopy.svg" />
+                                تحميل الايصال
+                            </button>
+                        </div>
+                        <!-- end of card body -->
+                    </div>
+
+                    <!-- end of card body -->
+                </div>
+                <div class="row invoice-footer">
+                    <div class="col-6 text-right">www.waqfy.sa</div>
+                    <div class="col-6 text-left">
+                        <span> waqfy_sa@@ </span>
+                        <span> <img src="/img/twitter.svg" /> </span>
+                        <span> <img src="/img/instagram.svg" /> </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @*<div class="card-body card-title" id="payment-invoice">
+
+        </div>
+        </div>
+        @*</div>*@
+    </div>
+
+    
+</div>
+
+
+
+
+@section scripts {
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdn.bootcss.com/html2pdf.js/0.9.1/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
+   @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>*@
+        
+    <script>
+        $(document).ready(function () {
+            
+            $(document).on("click", "#view-invoice", function (e) {
+                
+                var $tr = $(this).closest('tr');
+                var donationPaymentNumber = $tr.find('td[data-donationpaymentnumber]').data('donationpaymentnumber');
+                var paymentStatus = $tr.find('td[data-paymentstatus]').data('paymentstatus');
+                var amount = $tr.find('td[data-amount]').data('amount');
+                var datetimedonation = $tr.find('td[data-datetimedonation]').data('datetimedonation');
+                var paymentmethod = $tr.find('td[data-paymentmethod]').data('paymentmethod');
+                var productprovider = $tr.find('td[data-productprovider]').data('productprovider');
+                var productnumber = $tr.find('td[data-productnumber]').data('productnumber');
+                var email = $tr.find('td[data-email]').data('email');
+                var mobile = $tr.find('td[data-mobile]').data('mobile');
+
+                //set modal field values
+                $("#donationPaymentNumber").text(donationPaymentNumber);
+                $("#paymentStatus").text(paymentStatus);
+                $("#amount").text(amount + ' ريال');
+                $("#dateDonation").text(datetimedonation.split(' ')[0]);
+                $("#timeDonation").text(datetimedonation.substring(datetimedonation.indexOf(' ') + 1));
+                $("#paymentMethod").text(paymentmethod);
+                $("#productProvider").text(productprovider);
+                $("#productNumber").text(productnumber);
+                $("#email").text(email);
+                $("#mobile").text(mobile);
+
+                $('#ViewPaymentInvoice').modal('show');
+            })
+
+
+        });
+
+        $('.filteration').on('change', function (e) {
+
+            var Getval = $(this).val();
+            if (Getval != '') {
+                $('#btnclose').removeClass('d-none');
+                $('#btnclose').addClass('d-block');
+            } else {
+                return false;
+            }
+        });
+
+        function createPDF() {
+            var element = document.getElementById('payment-invoice');
+            var invoiceHidden = document.getElementById('invoice-hidden');
+            invoiceHidden.style.display ='none'
+            html2pdf(element, {
+                margin: 1,
+                padding: 0,
+                filename: 'إيصال التبرع.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2, logging: true },
+                jsPDF: { unit: 'in', format: 'A2', orientation: 'P' },
+                class: createPDF
+
+            }).then(pdfResult => {
+                invoiceHidden.style.display = 'block';
+            })
+
+        };
+
+        //function createPDF() {
+        //    var fileName = "test";
+        //    var DATA = document.getElementById('payment-invoice');
+        //    html2canvas(DATA).then((canvas) => {
+
+        //        var fileWidth = 600;
+        //        var fileHeight = 953;
+        //        var FILEURI = canvas.toDataURL('image/png');
+
+        //        var PDF = new jsPDF({
+        //            unit: 'px',
+        //            format: [fileWidth, fileHeight],
+        //        });
+        //        var position = 0;
+        //        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+        //        var pdfName;
+        //        pdfName = `أيصال التبرع ${fileName ? fileName : ''}  `;
+
+        //        PDF.save(pdfName);
+        //        // PDF.output('dataurlnewwindow');
+        //    });
+        //}
+    </script>
+
+}
