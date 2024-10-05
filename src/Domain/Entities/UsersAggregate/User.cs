@@ -31,7 +31,7 @@ public class User : AuditableDomainEntity<User, Guid>
 
     }
 
-    private User(Guid id, string firstName, string lastName, string mobileNumber, string email, DateTimeOffset registerAt, UserStatus status, int countryId, Guid? universityId, Guid? facultyId, Guid? departmentId, UserTypeEnum userType,string password)
+    public User(Guid id, string firstName, string lastName, string mobileNumber, string email, DateTimeOffset registerAt, UserStatus status, int countryId, Guid? universityId, Guid? facultyId, Guid? departmentId, UserTypeEnum userType,string password)
     {
         Id = id;
         FirstName = firstName;
