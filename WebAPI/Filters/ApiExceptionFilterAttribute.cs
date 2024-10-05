@@ -63,17 +63,45 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         }
     }
 
+    //private void HandleValidationException(ExceptionContext context)
+    //{
+    //    var exception = (ValidationException)context.Exception;
+
+    //    var details = new ValidationProblemDetails(exception.Errors)
+    //    {
+    //        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+    //    };
+
+    //    var errors= details.Errors.SelectMany(x=>x.Value).ToArray();
+    //    context.Result = new OkObjectResult(TResponse.Failure(errors));
+
+    //    context.ExceptionHandled = true;
+    //}
+    //private void HandleValidationException(ExceptionContext context)
+    //{
+    //    var exception = (ValidationException)context.Exception;
+    //    var  errors = exception.Errors.SelectMany(x => x.Value).ToArray();
+
+    //    var response = TResponse.Failure(errors, 400);
+
+    //    context.Result = new OkObjectResult(response)
+    //    {
+    //        StatusCode = 400
+    //    };
+
+    //    context.ExceptionHandled = true;
+    //}
     private void HandleValidationException(ExceptionContext context)
     {
         var exception = (ValidationException)context.Exception;
+        var errors = exception.Errors.SelectMany(x => x.Value).ToArray();
 
-        var details = new ValidationProblemDetails(exception.Errors)
+        var response = TResponse.Failure(errors, "Validation errors occurred.", 400);
+
+        context.Result = new OkObjectResult(response)
         {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+            StatusCode = 400
         };
-
-        var errors= details.Errors.SelectMany(x=>x.Value).ToArray();
-        context.Result = new OkObjectResult(TResponse.Failure(errors));
 
         context.ExceptionHandled = true;
     }

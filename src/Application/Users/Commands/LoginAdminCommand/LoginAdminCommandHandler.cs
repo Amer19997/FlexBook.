@@ -36,7 +36,7 @@ public class LoginAdminCommandHandler : IRequestHandler<LoginAdminCommand, TResp
         var admin = await _unitOfWork.Users.GetUserAndHisRolesByEmail(request.Email);
 
         if (admin == default || admin.Password != hashedPassword)
-            return TResponse<LoginResponeDto>.Failure(_resourceService.GetError("InvalidLogin"));
+            return TResponse<LoginResponeDto>.Failure(new[] { _resourceService.GetError("InvalidLogin") });
         else
         {
             

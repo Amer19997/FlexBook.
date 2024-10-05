@@ -306,4 +306,7 @@
   <data name="VerifyPaswordRequired" xml:space="preserve">
     <value>Verify Pasword Required</value>
   </data>
+  <data name="Course with the given ID was not found." xml:space="preserve">
+    <value>Course was not found.</value>
+  </data>
 </root>

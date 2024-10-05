@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Course was not found..
+        /// </summary>
+        internal static string Course_with_the_given_ID_was_not_found_ {
+            get {
+                return ResourceManager.GetString("Course with the given ID was not found.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must enter OTP.
         /// </summary>
         internal static string DecryptionKeyRequired {
@@ -588,6 +597,15 @@ namespace Resources {
         internal static string UniversityRequired {
             get {
                 return ResourceManager.GetString("UniversityRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Pasword Required.
+        /// </summary>
+        internal static string VerifyPaswordRequired {
+            get {
+                return ResourceManager.GetString("VerifyPaswordRequired", resourceCulture);
             }
         }
         

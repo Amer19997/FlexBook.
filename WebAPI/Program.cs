@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Resources;
 using Serilog;
 using FlexBook.Application;
+using FlexBook.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -153,6 +154,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 });
 
 var app = builder.Build();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseMiddleware<HostValidationMiddleware>();
 

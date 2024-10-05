@@ -34,7 +34,7 @@ public class ChangeStatusOfRequestHandler : IRequestHandler<ChangeStatusOfReques
         var commitResult = await _unitOfWork.CommitAsync(cancellationToken);
 
         return commitResult > 0 ? TResponse<bool>.Success(true): 
-                                  TResponse<bool>.Failure(ResourceService.GetError("SomeThingError"));
+                                  TResponse<bool>.Failure(new[] { ResourceService.GetError("SomeThingError") });
 
     }
 }

@@ -3,6 +3,7 @@ using FlexBook.Application.Common.Exceptions;
 using FlexBook.Application.Common.Helpers;
 using FlexBook.Application.Common.Interfaces;
 using FlexBook.Application.Common.Models;
+using FlexBook.Application.Users.Commands.SignUpCommand;
 
 namespace FlexBook.Application.Users.Queries.CheckResetOTP;
 public class CheckResetOTPHandler : IRequestHandler<CheckResetOTPQuery, TResponse<string>>
@@ -35,7 +36,8 @@ public class CheckResetOTPHandler : IRequestHandler<CheckResetOTPQuery, TRespons
             }
         }
         {
-            return TResponse<string>.Failure(_resourceService.GetError("YouAreLocked"));
+            return TResponse<string>.Failure(new[] { _resourceService.GetError("YouAreLocked") });
+ 
         }
     }
 }

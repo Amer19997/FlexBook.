@@ -38,7 +38,7 @@ public class SetPasswordCommandHandler : IRequestHandler<SetPaswordCommand, TRes
 
         int.TryParse(_cacheService.GetAsync<string>(CachePrefix.LockForgetPassowrd, request.Email, cancellationToken), out int lockCount);
         if (lockCount >= 3)
-            return TResponse<string>.Failure(_resourceService.GetError("YouAreLocked"));
+            return TResponse<string>.Failure(new[] { _resourceService.GetError("YouAreLocked") });
 
         var updateResult = await UpdateUser(request, cancellationToken, request.Email);
         if(!updateResult)

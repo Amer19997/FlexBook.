@@ -39,8 +39,9 @@ public class RegisterNewUserHandler : IRequestHandler<RegisterNewUserCommand, TR
         var admin = await _unitOfWork.Users.CheckEmailIsFound(request.Email);
         if (admin)
         {
-            return TResponse<RegisterNewUserResult>.Failure(_resourceService.GetError("ThisEmailAlerdyFound"));
+            return TResponse<RegisterNewUserResult>.Failure(new[] { _resourceService.GetError("ThisEmailAlerdyFound") });
         }
+
         else
         {
             var universityId = !string.IsNullOrEmpty(request.UniversityName) ?

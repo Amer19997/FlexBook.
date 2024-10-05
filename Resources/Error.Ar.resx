@@ -307,4 +307,7 @@
   <data name="VerifyPaswordRequired" xml:space="preserve">
     <value>يجب إدخال كلمة المرور المؤكدة</value>
   </data>
+  <data name="Course with the given ID was not found." xml:space="preserve">
+    <value>لم يتم العثور على الدورة التدريبية </value>
+  </data>
 </root>

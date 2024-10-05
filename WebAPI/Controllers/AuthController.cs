@@ -1,4 +1,6 @@
-﻿using FlexBook.Application.Common.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using FlexBook.Application.Common.Exceptions;
+using FlexBook.Application.Common.Models;
 using FlexBook.Application.Common.Models.Dtos;
 using FlexBook.Application.Users.Commands.ForgetPasswordAdminCommand;
 using FlexBook.Application.Users.Commands.LoginAdminCommand;
@@ -33,5 +35,14 @@ public class AuthController : ApiControllerBase
     public async Task<ActionResult<TResponse<RegisterNewUserResult>>> SignUp([FromBody]RegisterNewUserCommand command)
       => Ok(await Mediator.Send(command));
 
-    
+    [HttpPost("Test")]
+    public async Task<ActionResult> TestError()
+    {
+        throw new FlexBook.Application.Common.Exceptions.ValidationException(new List<FluentValidation.Results.ValidationFailure>
+    {
+        new FluentValidation.Results.ValidationFailure("Field", "Validation failed")
+    });
+    }
+
 }
+// Instead of just ValidationException, use the full namespace path

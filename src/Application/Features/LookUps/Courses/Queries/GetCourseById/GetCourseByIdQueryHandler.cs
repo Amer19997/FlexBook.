@@ -10,6 +10,8 @@ using MediatR;
 using X.PagedList;
 using FlexBook.Application.Common.Models;
 using FlexBook.Application.Features.LookUps.Courses.Queries.GetCourses;
+using FlexBook.Application.Users.Commands.SignUpCommand;
+using FlexBook.Application.Common.Interfaces;
 
 namespace FlexBook.Application.Features.LookUps.Courses.Queries.GetCourseById;
 
@@ -19,11 +21,14 @@ public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, TRe
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceService _resourceService;
 
-    public GetCourseByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public GetCourseByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceService resourceService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _resourceService = resourceService;
+
     }
 
     public async Task<TResponse<CourseDetailDTO>> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
@@ -37,11 +42,17 @@ public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, TRe
             includeProperties,              // Include Sections and Lessons
             cancellationToken);
 
+        // Handle case where no course is found
         if (course == null)
         {
-            return null;  // Return null if the course is not found
+            // Return a proper error response when course is not found
+            return TResponse<CourseDetailDTO>.Failure(
+                new [] { _resourceService.GetError("Course with the given ID was not found.") },
+                _resourceService.GetError("Course with the given ID was not found."),
+                404
+            );
         }
-
+ 
 
         // Map the course entity to the CourseDto
         CourseDetailDTO coursedto = _mapper.Map<CourseDetailDTO>(course);
