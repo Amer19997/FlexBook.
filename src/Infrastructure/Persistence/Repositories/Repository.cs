@@ -40,6 +40,25 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
 
 
+
+
+    public async Task<TEntity?> GetByIdAsync(Expression<Func<TEntity, bool>> filter, string includeProperties = "", CancellationToken cancellationToken = default)
+    {
+        IQueryable<TEntity> query = dbContext.Set<TEntity>();
+
+        // Include additional related entities if specified
+        if (!string.IsNullOrEmpty(includeProperties))
+        {
+            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+
+        // Apply the filter to find the entity
+        return await query.FirstOrDefaultAsync(filter, cancellationToken);
+    }
+
     public async Task<IReadOnlyList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter = null,
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
       int? skip = null,

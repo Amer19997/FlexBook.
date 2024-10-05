@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlexBook.Infrastructure.Migrations
 {
     [DbContext(typeof(FlexBookDbContext))]
-    [Migration("20240926193200_UpdatEntities")]
-    partial class UpdatEntities
+    [Migration("20241005021046_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,195 @@ namespace FlexBook.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6e659c52-b027-4e77-9b51-d08401674b87"),
+                            IsActive = false,
+                            NameAr = "الفئة الأولى",
+                            NameEn = "Category 1",
+                            TopicId = new Guid("0c80243b-c850-49a8-92b5-deb74c3af7e1")
+                        },
+                        new
+                        {
+                            Id = new Guid("1e2d8f57-ba8f-41f9-8e34-2f4872460da6"),
+                            IsActive = false,
+                            NameAr = "الفئة الثانية",
+                            NameEn = "Category 2",
+                            TopicId = new Guid("1a11508a-d9d4-4b2f-a00d-f83cfd7fbd95")
+                        });
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Lesson", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2d688e72-4d72-4782-a6fc-f8bf5d0a9dbb"),
+                            ContentType = "Video",
+                            FileUrl = "https://example.com/video1.mp4",
+                            IsActive = false,
+                            NameAr = "الدرس الأول",
+                            NameEn = "Lesson 1",
+                            SectionId = new Guid("1f0900ad-6f47-48b4-be40-355952e61f9f")
+                        },
+                        new
+                        {
+                            Id = new Guid("fd2885e0-3bb0-4655-8860-955cd05f36c6"),
+                            ContentType = "PDF",
+                            FileUrl = "https://example.com/lesson2.pdf",
+                            IsActive = false,
+                            NameAr = "الدرس الثاني",
+                            NameEn = "Lesson 2",
+                            SectionId = new Guid("1f0900ad-6f47-48b4-be40-355952e61f9f")
+                        },
+                        new
+                        {
+                            Id = new Guid("873d0392-0f27-4a86-bafe-f01937c5a3de"),
+                            ContentType = "Video",
+                            FileUrl = "https://example.com/video3.mp4",
+                            IsActive = false,
+                            NameAr = "الدرس الثالث",
+                            NameEn = "Lesson 3",
+                            SectionId = new Guid("9e241f2d-8b33-4368-9c89-fa8c2bb57433")
+                        });
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Section", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TitleAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Sections");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1f0900ad-6f47-48b4-be40-355952e61f9f"),
+                            CourseId = new Guid("89b6a553-47fc-472f-8ba9-8ad1db96de56"),
+                            IsActive = false,
+                            TitleAr = "القسم الأول",
+                            TitleEn = "Section 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("9e241f2d-8b33-4368-9c89-fa8c2bb57433"),
+                            CourseId = new Guid("d9c269e4-fcef-4707-8da8-14338c723921"),
+                            IsActive = false,
+                            TitleAr = "القسم الثاني",
+                            TitleEn = "Section 2"
+                        });
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Topic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Topics", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0c80243b-c850-49a8-92b5-deb74c3af7e1"),
+                            IsActive = false,
+                            NameAr = "الموضوع الأول",
+                            NameEn = "Topic 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("1a11508a-d9d4-4b2f-a00d-f83cfd7fbd95"),
+                            IsActive = false,
+                            NameAr = "الموضوع الثاني",
+                            NameEn = "Topic 2"
+                        });
+                });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Country", b =>
                 {
@@ -49,30 +238,73 @@ namespace FlexBook.Infrastructure.Migrations
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Course", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CoverPhoto")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DiscriptionAr")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("DiscriptionEn")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("NameEn")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course", (string)null);
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Courses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("89b6a553-47fc-472f-8ba9-8ad1db96de56"),
+                            CategoryId = new Guid("6e659c52-b027-4e77-9b51-d08401674b87"),
+                            CoverPhoto = "cover1.jpg",
+                            DiscriptionAr = "وصف الدورة الأولى",
+                            DiscriptionEn = "Description of Course 1",
+                            IsActive = false,
+                            NameAr = "الدورة الأولى",
+                            NameEn = "Course 1",
+                            TopicId = new Guid("0c80243b-c850-49a8-92b5-deb74c3af7e1")
+                        },
+                        new
+                        {
+                            Id = new Guid("d9c269e4-fcef-4707-8da8-14338c723921"),
+                            CategoryId = new Guid("1e2d8f57-ba8f-41f9-8e34-2f4872460da6"),
+                            CoverPhoto = "cover2.jpg",
+                            DiscriptionAr = "وصف الدورة الثانية",
+                            DiscriptionEn = "Description of Course 2",
+                            IsActive = false,
+                            NameAr = "الدورة الثانية",
+                            NameEn = "Course 2",
+                            TopicId = new Guid("1a11508a-d9d4-4b2f-a00d-f83cfd7fbd95")
+                        });
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Department", b =>
@@ -255,24 +487,16 @@ namespace FlexBook.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId")
-                        .IsUnique()
-                        .HasFilter("[CountryId] IS NOT NULL");
+                    b.HasIndex("CountryId");
 
-                    b.HasIndex("DepartmentId")
-                        .IsUnique()
-                        .HasFilter("[DepartmentId] IS NOT NULL");
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("FacultyId")
-                        .IsUnique()
-                        .HasFilter("[FacultyId] IS NOT NULL");
+                    b.HasIndex("FacultyId");
 
-                    b.HasIndex("UniversityId")
-                        .IsUnique()
-                        .HasFilter("[UniversityId] IS NOT NULL");
+                    b.HasIndex("UniversityId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -285,8 +509,8 @@ namespace FlexBook.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("InterestsListId")
                         .HasColumnType("int");
@@ -317,6 +541,58 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserTypes", (string)null);
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Category", b =>
+                {
+                    b.HasOne("FlexBook.Domain.Entities.Catalog.Topic", "Topic")
+                        .WithMany("Categories")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Lesson", b =>
+                {
+                    b.HasOne("FlexBook.Domain.Entities.Catalog.Section", "Section")
+                        .WithMany("Lessons")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Section", b =>
+                {
+                    b.HasOne("FlexBook.Domain.Entities.LookUps.Course", "Course")
+                        .WithMany("Sections")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Course", b =>
+                {
+                    b.HasOne("FlexBook.Domain.Entities.Catalog.Category", "Category")
+                        .WithMany("Courses")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlexBook.Domain.Entities.Catalog.Topic", "Topic")
+                        .WithMany("Courses")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Department", b =>
@@ -353,20 +629,20 @@ namespace FlexBook.Infrastructure.Migrations
             modelBuilder.Entity("FlexBook.Domain.Entities.UsersAggregate.User", b =>
                 {
                     b.HasOne("FlexBook.Domain.Entities.LookUps.Country", "Country")
-                        .WithOne()
-                        .HasForeignKey("FlexBook.Domain.Entities.UsersAggregate.User", "CountryId");
+                        .WithMany("UserList")
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("FlexBook.Domain.Entities.LookUps.Department", "Department")
-                        .WithOne()
-                        .HasForeignKey("FlexBook.Domain.Entities.UsersAggregate.User", "DepartmentId");
+                        .WithMany("UserList")
+                        .HasForeignKey("DepartmentId");
 
                     b.HasOne("FlexBook.Domain.Entities.LookUps.Faculty", "Faculty")
-                        .WithOne()
-                        .HasForeignKey("FlexBook.Domain.Entities.UsersAggregate.User", "FacultyId");
+                        .WithMany("UserList")
+                        .HasForeignKey("FacultyId");
 
                     b.HasOne("FlexBook.Domain.Entities.LookUps.University", "University")
-                        .WithOne()
-                        .HasForeignKey("FlexBook.Domain.Entities.UsersAggregate.User", "UniversityId");
+                        .WithMany("UserList")
+                        .HasForeignKey("UniversityId");
 
                     b.Navigation("Country");
 
@@ -400,19 +676,47 @@ namespace FlexBook.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Category", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Section", b =>
+                {
+                    b.Navigation("Lessons");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Topic", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Courses");
+                });
+
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Country", b =>
                 {
                     b.Navigation("UniversityList");
+
+                    b.Navigation("UserList");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Course", b =>
                 {
+                    b.Navigation("Sections");
+
                     b.Navigation("UserInterstesList");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Department", b =>
+                {
+                    b.Navigation("UserList");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.Faculty", b =>
                 {
                     b.Navigation("DepartmentList");
+
+                    b.Navigation("UserList");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.InterestsList", b =>
@@ -423,6 +727,8 @@ namespace FlexBook.Infrastructure.Migrations
             modelBuilder.Entity("FlexBook.Domain.Entities.LookUps.University", b =>
                 {
                     b.Navigation("FacultyList");
+
+                    b.Navigation("UserList");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.UsersAggregate.User", b =>

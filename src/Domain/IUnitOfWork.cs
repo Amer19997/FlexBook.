@@ -11,6 +11,8 @@ namespace FlexBook.Domain
         public ICouresRepository CouresRepository {  get; }
         public IDepartmentRepository DepartmentRepository { get; }
         public IInterestsListRepository InterestsListRepository { get; }
+        public ITopicRepository TopicRepository { get; }
+
         Task<int> CommitAsync(CancellationToken cancellationToken);
     }
 }

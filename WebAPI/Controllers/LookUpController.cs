@@ -1,8 +1,11 @@
 ﻿using FlexBook.Application.Common.Models;
 using FlexBook.Application.Features.LookUps.Country.Queries.GetCountryList;
+using FlexBook.Application.Features.LookUps.Courses.Queries.GetCourses;
+using FlexBook.Application.Features.LookUps.Courses.Queries.GetCoursesBasicListQuery;
 using FlexBook.Application.Features.LookUps.Courses.Queries.GetCoursesList;
 using FlexBook.Application.Features.LookUps.Department.Queries.GetDepartmentList;
 using FlexBook.Application.Features.LookUps.Faculty.Queries.GetFacultyList;
+using FlexBook.Application.Features.LookUps.Topics.Queries.GetTopicsList;
 using FlexBook.Application.Features.LookUps.Univesity.Queries.GetUnivesityList;
 using FlexBook.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -40,11 +43,6 @@ public class LookUpController : ApiControllerBase
       => Ok(await Mediator.Send(new GetDepartmentListQuery(facultyId)));
 
     //========================================================================
-    [HttpGet("GetBasicCourseList")]
-    public async Task<ActionResult<TResponse<GetCoursesBasicListResult>>> GetBasicCourseList()
-    {
-        return Ok(await Mediator.Send(new GetCoursesBasicListQuery()));
-    }
-
+  
 
 }

@@ -3,29 +3,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FlexBook.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "CMSSection",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CMSSection", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Country",
                 columns: table => new
@@ -39,23 +26,6 @@ namespace FlexBook.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Country", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Course",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DiscriptionAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DiscriptionEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Course", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,30 +44,17 @@ namespace FlexBook.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Topics",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NameAr = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    NameAr = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tests", x => x.Id);
+                    table.PrimaryKey("PK_Topics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,26 +66,6 @@ namespace FlexBook.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CMSSectionId = table.Column<int>(type: "int", nullable: false),
-                    Action = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Permission_CMSSection_CMSSectionId",
-                        column: x => x.CMSSectionId,
-                        principalTable: "CMSSection",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,27 +91,22 @@ namespace FlexBook.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RolePermission",
+                name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    permissionId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TopicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePermission", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RolePermission_Permission_permissionId",
-                        column: x => x.permissionId,
-                        principalTable: "Permission",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RolePermission_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
+                        name: "FK_Categories_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -202,6 +134,37 @@ namespace FlexBook.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    DiscriptionAr = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DiscriptionEn = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CoverPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TopicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Courses_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Courses_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Department",
                 columns: table => new
                 {
@@ -220,6 +183,27 @@ namespace FlexBook.Infrastructure.Migrations
                         column: x => x.FacultyId,
                         principalTable: "Faculty",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sections",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TitleAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TitleEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sections_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -272,24 +256,53 @@ namespace FlexBook.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Lessons",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserInterstes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InterestsListId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InterestsListId = table.Column<int>(type: "int", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserInterstes", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_UserInterstes_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_UserInterstes_InterestsList_InterestsListId",
                         column: x => x.InterestsListId,
                         principalTable: "InterestsList",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserInterstes_Users_UserId",
                         column: x => x.UserId,
@@ -298,29 +311,66 @@ namespace FlexBook.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "Topics",
+                columns: new[] { "Id", "IsActive", "NameAr", "NameEn" },
+                values: new object[,]
                 {
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.RoleId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    { new Guid("0c80243b-c850-49a8-92b5-deb74c3af7e1"), false, "الموضوع الأول", "Topic 1" },
+                    { new Guid("1a11508a-d9d4-4b2f-a00d-f83cfd7fbd95"), false, "الموضوع الثاني", "Topic 2" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "IsActive", "NameAr", "NameEn", "TopicId" },
+                values: new object[,]
+                {
+                    { new Guid("1e2d8f57-ba8f-41f9-8e34-2f4872460da6"), false, "الفئة الثانية", "Category 2", new Guid("1a11508a-d9d4-4b2f-a00d-f83cfd7fbd95") },
+                    { new Guid("6e659c52-b027-4e77-9b51-d08401674b87"), false, "الفئة الأولى", "Category 1", new Guid("0c80243b-c850-49a8-92b5-deb74c3af7e1") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "CategoryId", "CoverPhoto", "DiscriptionAr", "DiscriptionEn", "IsActive", "NameAr", "NameEn", "TopicId" },
+                values: new object[,]
+                {
+                    { new Guid("89b6a553-47fc-472f-8ba9-8ad1db96de56"), new Guid("6e659c52-b027-4e77-9b51-d08401674b87"), "cover1.jpg", "وصف الدورة الأولى", "Description of Course 1", false, "الدورة الأولى", "Course 1", new Guid("0c80243b-c850-49a8-92b5-deb74c3af7e1") },
+                    { new Guid("d9c269e4-fcef-4707-8da8-14338c723921"), new Guid("1e2d8f57-ba8f-41f9-8e34-2f4872460da6"), "cover2.jpg", "وصف الدورة الثانية", "Description of Course 2", false, "الدورة الثانية", "Course 2", new Guid("1a11508a-d9d4-4b2f-a00d-f83cfd7fbd95") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Sections",
+                columns: new[] { "Id", "CourseId", "IsActive", "TitleAr", "TitleEn" },
+                values: new object[,]
+                {
+                    { new Guid("1f0900ad-6f47-48b4-be40-355952e61f9f"), new Guid("89b6a553-47fc-472f-8ba9-8ad1db96de56"), false, "القسم الأول", "Section 1" },
+                    { new Guid("9e241f2d-8b33-4368-9c89-fa8c2bb57433"), new Guid("d9c269e4-fcef-4707-8da8-14338c723921"), false, "القسم الثاني", "Section 2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Lessons",
+                columns: new[] { "Id", "ContentType", "FileUrl", "IsActive", "NameAr", "NameEn", "SectionId" },
+                values: new object[,]
+                {
+                    { new Guid("2d688e72-4d72-4782-a6fc-f8bf5d0a9dbb"), "Video", "https://example.com/video1.mp4", false, "الدرس الأول", "Lesson 1", new Guid("1f0900ad-6f47-48b4-be40-355952e61f9f") },
+                    { new Guid("873d0392-0f27-4a86-bafe-f01937c5a3de"), "Video", "https://example.com/video3.mp4", false, "الدرس الثالث", "Lesson 3", new Guid("9e241f2d-8b33-4368-9c89-fa8c2bb57433") },
+                    { new Guid("fd2885e0-3bb0-4655-8860-955cd05f36c6"), "PDF", "https://example.com/lesson2.pdf", false, "الدرس الثاني", "Lesson 2", new Guid("1f0900ad-6f47-48b4-be40-355952e61f9f") }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_TopicId",
+                table: "Categories",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courses_CategoryId",
+                table: "Courses",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courses_TopicId",
+                table: "Courses",
+                column: "TopicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Department_FacultyId",
@@ -333,24 +383,24 @@ namespace FlexBook.Infrastructure.Migrations
                 column: "UniversityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permission_CMSSectionId",
-                table: "Permission",
-                column: "CMSSectionId");
+                name: "IX_Lessons_SectionId",
+                table: "Lessons",
+                column: "SectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_permissionId",
-                table: "RolePermission",
-                column: "permissionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_RoleId",
-                table: "RolePermission",
-                column: "RoleId");
+                name: "IX_Sections_CourseId",
+                table: "Sections",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_University_CountryId",
                 table: "University",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserInterstes_CourseId",
+                table: "UserInterstes",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserInterstes_InterestsListId",
@@ -363,23 +413,14 @@ namespace FlexBook.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_CountryId",
                 table: "Users",
-                column: "CountryId",
-                unique: true,
-                filter: "[CountryId] IS NOT NULL");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_DepartmentId",
                 table: "Users",
-                column: "DepartmentId",
-                unique: true,
-                filter: "[DepartmentId] IS NOT NULL");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -390,59 +431,49 @@ namespace FlexBook.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_FacultyId",
                 table: "Users",
-                column: "FacultyId",
-                unique: true,
-                filter: "[FacultyId] IS NOT NULL");
+                column: "FacultyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UniversityId",
                 table: "Users",
-                column: "UniversityId",
-                unique: true,
-                filter: "[UniversityId] IS NOT NULL");
+                column: "UniversityId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Course");
-
-            migrationBuilder.DropTable(
-                name: "RolePermission");
-
-            migrationBuilder.DropTable(
-                name: "Tests");
+                name: "Lessons");
 
             migrationBuilder.DropTable(
                 name: "UserInterstes");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
-
-            migrationBuilder.DropTable(
                 name: "UserTypes");
 
             migrationBuilder.DropTable(
-                name: "Permission");
+                name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "InterestsList");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "CMSSection");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Department");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "Faculty");
+
+            migrationBuilder.DropTable(
+                name: "Topics");
 
             migrationBuilder.DropTable(
                 name: "University");

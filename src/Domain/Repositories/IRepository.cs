@@ -6,6 +6,8 @@ namespace FlexBook.Domain.Repositories
     public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity?> FindById(Guid id, CancellationToken cancellationToken);
+        Task<TEntity?> GetByIdAsync(Expression<Func<TEntity, bool>> filter, string includeProperties = "", CancellationToken cancellationToken = default);
+
         Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
         Task<bool> IfExist(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
         Task Add(TEntity entity, CancellationToken cancellationToken);

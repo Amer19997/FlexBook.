@@ -4,6 +4,8 @@ using FlexBook.Domain.Entities;
 using FlexBook.Domain.Entities.LookUps;
 using FlexBook.Domain.Entities.UsersAggregate;
 using FlexBook.Infrastructure.Persistence.Interceptors;
+using FlexBook.Domain.Entities.Catalog;
+using System.Reflection.Emit;
 
 namespace FlexBook.Infrastructure.Persistence;
 public class FlexBookDbContext : DbContext
@@ -28,17 +30,23 @@ public class FlexBookDbContext : DbContext
     public DbSet<Course> Courses { get; set; } = default!;
     public DbSet<InterestsList> InterestsList { get; set; } = default!;
     public DbSet<UserInterstes> UserInterstes { get; set; } = default!;
-
+    public DbSet<Section> Sections { get; set; }
+    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<Topic> Topics { get; set; }
+    public DbSet<Category> Categories { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         base.OnModelCreating(builder);
+        DataSeeder.Seed(builder);
+
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
+ 
     }
 
-   
+
 }

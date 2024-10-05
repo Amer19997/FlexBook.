@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     public ICouresRepository CouresRepository { get; set; }
     public IInterestsListRepository InterestsListRepository { get; set; }
 
+    public ITopicRepository TopicRepository { get; set; }
 
     private bool _disposed = false;
 
@@ -25,7 +26,10 @@ public class UnitOfWork : IUnitOfWork
                        IFacultyRepository facultyRepository,
                        IDepartmentRepository departmentRepository,
                        ICouresRepository couresRepository,
+                        ITopicRepository topicrepository,
                        IInterestsListRepository interestsListRepository)
+                       
+
     {
         FlexBookDbContext = _context;
         Users = users;
@@ -35,7 +39,7 @@ public class UnitOfWork : IUnitOfWork
         FacultyRepository = facultyRepository;
         CouresRepository = couresRepository;
         InterestsListRepository = interestsListRepository;
-
+        TopicRepository= topicrepository;   
     }
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken)

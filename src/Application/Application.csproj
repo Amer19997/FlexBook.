@@ -10,34 +10,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Features\LookUps\CMSSection\**" />
-      <Compile Remove="Features\LookUps\Country\Commands\**" />
-      <Compile Remove="Features\LookUps\Country\Queries\GetCountryById\**" />
-      <Compile Remove="Features\LookUps\Department\Commands\**" />
-      <Compile Remove="Features\LookUps\Department\Queries\GetDepartmentById\**" />
-      <Compile Remove="Features\LookUps\Faculty\Commands\**" />
-      <Compile Remove="Features\LookUps\Univesity\Commands\**" />
-      <Compile Remove="Features\LookUps\Univesity\Queries\GetUnivesityById\**" />
       <Compile Remove="Roles\**" />
       <Compile Remove="UserRole\**" />
-      <EmbeddedResource Remove="Features\LookUps\CMSSection\**" />
-      <EmbeddedResource Remove="Features\LookUps\Country\Commands\**" />
-      <EmbeddedResource Remove="Features\LookUps\Country\Queries\GetCountryById\**" />
-      <EmbeddedResource Remove="Features\LookUps\Department\Commands\**" />
-      <EmbeddedResource Remove="Features\LookUps\Department\Queries\GetDepartmentById\**" />
-      <EmbeddedResource Remove="Features\LookUps\Faculty\Commands\**" />
-      <EmbeddedResource Remove="Features\LookUps\Univesity\Commands\**" />
-      <EmbeddedResource Remove="Features\LookUps\Univesity\Queries\GetUnivesityById\**" />
       <EmbeddedResource Remove="Roles\**" />
       <EmbeddedResource Remove="UserRole\**" />
-      <None Remove="Features\LookUps\CMSSection\**" />
-      <None Remove="Features\LookUps\Country\Commands\**" />
-      <None Remove="Features\LookUps\Country\Queries\GetCountryById\**" />
-      <None Remove="Features\LookUps\Department\Commands\**" />
-      <None Remove="Features\LookUps\Department\Queries\GetDepartmentById\**" />
-      <None Remove="Features\LookUps\Faculty\Commands\**" />
-      <None Remove="Features\LookUps\Univesity\Commands\**" />
-      <None Remove="Features\LookUps\Univesity\Queries\GetUnivesityById\**" />
       <None Remove="Roles\**" />
       <None Remove="UserRole\**" />
     </ItemGroup>
@@ -59,11 +35,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Features\LookUps\Courses\Commands\" />
-      <Folder Include="Features\LookUps\InterestsList\Commands\" />
     </ItemGroup>
 
 </Project>

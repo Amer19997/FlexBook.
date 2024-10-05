@@ -19,5 +19,5 @@ public class RegisterNewUserCommand :IRequest<TResponse<RegisterNewUserResult>>
     public string DepartmentName { get; set; }
     public string Note { get; set; }
     public int UserType {  get; set; }
-    public List<int> InterstesListId { get; set; }
+    public List<Guid> InterstesListId { get; set; }
 }

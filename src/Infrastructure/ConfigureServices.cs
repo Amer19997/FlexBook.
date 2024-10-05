@@ -49,6 +49,8 @@ public static class ConfigureServices
         services.AddScoped<IFacultyRepository, FacultyRepository>();
         services.AddScoped<ICouresRepository, CouresRepository>();
         services.AddScoped<IInterestsListRepository, InterestsListRepository>();
+        //services.AddScoped<ITopicRepository, TopicRepository>();
+        services.AddScoped<ITopicRepository, TopicRepository>();
         return services;
     }
 }
