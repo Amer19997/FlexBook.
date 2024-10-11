@@ -1,19 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using FlexBook.Domain.Entities;
+using FlexBook.Domain.Entities.Authorization;
 using FlexBook.Domain.Entities.Catalog;
 using FlexBook.Domain.Entities.LookUps;
 using FlexBook.Domain.Entities.UsersAggregate;
 using FlexBook.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
-namespace FlexBook.Infrastructure
+namespace FlexBook.Infrastructure;
+
+public static class DataSeeder
 {
-    public static class DataSeeder
+    // Load the configuration using ConfigurationManager
+
+
+    public static void Seed(ModelBuilder modelBuilder, IConfiguration configuration)
     {
-        public static void Seed(ModelBuilder modelBuilder)
-        {
-            // Seeding Countries
-            var countries = new List<Country>
+        // Access the dynamic BaseImageUrl from the configuration
+        string baseImageUrl = configuration["AppSettings:FileSettings:BaseImageUrl"];
+
+        // Seeding Countries
+        var countries = new List<Country>
             {
                 new Country { Id = 1, NameAr = "الولايات المتحدة", NameEn = "United States" },
                 new Country { Id = 2, NameAr = "المملكة المتحدة", NameEn = "United Kingdom" },
@@ -140,15 +149,15 @@ namespace FlexBook.Infrastructure
             // Seeding Courses
             var courses = new List<Course>
             {
-                new Course { Id = Guid.NewGuid(), NameAr = "أساسيات البرمجة", NameEn = "Programming Basics", DiscriptionAr = "دورة تعلم أساسيات البرمجة", DiscriptionEn = "Learn the basics of programming", CategoryId = categories[0].Id, TopicId = topics[0].Id, CoverPhoto = "programming_basics.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "تحليل البيانات المتقدم", NameEn = "Advanced Data Analysis", DiscriptionAr = "دورة تعلم تحليل البيانات المتقدم", DiscriptionEn = "Learn advanced data analysis", CategoryId = categories[1].Id, TopicId = topics[1].Id, CoverPhoto = "data_analysis.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "مقدمة في الذكاء الاصطناعي", NameEn = "Intro to Artificial Intelligence", DiscriptionAr = "دورة مقدمة في الذكاء الاصطناعي", DiscriptionEn = "Introduction to Artificial Intelligence", CategoryId = categories[2].Id, TopicId = topics[2].Id, CoverPhoto = "ai_intro.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "مبادئ الأمن السيبراني", NameEn = "Cyber Security Fundamentals", DiscriptionAr = "دورة تعلم مبادئ الأمن السيبراني", DiscriptionEn = "Learn the fundamentals of cyber security", CategoryId = categories[3].Id, TopicId = topics[3].Id, CoverPhoto = "cyber_security.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "مقدمة في التعليم الإلكتروني", NameEn = "Intro to E-Learning", DiscriptionAr = "دورة تعلم مبادئ التعليم الإلكتروني", DiscriptionEn = "Introduction to e-learning", CategoryId = categories[4].Id, TopicId = topics[4].Id, CoverPhoto = "e_learning.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "أساسيات التسويق الرقمي", NameEn = "Digital Marketing Basics", DiscriptionAr = "دورة تعلم أساسيات التسويق الرقمي", DiscriptionEn = "Learn the basics of digital marketing", CategoryId = categories[5].Id, TopicId = topics[5].Id, CoverPhoto = "digital_marketing.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "أساسيات الهندسة الكهربائية", NameEn = "Electrical Engineering Basics", DiscriptionAr = "دورة تعلم أساسيات الهندسة الكهربائية", DiscriptionEn = "Learn the basics of electrical engineering", CategoryId = categories[6].Id, TopicId = topics[6].Id, CoverPhoto = "electrical_engineering.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "مبادئ الهندسة الميكانيكية", NameEn = "Mechanical Engineering Principles", DiscriptionAr = "دورة تعلم مبادئ الهندسة الميكانيكية", DiscriptionEn = "Learn the principles of mechanical engineering", CategoryId = categories[7].Id, TopicId = topics[7].Id, CoverPhoto = "mechanical_engineering.jpg" },
-                new Course { Id = Guid.NewGuid(), NameAr = "الهندسة المدنية المتقدمة", NameEn = "Advanced Civil Engineering", DiscriptionAr = "دورة تعلم الهندسة المدنية المتقدمة", DiscriptionEn = "Learn advanced civil engineering", CategoryId = categories[8].Id, TopicId = topics[8].Id, CoverPhoto = "civil_engineering.jpg" },
+                new Course { Id = Guid.NewGuid(), NameAr = "أساسيات البرمجة", NameEn = "Programming Basics", DiscriptionAr = "دورة تعلم أساسيات البرمجة", DiscriptionEn = "Learn the basics of programming", CategoryId = categories[0].Id, TopicId = topics[0].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg" },
+                new Course { Id = Guid.NewGuid(), NameAr = "تحليل البيانات المتقدم", NameEn = "Advanced Data Analysis", DiscriptionAr = "دورة تعلم تحليل البيانات المتقدم", DiscriptionEn = "Learn advanced data analysis", CategoryId = categories[1].Id, TopicId = topics[1].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
+                new Course { Id = Guid.NewGuid(), NameAr = "مقدمة في الذكاء الاصطناعي", NameEn = "Intro to Artificial Intelligence", DiscriptionAr = "دورة مقدمة في الذكاء الاصطناعي", DiscriptionEn = "Introduction to Artificial Intelligence", CategoryId = categories[2].Id, TopicId = topics[2].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
+                new Course { Id = Guid.NewGuid(), NameAr = "مبادئ الأمن السيبراني", NameEn = "Cyber Security Fundamentals", DiscriptionAr = "دورة تعلم مبادئ الأمن السيبراني", DiscriptionEn = "Learn the fundamentals of cyber security", CategoryId = categories[3].Id, TopicId = topics[3].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
+                new Course { Id = Guid.NewGuid(), NameAr = "مقدمة في التعليم الإلكتروني", NameEn = "Intro to E-Learning", DiscriptionAr = "دورة تعلم مبادئ التعليم الإلكتروني", DiscriptionEn = "Introduction to e-learning", CategoryId = categories[4].Id, TopicId = topics[4].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
+                new Course { Id = Guid.NewGuid(), NameAr = "أساسيات التسويق الرقمي", NameEn = "Digital Marketing Basics", DiscriptionAr = "دورة تعلم أساسيات التسويق الرقمي", DiscriptionEn = "Learn the basics of digital marketing", CategoryId = categories[5].Id, TopicId = topics[5].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
+                new Course { Id = Guid.NewGuid(), NameAr = "أساسيات الهندسة الكهربائية", NameEn = "Electrical Engineering Basics", DiscriptionAr = "دورة تعلم أساسيات الهندسة الكهربائية", DiscriptionEn = "Learn the basics of electrical engineering", CategoryId = categories[6].Id, TopicId = topics[6].Id,CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
+                new Course { Id = Guid.NewGuid(), NameAr = "مبادئ الهندسة الميكانيكية", NameEn = "Mechanical Engineering Principles", DiscriptionAr = "دورة تعلم مبادئ الهندسة الميكانيكية", DiscriptionEn = "Learn the principles of mechanical engineering", CategoryId = categories[7].Id, TopicId = topics[7].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg" },
+                new Course { Id = Guid.NewGuid(), NameAr = "الهندسة المدنية المتقدمة", NameEn = "Advanced Civil Engineering", DiscriptionAr = "دورة تعلم الهندسة المدنية المتقدمة", DiscriptionEn = "Learn advanced civil engineering", CategoryId = categories[8].Id, TopicId = topics[8].Id, CoverPhoto = $"{baseImageUrl}data_analysis.jpg"   },
                 new Course { Id = Guid.NewGuid(), NameAr = "أساسيات الفيزياء", NameEn = "Physics Basics", DiscriptionAr = "دورة تعلم أساسيات الفيزياء", DiscriptionEn = "Learn the basics of physics", CategoryId = categories[9].Id, TopicId = topics[9].Id, CoverPhoto = "physics_basics.jpg" }
             };
             modelBuilder.Entity<Course>().HasData(courses);
@@ -198,25 +207,89 @@ namespace FlexBook.Infrastructure
                 });
             }
             modelBuilder.Entity<Lesson>().HasData(lessons);
+            var roles = new List<Role>
+            {
+                new Role { Id = Guid.NewGuid(), Name = "Admin" },
+                new Role { Id = Guid.NewGuid(), Name = "User" },
+                new Role { Id = Guid.NewGuid(), Name = "Manager" }
+            };
+
+            modelBuilder.Entity<Role>().HasData(roles);
+
+            // Seeding Permissions
+            // Seeding Permissions
+            var permissions = new List<Permission>
+{
+             new Permission("Create", "Books"),
+            new Permission("Edit", "Books"),
+            new Permission("Delete", "Books"),
+            new Permission("Create", "Users"),
+            new Permission("Edit", "Users"),
+            new Permission("Delete", "Users"),
+};
+
+            modelBuilder.Entity<Permission>().HasData(permissions);
+
+            // Seeding RolePermissions (many-to-many relationship between Roles and Permissions)
+            var rolePermissions = new List<RolePermission>
+            {
+                // Admin has all permissions
+                new RolePermission { RoleId = roles[0].Id, PermissionId = permissions[0].Id },
+                new RolePermission { RoleId = roles[0].Id, PermissionId = permissions[1].Id },
+                new RolePermission { RoleId = roles[0].Id, PermissionId = permissions[2].Id },
+
+                // Manager has Create and Edit permissions
+                new RolePermission { RoleId = roles[2].Id, PermissionId = permissions[0].Id },
+                new RolePermission { RoleId = roles[2].Id, PermissionId = permissions[1].Id },
+
+                // User only has View permissions (assumed if needed)
+            };
+
+            modelBuilder.Entity<RolePermission>().HasData(rolePermissions);
 
             // Seeding Users
             var users = new List<User>();
             for (int i = 1; i <= 10; i++)
             {
+                var role = roles[i % roles.Count];  // Assign roles in a cyclic manner
+
                 users.Add(new User(
-                    Guid.NewGuid(),
-                    $"User{i}",
-                    $"LastName{i}",
-                    $"123456789{i}",
-                    $"user{i}@example.com",
-                    DateTimeOffset.Now,
-                    UserStatus.Active,
-                    i % 10 + 1,   // Assigning each user to one of the 10 countries
-                    null, null, null, // No university/faculty/department assignment
-                    UserTypeEnum.Student,
-                    $"password{i}"
-                ));
+                    Guid.NewGuid(),                      // Unique user ID
+                    $"User{i}",                          // First Name
+                    $"LastName{i}",                      // Last Name
+                    $"123456789{i}",                     // Mobile Number
+                    $"user{i}@example.com",              // Email
+                    DateTimeOffset.Now,                  // Registration Date
+                    UserStatus.Active,                   // User Status
+                    i % 10 + 1,                          // Country ID (cycling through 10 countries)
+                    null,                                // No University ID (optional)
+                    null,                                // No Faculty ID (optional)
+                    null,                                // No Department ID (optional)
+                    UserTypeEnum.Student,                // User Type (Student)
+                    $"password{i}"                       // Password
+                )
+                {
+                    RoleId = role.Id                     // Assigning a RoleId from the seeded roles
+                });
             }
+            //// Seeding Users
+            //var users = new List<User>();
+            //for (int i = 1; i <= 10; i++)
+            //{
+            //    users.Add(new User(
+            //        Guid.NewGuid(),
+            //        $"User{i}",
+            //        $"LastName{i}",
+            //        $"123456789{i}",
+            //        $"user{i}@example.com",
+            //        DateTimeOffset.Now,
+            //        UserStatus.Active,
+            //        i % 10 + 1,   // Assigning each user to one of the 10 countries
+            //        null, null, null, // No university/faculty/department assignment
+            //        UserTypeEnum.Student,
+            //        $"password{i}"
+            //    ));
+            //}
             modelBuilder.Entity<User>().HasData(users);
 
             // Seeding UserInterests
@@ -233,4 +306,3 @@ namespace FlexBook.Infrastructure
             modelBuilder.Entity<UserInterstes>().HasData(userInterests);
         }
     }
-}

@@ -12,7 +12,9 @@ namespace FlexBook.Domain
         public IDepartmentRepository DepartmentRepository { get; }
         public IInterestsListRepository InterestsListRepository { get; }
         public ITopicRepository TopicRepository { get; }
+       public RoleRepositoryInterface RoleRepository { get; }
 
+        
         Task<int> CommitAsync(CancellationToken cancellationToken);
     }
 }

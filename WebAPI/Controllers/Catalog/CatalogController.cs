@@ -7,17 +7,18 @@ using FlexBook.Domain.Entities.Catalog.Dtos;
 using FlexBook.WebAPI.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers.Catalog;
 [Route("api/[controller]")]
 [ApiController]
 public class CatalogController : ApiControllerBase
 {
-    [HttpGet("GetBasicCourseList")]
-    public async Task<ActionResult<TResponse<GetCoursesBasicListResult>>> GetBasicCourseList()
-    {
-        return Ok(await Mediator.Send(new GetCoursesBasicListQuery()));
-    }
+    //[HttpGet("UserInterests")]
+    //public async Task<ActionResult<TResponse<GetCoursesBasicListResult>>> GetBasicCourseList()
+    //{
+    //    return Ok(await Mediator.Send(new GetCoursesBasicListQuery()));
+    //}
     [HttpGet("GetTopics")]
     public async Task<ActionResult<TResponse<GetTopicsResult>>> GetTopicsWithCourses()
     {
@@ -26,6 +27,8 @@ public class CatalogController : ApiControllerBase
     }
     // Get courses with optional filters for Topic, Category, and Keyword (with pagination, sorting, and includes)
     [HttpGet("GetCourses")]
+  /*  [Authorize(Policy = "createbooks")] */ // Protect this endpoint with the "ViewCourses" policy
+
     public async Task<IActionResult> GetCourses(
         [FromQuery] Guid? topicId,
         [FromQuery] Guid? categoryId,

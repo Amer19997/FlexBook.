@@ -12,6 +12,9 @@ using FlexBook.Infrastructure.Persistence.Interceptors;
 using FlexBook.Infrastructure.Persistence.Repositories;
 using FlexBook.Infrastructure.Services;
 using FlexBook.Infrastructure.Services.NotificationServices;
+using FlexBook.Application.Common;
+using Microsoft.AspNetCore.Authorization;
+using FlexBook.Application;
 
 namespace Microsoft.Extensions.DependencyInjection;
 public static class ConfigureServices
@@ -40,6 +43,9 @@ public static class ConfigureServices
         services.AddScoped<IEmailProviderSender, EmailProviderSender>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddSingleton<ITokenService, TokenService>();
+        // Configure strongly-typed AppSettings
+        services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+
         services.Configure<AppSettings>(options => configuration.GetSection("AppSettings").Bind(options));
         
         services.AddScoped<IAccountService,AccountService>();
@@ -51,6 +57,17 @@ public static class ConfigureServices
         services.AddScoped<IInterestsListRepository, InterestsListRepository>();
         //services.AddScoped<ITopicRepository, TopicRepository>();
         services.AddScoped<ITopicRepository, TopicRepository>();
+        services.AddScoped<RoleRepositoryInterface, MyRoleRepository>();  // Register your repositories properly
+
+        // Register other dependencies
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IAuthorizationHandler, PermissionHandler>();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("createbooks", policy =>
+                policy.Requirements.Add(new PermissionRequirement("createbooks")));
+        });
+        // Register services like ICurrentUserService, etc.
         return services;
     }
 }

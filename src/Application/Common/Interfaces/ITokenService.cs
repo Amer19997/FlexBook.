@@ -10,4 +10,7 @@ public interface ITokenService
 {
     public string GetToken(Guid userId,Guid profieId, string providersIds);
     public string GetAdminToken(User admin);
+    string GeneratePortalToken(User user, bool isInstructor = false);
+    string GenerateDashboardToken(User user, string roleName = null);
+
 }

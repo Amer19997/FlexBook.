@@ -129,4 +129,7 @@
   <data name="AddedSuccessfuly" xml:space="preserve">
     <value>تم الاضافه بنجاح</value>
   </data>
+  <data name="Instructor created successfully" xml:space="preserve">
+    <value>تم إنشاء المدرس بنجاح</value>
+  </data>
 </root>

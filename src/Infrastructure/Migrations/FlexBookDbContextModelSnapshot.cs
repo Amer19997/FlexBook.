@@ -22,6 +22,118 @@ namespace FlexBook.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FlexBook.Domain.Entities.Authorization.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Resource")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("cb8e1b7a-1a74-4087-8e5a-ccc964e3d6f5"),
+                            Action = "Create",
+                            Name = "createbooks",
+                            Resource = "Books"
+                        },
+                        new
+                        {
+                            Id = new Guid("50d10903-6084-498b-a1b1-f2c7897e8a1f"),
+                            Action = "Edit",
+                            Name = "editbooks",
+                            Resource = "Books"
+                        },
+                        new
+                        {
+                            Id = new Guid("d55f7d0a-d14e-42e9-9e6e-ea3c5e6fcfd1"),
+                            Action = "Delete",
+                            Name = "deletebooks",
+                            Resource = "Books"
+                        },
+                        new
+                        {
+                            Id = new Guid("da731ab6-f03e-4f45-97b5-6293014ee9a5"),
+                            Action = "Create",
+                            Name = "createusers",
+                            Resource = "Users"
+                        },
+                        new
+                        {
+                            Id = new Guid("bf9db6cd-3d3e-44d6-82ca-a3224cf59b5c"),
+                            Action = "Edit",
+                            Name = "editusers",
+                            Resource = "Users"
+                        },
+                        new
+                        {
+                            Id = new Guid("4334fe07-efd4-4903-8a46-4015c81ce2e2"),
+                            Action = "Delete",
+                            Name = "deleteusers",
+                            Resource = "Users"
+                        });
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Authorization.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
+                            PermissionId = new Guid("cb8e1b7a-1a74-4087-8e5a-ccc964e3d6f5")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
+                            PermissionId = new Guid("50d10903-6084-498b-a1b1-f2c7897e8a1f")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
+                            PermissionId = new Guid("d55f7d0a-d14e-42e9-9e6e-ea3c5e6fcfd1")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("9d0d52c3-5b4d-4aa3-8d69-bb74bf91eeff"),
+                            PermissionId = new Guid("cb8e1b7a-1a74-4087-8e5a-ccc964e3d6f5")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("9d0d52c3-5b4d-4aa3-8d69-bb74bf91eeff"),
+                            PermissionId = new Guid("50d10903-6084-498b-a1b1-f2c7897e8a1f")
+                        });
+                });
+
             modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -49,83 +161,83 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("63464890-61ee-4906-8010-5833ea62bd08"),
+                            Id = new Guid("e30c911c-b89c-41ea-a4a8-33d29d561a89"),
                             IsActive = false,
                             NameAr = "برمجة",
                             NameEn = "Programming",
-                            TopicId = new Guid("bba9319e-cfa3-4e49-806c-aec8a108af88")
+                            TopicId = new Guid("da1a652b-c69d-4984-ab01-bc35ba97452b")
                         },
                         new
                         {
-                            Id = new Guid("b2d96a13-883b-435a-bdb2-562be473371d"),
+                            Id = new Guid("feecb15c-a1dd-4555-9ab0-764727096b13"),
                             IsActive = false,
                             NameAr = "تحليل البيانات",
                             NameEn = "Data Analysis",
-                            TopicId = new Guid("9c9dec31-2568-45d2-93e2-b0bd997cf157")
+                            TopicId = new Guid("abca8f61-dce5-4cae-9b37-7aa26403d15a")
                         },
                         new
                         {
-                            Id = new Guid("1210ad0c-0043-47bb-9543-ffe58cd6c3a6"),
+                            Id = new Guid("9e43f36a-4f01-47ff-9e31-5b165ea990ce"),
                             IsActive = false,
                             NameAr = "ذكاء اصطناعي",
                             NameEn = "Artificial Intelligence",
-                            TopicId = new Guid("d0c66db6-8b86-4dd2-8852-19baee3b7f3c")
+                            TopicId = new Guid("ec458ca3-34c1-41a9-b92d-b9ca0c134c4d")
                         },
                         new
                         {
-                            Id = new Guid("f87b222f-c457-47ac-9a71-d1ce6813af62"),
+                            Id = new Guid("22ae1a1a-fdb4-4df6-9405-1065b63972ef"),
                             IsActive = false,
                             NameAr = "أمن سيبراني",
                             NameEn = "Cyber Security",
-                            TopicId = new Guid("be2f5b63-7ac1-49d4-ae66-312445025b18")
+                            TopicId = new Guid("83fe8e2f-2e20-4632-a929-8145c3a7d8f4")
                         },
                         new
                         {
-                            Id = new Guid("4ba2a722-5622-4b9f-a386-8db07c865c2c"),
+                            Id = new Guid("44e1b923-f445-4b26-bd53-9d1414628df5"),
                             IsActive = false,
                             NameAr = "تعليم إلكتروني",
                             NameEn = "E-Learning",
-                            TopicId = new Guid("777da8e0-8571-446c-9ed1-08d365ed3a93")
+                            TopicId = new Guid("c598c638-6eb9-4c97-b90c-22b43555ff75")
                         },
                         new
                         {
-                            Id = new Guid("f613a892-3833-4ba3-9e80-a4ca965c42d4"),
+                            Id = new Guid("810e7c2b-6b70-466a-8eea-bfc2fdb8c5a1"),
                             IsActive = false,
                             NameAr = "تسويق رقمي",
                             NameEn = "Digital Marketing",
-                            TopicId = new Guid("0c09e037-1c0e-44f5-847a-9d6843047a47")
+                            TopicId = new Guid("5e72101f-8087-4f44-8be7-8bfb3255c905")
                         },
                         new
                         {
-                            Id = new Guid("fb4ca459-47f5-4619-a6e7-45d17c9bb3f0"),
+                            Id = new Guid("7f7d5c32-5d68-4caa-bf04-612dfac0828a"),
                             IsActive = false,
                             NameAr = "هندسة كهربائية",
                             NameEn = "Electrical Engineering",
-                            TopicId = new Guid("3bad6969-0481-4d1e-9d78-ebf8e1d60b3c")
+                            TopicId = new Guid("bc9da5b2-fe12-4e36-8c31-b750748eff43")
                         },
                         new
                         {
-                            Id = new Guid("aca856cb-bb73-4370-a971-c8fc5103c519"),
+                            Id = new Guid("e11eed3f-9faf-4212-803a-cacb8e03e492"),
                             IsActive = false,
                             NameAr = "هندسة ميكانيكية",
                             NameEn = "Mechanical Engineering",
-                            TopicId = new Guid("0d95f453-c111-4b67-b884-322d8e4cb89d")
+                            TopicId = new Guid("a64813c7-d6ff-4dcd-9f06-0ffa57f08be9")
                         },
                         new
                         {
-                            Id = new Guid("591d5b94-cb3d-4c47-8fd7-62dccb6ab239"),
+                            Id = new Guid("a90f4326-acee-45d9-8a4b-c07f78445357"),
                             IsActive = false,
                             NameAr = "هندسة مدنية",
                             NameEn = "Civil Engineering",
-                            TopicId = new Guid("a17b04ef-f261-4089-b63b-6d512ff7664f")
+                            TopicId = new Guid("53fc93df-b393-4e19-9663-ac66d0e35f43")
                         },
                         new
                         {
-                            Id = new Guid("83f11885-011f-4fb1-90e6-35f1098352c9"),
+                            Id = new Guid("33d36c9f-4941-4cb1-8439-4b51667d586d"),
                             IsActive = false,
                             NameAr = "علوم فيزيائية",
                             NameEn = "Physical Sciences",
-                            TopicId = new Guid("ed20f329-4daf-4cdf-ba3d-9d129345ac24")
+                            TopicId = new Guid("43200a15-0ce3-407b-982f-5bbb8ad8127a")
                         });
                 });
 
@@ -162,403 +274,403 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f5b14eaf-4daf-465e-81a2-87a6a4f858fb"),
+                            Id = new Guid("7f3e9cba-427e-4f04-9a02-46536fc4a452"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في أساسيات البرمجة",
                             NameEn = "First lesson in First section in Programming Basics",
-                            SectionId = new Guid("fc754034-b186-4669-a402-d870df0ce730")
+                            SectionId = new Guid("1ce47144-1cd6-4dad-8068-d7bbc01c2b93")
                         },
                         new
                         {
-                            Id = new Guid("4279bb8b-5a84-4ef6-9384-5018ada0ebc2"),
+                            Id = new Guid("5fdf899e-6f24-424f-a995-db580535fa50"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في أساسيات البرمجة",
                             NameEn = "Second lesson in First section in Programming Basics",
-                            SectionId = new Guid("fc754034-b186-4669-a402-d870df0ce730")
+                            SectionId = new Guid("1ce47144-1cd6-4dad-8068-d7bbc01c2b93")
                         },
                         new
                         {
-                            Id = new Guid("9818d9f4-f67b-486f-b78d-a5f1ab6388fc"),
+                            Id = new Guid("e299afcb-2f96-479b-bc1c-eb59e7330a5a"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في أساسيات البرمجة",
                             NameEn = "First lesson in Second section in Programming Basics",
-                            SectionId = new Guid("5c259f7d-f647-451d-b8d4-f87286a1efcb")
+                            SectionId = new Guid("aa000721-2d9d-4b7d-8df0-f9c30f22f4b2")
                         },
                         new
                         {
-                            Id = new Guid("fc0ad217-fd5e-4b60-b6f6-2c79f97cbda5"),
+                            Id = new Guid("f116cd9d-027f-4f42-b310-a5331b3e24cd"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في أساسيات البرمجة",
                             NameEn = "Second lesson in Second section in Programming Basics",
-                            SectionId = new Guid("5c259f7d-f647-451d-b8d4-f87286a1efcb")
+                            SectionId = new Guid("aa000721-2d9d-4b7d-8df0-f9c30f22f4b2")
                         },
                         new
                         {
-                            Id = new Guid("88c25042-ed26-466a-9fb2-89bf06bc4bcf"),
+                            Id = new Guid("4cf13cfc-11c0-458d-a1a2-ceb92adcb350"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في تحليل البيانات المتقدم",
                             NameEn = "First lesson in First section in Advanced Data Analysis",
-                            SectionId = new Guid("09a0bb15-5df4-442b-83cf-65686a778168")
+                            SectionId = new Guid("9da76f9e-76e8-47b1-8dc5-76f7d3eaa03a")
                         },
                         new
                         {
-                            Id = new Guid("7b665b0c-94db-4309-b76e-af356ff1e78d"),
+                            Id = new Guid("5ce91157-56e1-47a3-a021-3df9a6ec2768"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في تحليل البيانات المتقدم",
                             NameEn = "Second lesson in First section in Advanced Data Analysis",
-                            SectionId = new Guid("09a0bb15-5df4-442b-83cf-65686a778168")
+                            SectionId = new Guid("9da76f9e-76e8-47b1-8dc5-76f7d3eaa03a")
                         },
                         new
                         {
-                            Id = new Guid("cd19011e-a9dc-4ebc-a40f-67d76b469f3d"),
+                            Id = new Guid("83af6bf9-3355-4c42-8dd9-14fc1a0c7a87"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في تحليل البيانات المتقدم",
                             NameEn = "First lesson in Second section in Advanced Data Analysis",
-                            SectionId = new Guid("a86274d0-f3b7-416d-a73f-74c1e8f0edcb")
+                            SectionId = new Guid("2fadf499-28e1-49d2-a752-9282ecaf01f6")
                         },
                         new
                         {
-                            Id = new Guid("159fec1c-6260-459e-b9d4-efcdec11ae1d"),
+                            Id = new Guid("4595c1d7-609f-4b02-a3a0-5888ad84215a"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في تحليل البيانات المتقدم",
                             NameEn = "Second lesson in Second section in Advanced Data Analysis",
-                            SectionId = new Guid("a86274d0-f3b7-416d-a73f-74c1e8f0edcb")
+                            SectionId = new Guid("2fadf499-28e1-49d2-a752-9282ecaf01f6")
                         },
                         new
                         {
-                            Id = new Guid("c711d942-590c-4797-af12-65ee62ad0f5d"),
+                            Id = new Guid("29c715f0-901a-4e80-8f59-f1f6125854e7"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في مقدمة في الذكاء الاصطناعي",
                             NameEn = "First lesson in First section in Intro to Artificial Intelligence",
-                            SectionId = new Guid("1380a77d-2531-4935-b1a7-01e44f9a355f")
+                            SectionId = new Guid("cfd2d74f-2c93-4205-b444-9ffae57752cd")
                         },
                         new
                         {
-                            Id = new Guid("94a92ac2-8cb7-4000-b9d4-7e8452fa3ee1"),
+                            Id = new Guid("fca6b7c9-a690-4f8e-907c-fcd3d79ec6b6"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في مقدمة في الذكاء الاصطناعي",
                             NameEn = "Second lesson in First section in Intro to Artificial Intelligence",
-                            SectionId = new Guid("1380a77d-2531-4935-b1a7-01e44f9a355f")
+                            SectionId = new Guid("cfd2d74f-2c93-4205-b444-9ffae57752cd")
                         },
                         new
                         {
-                            Id = new Guid("a47f2f6d-d36f-4aa3-9428-43b747389406"),
+                            Id = new Guid("2aa9c417-4bd4-41fe-b5fd-6603a9bb52b8"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في مقدمة في الذكاء الاصطناعي",
                             NameEn = "First lesson in Second section in Intro to Artificial Intelligence",
-                            SectionId = new Guid("efb63968-8e0e-4841-ac5e-41eccb9acc09")
+                            SectionId = new Guid("cd5da343-e14c-4e27-ab6a-0e27d187e22d")
                         },
                         new
                         {
-                            Id = new Guid("ded4f17f-a29e-4c4f-b89e-98a73e6d751f"),
+                            Id = new Guid("04592230-50da-4dab-8177-d874fd226c7c"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في مقدمة في الذكاء الاصطناعي",
                             NameEn = "Second lesson in Second section in Intro to Artificial Intelligence",
-                            SectionId = new Guid("efb63968-8e0e-4841-ac5e-41eccb9acc09")
+                            SectionId = new Guid("cd5da343-e14c-4e27-ab6a-0e27d187e22d")
                         },
                         new
                         {
-                            Id = new Guid("309ea4ff-9ade-45df-b85f-0f0201a28a34"),
+                            Id = new Guid("f31c371a-ca64-4199-ad91-966e99acb3fe"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في مبادئ الأمن السيبراني",
                             NameEn = "First lesson in First section in Cyber Security Fundamentals",
-                            SectionId = new Guid("23dda834-b027-486d-ae10-1e04e408f7f1")
+                            SectionId = new Guid("450542a8-b568-4d10-9e3f-b55dccb9df50")
                         },
                         new
                         {
-                            Id = new Guid("262649bf-f293-4efb-aa43-7ed296eda927"),
+                            Id = new Guid("f4a2b574-8d39-40be-b3a8-29e4200390fb"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في مبادئ الأمن السيبراني",
                             NameEn = "Second lesson in First section in Cyber Security Fundamentals",
-                            SectionId = new Guid("23dda834-b027-486d-ae10-1e04e408f7f1")
+                            SectionId = new Guid("450542a8-b568-4d10-9e3f-b55dccb9df50")
                         },
                         new
                         {
-                            Id = new Guid("c5b98d38-62f5-4a43-9cad-aa158da8c4a0"),
+                            Id = new Guid("cef63529-1c3f-48a9-87f2-79a7c4e33649"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في مبادئ الأمن السيبراني",
                             NameEn = "First lesson in Second section in Cyber Security Fundamentals",
-                            SectionId = new Guid("b7306cbf-30b2-42fb-a30b-bd487a27c5ce")
+                            SectionId = new Guid("cef7d619-7d6b-4a01-a694-13578c79855f")
                         },
                         new
                         {
-                            Id = new Guid("705a54aa-3544-44a6-9af8-d5d306f68d05"),
+                            Id = new Guid("5ad6ce09-8955-4b5b-808a-c1c117ff37de"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في مبادئ الأمن السيبراني",
                             NameEn = "Second lesson in Second section in Cyber Security Fundamentals",
-                            SectionId = new Guid("b7306cbf-30b2-42fb-a30b-bd487a27c5ce")
+                            SectionId = new Guid("cef7d619-7d6b-4a01-a694-13578c79855f")
                         },
                         new
                         {
-                            Id = new Guid("60f98055-ada3-4924-b3fe-0563ad0b87ff"),
+                            Id = new Guid("bfae1edb-2258-4147-a0dd-25d08a99bd79"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في مقدمة في التعليم الإلكتروني",
                             NameEn = "First lesson in First section in Intro to E-Learning",
-                            SectionId = new Guid("15c2b701-7c07-4693-ba2b-6d6f140f7021")
+                            SectionId = new Guid("ca2bce71-389c-41f2-b3f2-fd603c2586cb")
                         },
                         new
                         {
-                            Id = new Guid("2861e1ff-9fd0-4220-bd4a-7efbcb5d4725"),
+                            Id = new Guid("dcae7ec8-032e-4c0a-9ce1-da527b694664"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في مقدمة في التعليم الإلكتروني",
                             NameEn = "Second lesson in First section in Intro to E-Learning",
-                            SectionId = new Guid("15c2b701-7c07-4693-ba2b-6d6f140f7021")
+                            SectionId = new Guid("ca2bce71-389c-41f2-b3f2-fd603c2586cb")
                         },
                         new
                         {
-                            Id = new Guid("826262cb-2486-43ee-87f8-5b256972eb49"),
+                            Id = new Guid("f714a849-2833-4c70-987d-d683dea74619"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في مقدمة في التعليم الإلكتروني",
                             NameEn = "First lesson in Second section in Intro to E-Learning",
-                            SectionId = new Guid("065a51f3-a037-4210-907b-4aeb89d268c7")
+                            SectionId = new Guid("36520d30-5697-445c-860a-7db5f70a1c90")
                         },
                         new
                         {
-                            Id = new Guid("cbb99df4-d6cf-4870-bc3f-19f5683e4f84"),
+                            Id = new Guid("0ac8c124-356d-48e5-8b85-60eb749450d8"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في مقدمة في التعليم الإلكتروني",
                             NameEn = "Second lesson in Second section in Intro to E-Learning",
-                            SectionId = new Guid("065a51f3-a037-4210-907b-4aeb89d268c7")
+                            SectionId = new Guid("36520d30-5697-445c-860a-7db5f70a1c90")
                         },
                         new
                         {
-                            Id = new Guid("f6ba1d08-a73f-4232-abab-bf1c219dfa44"),
+                            Id = new Guid("63e83b36-2670-41d9-8d77-4352160f3f6d"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في أساسيات التسويق الرقمي",
                             NameEn = "First lesson in First section in Digital Marketing Basics",
-                            SectionId = new Guid("7b25cfcf-6459-4c63-a30a-465dff24a0b6")
+                            SectionId = new Guid("455daa48-484d-4ed1-9532-f3d4493d76cf")
                         },
                         new
                         {
-                            Id = new Guid("f6e89544-ea32-47b0-85ac-28f8da4c44f9"),
+                            Id = new Guid("fc2bff35-3383-4f3c-a19a-e20f68963c19"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في أساسيات التسويق الرقمي",
                             NameEn = "Second lesson in First section in Digital Marketing Basics",
-                            SectionId = new Guid("7b25cfcf-6459-4c63-a30a-465dff24a0b6")
+                            SectionId = new Guid("455daa48-484d-4ed1-9532-f3d4493d76cf")
                         },
                         new
                         {
-                            Id = new Guid("9d36020a-e3d0-4802-bf40-1cfc8c656cfc"),
+                            Id = new Guid("2d135dfd-82ea-4c66-9bd7-d436f33d6f0d"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في أساسيات التسويق الرقمي",
                             NameEn = "First lesson in Second section in Digital Marketing Basics",
-                            SectionId = new Guid("f2d0047e-8e14-4447-b421-0f94e15f9abf")
+                            SectionId = new Guid("95a241b7-d393-47d0-97ac-fec877acd48b")
                         },
                         new
                         {
-                            Id = new Guid("4e5ddd32-83ba-4620-a36a-7380822eeb2e"),
+                            Id = new Guid("f79ddcbf-5f7c-472c-a917-88cadd74915d"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في أساسيات التسويق الرقمي",
                             NameEn = "Second lesson in Second section in Digital Marketing Basics",
-                            SectionId = new Guid("f2d0047e-8e14-4447-b421-0f94e15f9abf")
+                            SectionId = new Guid("95a241b7-d393-47d0-97ac-fec877acd48b")
                         },
                         new
                         {
-                            Id = new Guid("9a73a813-d957-4c7f-89e5-217ede60f403"),
+                            Id = new Guid("3df9a319-afd8-4c4d-bd15-4a33a9f878c1"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في أساسيات الهندسة الكهربائية",
                             NameEn = "First lesson in First section in Electrical Engineering Basics",
-                            SectionId = new Guid("f8a6fa75-4bac-442e-a48b-74d7ed8a46cf")
+                            SectionId = new Guid("9fd40f3c-f3d0-4365-8222-7cb8d70a5abf")
                         },
                         new
                         {
-                            Id = new Guid("bfd14491-553e-474e-a590-f6f62d105322"),
+                            Id = new Guid("36f3dcad-d5a6-4048-8645-b57bbe313364"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في أساسيات الهندسة الكهربائية",
                             NameEn = "Second lesson in First section in Electrical Engineering Basics",
-                            SectionId = new Guid("f8a6fa75-4bac-442e-a48b-74d7ed8a46cf")
+                            SectionId = new Guid("9fd40f3c-f3d0-4365-8222-7cb8d70a5abf")
                         },
                         new
                         {
-                            Id = new Guid("c9cfe415-d0de-4329-86d4-ffe6db7f34d8"),
+                            Id = new Guid("47767a62-88ad-4bcd-bf30-3a912fd083a8"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في أساسيات الهندسة الكهربائية",
                             NameEn = "First lesson in Second section in Electrical Engineering Basics",
-                            SectionId = new Guid("ac44bc2b-ad6c-47d0-91fa-757478dbb7ec")
+                            SectionId = new Guid("57a7de8b-4fcd-4325-9066-6b1fac027e8e")
                         },
                         new
                         {
-                            Id = new Guid("d0cfb2ae-2d52-4b8d-8ac0-9033cadd5b84"),
+                            Id = new Guid("41f5f8bb-875a-4b0f-83c8-a034a4fc4472"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في أساسيات الهندسة الكهربائية",
                             NameEn = "Second lesson in Second section in Electrical Engineering Basics",
-                            SectionId = new Guid("ac44bc2b-ad6c-47d0-91fa-757478dbb7ec")
+                            SectionId = new Guid("57a7de8b-4fcd-4325-9066-6b1fac027e8e")
                         },
                         new
                         {
-                            Id = new Guid("09938257-b523-4331-aba5-476cce76d332"),
+                            Id = new Guid("b3e2ece7-0c6c-4cb1-a490-a53fdebc5f25"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في مبادئ الهندسة الميكانيكية",
                             NameEn = "First lesson in First section in Mechanical Engineering Principles",
-                            SectionId = new Guid("8d6ff3d3-f1f8-47b7-8b43-bb5deb974341")
+                            SectionId = new Guid("755a3ed7-637d-4901-97cd-356b1ca6d15f")
                         },
                         new
                         {
-                            Id = new Guid("2b551b02-88ad-46ce-ba00-07cfd0a6e06a"),
+                            Id = new Guid("2b098991-9716-4dfb-8005-baf544c00d0e"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في مبادئ الهندسة الميكانيكية",
                             NameEn = "Second lesson in First section in Mechanical Engineering Principles",
-                            SectionId = new Guid("8d6ff3d3-f1f8-47b7-8b43-bb5deb974341")
+                            SectionId = new Guid("755a3ed7-637d-4901-97cd-356b1ca6d15f")
                         },
                         new
                         {
-                            Id = new Guid("1c9102f4-18a6-41c4-9623-890762355c34"),
+                            Id = new Guid("318524e5-d16e-4b39-9dcb-51122b56b70e"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في مبادئ الهندسة الميكانيكية",
                             NameEn = "First lesson in Second section in Mechanical Engineering Principles",
-                            SectionId = new Guid("ccde33c0-0bfa-4da5-ac34-d37fa1f2891a")
+                            SectionId = new Guid("3306604b-a267-4e37-a0ed-5929345c4f40")
                         },
                         new
                         {
-                            Id = new Guid("3ba88b50-6830-4420-8d19-6ab8894b434f"),
+                            Id = new Guid("2de91068-4ae9-4663-9651-576285ead8ec"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في مبادئ الهندسة الميكانيكية",
                             NameEn = "Second lesson in Second section in Mechanical Engineering Principles",
-                            SectionId = new Guid("ccde33c0-0bfa-4da5-ac34-d37fa1f2891a")
+                            SectionId = new Guid("3306604b-a267-4e37-a0ed-5929345c4f40")
                         },
                         new
                         {
-                            Id = new Guid("f2be401d-d2f4-41ed-b359-cb624ab1af53"),
+                            Id = new Guid("22aa0a14-7ca7-46d2-859a-094bdfc490fc"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في الهندسة المدنية المتقدمة",
                             NameEn = "First lesson in First section in Advanced Civil Engineering",
-                            SectionId = new Guid("4673956b-854a-40c2-8532-75213e53b726")
+                            SectionId = new Guid("a7c931f4-8f03-4204-a67e-364d43b548e8")
                         },
                         new
                         {
-                            Id = new Guid("c1f5db40-3d9e-4f64-934e-7b1daa22dbb2"),
+                            Id = new Guid("ef4e70b3-147b-4f61-b5aa-358777d2dd6c"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في الهندسة المدنية المتقدمة",
                             NameEn = "Second lesson in First section in Advanced Civil Engineering",
-                            SectionId = new Guid("4673956b-854a-40c2-8532-75213e53b726")
+                            SectionId = new Guid("a7c931f4-8f03-4204-a67e-364d43b548e8")
                         },
                         new
                         {
-                            Id = new Guid("9742b44b-d088-4a78-b192-a377322436e7"),
+                            Id = new Guid("2cc40eec-2a69-49b7-bedb-2621a506a3df"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في الهندسة المدنية المتقدمة",
                             NameEn = "First lesson in Second section in Advanced Civil Engineering",
-                            SectionId = new Guid("15b40b3f-1104-4820-bb6d-7b14469fbe74")
+                            SectionId = new Guid("2d9f84fe-43d2-4495-8076-b49fbf987256")
                         },
                         new
                         {
-                            Id = new Guid("6be8f86b-34dd-4568-a733-3867a9f4aafc"),
+                            Id = new Guid("ca901d0b-7658-4997-8333-6704fd6b7a19"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في الهندسة المدنية المتقدمة",
                             NameEn = "Second lesson in Second section in Advanced Civil Engineering",
-                            SectionId = new Guid("15b40b3f-1104-4820-bb6d-7b14469fbe74")
+                            SectionId = new Guid("2d9f84fe-43d2-4495-8076-b49fbf987256")
                         },
                         new
                         {
-                            Id = new Guid("fbb0fc15-40bb-4f7a-a988-16f3d90e49b5"),
+                            Id = new Guid("ae98d44d-5e15-4605-a6c7-1a7d4b528b8d"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الأول في أساسيات الفيزياء",
                             NameEn = "First lesson in First section in Physics Basics",
-                            SectionId = new Guid("e04addeb-7437-4bdb-a8fb-28f67284d579")
+                            SectionId = new Guid("c035f81e-a829-46bc-b802-7bd5cad8811f")
                         },
                         new
                         {
-                            Id = new Guid("509287ee-a83b-4536-b060-8415d4e7096f"),
+                            Id = new Guid("26d2d4a9-7184-4e27-a531-80e490374e32"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الأول في أساسيات الفيزياء",
                             NameEn = "Second lesson in First section in Physics Basics",
-                            SectionId = new Guid("e04addeb-7437-4bdb-a8fb-28f67284d579")
+                            SectionId = new Guid("c035f81e-a829-46bc-b802-7bd5cad8811f")
                         },
                         new
                         {
-                            Id = new Guid("26c504a0-dda5-44d9-9003-34ff051d75c1"),
+                            Id = new Guid("57d27d1a-0a88-41c6-aaa4-5a20427e5de1"),
                             ContentType = "Video",
                             FileUrl = "https://example.com/lesson1.mp4",
                             IsActive = false,
                             NameAr = "الدرس الأول في القسم الثاني في أساسيات الفيزياء",
                             NameEn = "First lesson in Second section in Physics Basics",
-                            SectionId = new Guid("9085060b-554a-4ce4-99d8-52cdbe3b718c")
+                            SectionId = new Guid("a6ec7101-8313-4ad3-835f-e723739db634")
                         },
                         new
                         {
-                            Id = new Guid("09558227-27d1-4d02-af0e-3e9a4ffef7f4"),
+                            Id = new Guid("537ab0ec-9727-43d9-bfb8-7748da3a5e65"),
                             ContentType = "PDF",
                             FileUrl = "https://example.com/lesson2.pdf",
                             IsActive = false,
                             NameAr = "الدرس الثاني في القسم الثاني في أساسيات الفيزياء",
                             NameEn = "Second lesson in Second section in Physics Basics",
-                            SectionId = new Guid("9085060b-554a-4ce4-99d8-52cdbe3b718c")
+                            SectionId = new Guid("a6ec7101-8313-4ad3-835f-e723739db634")
                         });
                 });
 
@@ -589,160 +701,160 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fc754034-b186-4669-a402-d870df0ce730"),
-                            CourseId = new Guid("c5be303b-fc25-445d-a9bc-0c9351258ca8"),
+                            Id = new Guid("1ce47144-1cd6-4dad-8068-d7bbc01c2b93"),
+                            CourseId = new Guid("1867dd07-b575-4b81-91ac-370b88f442a4"),
                             IsActive = false,
                             TitleAr = "القسم الأول في أساسيات البرمجة",
                             TitleEn = "First section in Programming Basics"
                         },
                         new
                         {
-                            Id = new Guid("5c259f7d-f647-451d-b8d4-f87286a1efcb"),
-                            CourseId = new Guid("c5be303b-fc25-445d-a9bc-0c9351258ca8"),
+                            Id = new Guid("aa000721-2d9d-4b7d-8df0-f9c30f22f4b2"),
+                            CourseId = new Guid("1867dd07-b575-4b81-91ac-370b88f442a4"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في أساسيات البرمجة",
                             TitleEn = "Second section in Programming Basics"
                         },
                         new
                         {
-                            Id = new Guid("09a0bb15-5df4-442b-83cf-65686a778168"),
-                            CourseId = new Guid("0bbc5774-c938-4b62-982e-f770be1c3882"),
+                            Id = new Guid("9da76f9e-76e8-47b1-8dc5-76f7d3eaa03a"),
+                            CourseId = new Guid("fb438c6a-ddb7-4b34-a2db-3e46857dd401"),
                             IsActive = false,
                             TitleAr = "القسم الأول في تحليل البيانات المتقدم",
                             TitleEn = "First section in Advanced Data Analysis"
                         },
                         new
                         {
-                            Id = new Guid("a86274d0-f3b7-416d-a73f-74c1e8f0edcb"),
-                            CourseId = new Guid("0bbc5774-c938-4b62-982e-f770be1c3882"),
+                            Id = new Guid("2fadf499-28e1-49d2-a752-9282ecaf01f6"),
+                            CourseId = new Guid("fb438c6a-ddb7-4b34-a2db-3e46857dd401"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في تحليل البيانات المتقدم",
                             TitleEn = "Second section in Advanced Data Analysis"
                         },
                         new
                         {
-                            Id = new Guid("1380a77d-2531-4935-b1a7-01e44f9a355f"),
-                            CourseId = new Guid("a3a9662f-4a77-406c-8171-2fcbb9bdd401"),
+                            Id = new Guid("cfd2d74f-2c93-4205-b444-9ffae57752cd"),
+                            CourseId = new Guid("6151a701-53d9-496b-8984-a4e2552b8995"),
                             IsActive = false,
                             TitleAr = "القسم الأول في مقدمة في الذكاء الاصطناعي",
                             TitleEn = "First section in Intro to Artificial Intelligence"
                         },
                         new
                         {
-                            Id = new Guid("efb63968-8e0e-4841-ac5e-41eccb9acc09"),
-                            CourseId = new Guid("a3a9662f-4a77-406c-8171-2fcbb9bdd401"),
+                            Id = new Guid("cd5da343-e14c-4e27-ab6a-0e27d187e22d"),
+                            CourseId = new Guid("6151a701-53d9-496b-8984-a4e2552b8995"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في مقدمة في الذكاء الاصطناعي",
                             TitleEn = "Second section in Intro to Artificial Intelligence"
                         },
                         new
                         {
-                            Id = new Guid("23dda834-b027-486d-ae10-1e04e408f7f1"),
-                            CourseId = new Guid("df8699b0-8b9a-4be5-9639-20e2d9e48d33"),
+                            Id = new Guid("450542a8-b568-4d10-9e3f-b55dccb9df50"),
+                            CourseId = new Guid("886c4ace-103b-4048-a4ba-e94f2da5fda6"),
                             IsActive = false,
                             TitleAr = "القسم الأول في مبادئ الأمن السيبراني",
                             TitleEn = "First section in Cyber Security Fundamentals"
                         },
                         new
                         {
-                            Id = new Guid("b7306cbf-30b2-42fb-a30b-bd487a27c5ce"),
-                            CourseId = new Guid("df8699b0-8b9a-4be5-9639-20e2d9e48d33"),
+                            Id = new Guid("cef7d619-7d6b-4a01-a694-13578c79855f"),
+                            CourseId = new Guid("886c4ace-103b-4048-a4ba-e94f2da5fda6"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في مبادئ الأمن السيبراني",
                             TitleEn = "Second section in Cyber Security Fundamentals"
                         },
                         new
                         {
-                            Id = new Guid("15c2b701-7c07-4693-ba2b-6d6f140f7021"),
-                            CourseId = new Guid("72dbc6b0-2f7e-4784-95e6-a276df58839f"),
+                            Id = new Guid("ca2bce71-389c-41f2-b3f2-fd603c2586cb"),
+                            CourseId = new Guid("c1e4c568-e3d4-4c1b-8a7f-fd62eebaa974"),
                             IsActive = false,
                             TitleAr = "القسم الأول في مقدمة في التعليم الإلكتروني",
                             TitleEn = "First section in Intro to E-Learning"
                         },
                         new
                         {
-                            Id = new Guid("065a51f3-a037-4210-907b-4aeb89d268c7"),
-                            CourseId = new Guid("72dbc6b0-2f7e-4784-95e6-a276df58839f"),
+                            Id = new Guid("36520d30-5697-445c-860a-7db5f70a1c90"),
+                            CourseId = new Guid("c1e4c568-e3d4-4c1b-8a7f-fd62eebaa974"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في مقدمة في التعليم الإلكتروني",
                             TitleEn = "Second section in Intro to E-Learning"
                         },
                         new
                         {
-                            Id = new Guid("7b25cfcf-6459-4c63-a30a-465dff24a0b6"),
-                            CourseId = new Guid("832cee7c-99e5-42ee-af2b-51aa1d3177d9"),
+                            Id = new Guid("455daa48-484d-4ed1-9532-f3d4493d76cf"),
+                            CourseId = new Guid("2a8eea04-d170-46e7-9c14-9d0c38d819ef"),
                             IsActive = false,
                             TitleAr = "القسم الأول في أساسيات التسويق الرقمي",
                             TitleEn = "First section in Digital Marketing Basics"
                         },
                         new
                         {
-                            Id = new Guid("f2d0047e-8e14-4447-b421-0f94e15f9abf"),
-                            CourseId = new Guid("832cee7c-99e5-42ee-af2b-51aa1d3177d9"),
+                            Id = new Guid("95a241b7-d393-47d0-97ac-fec877acd48b"),
+                            CourseId = new Guid("2a8eea04-d170-46e7-9c14-9d0c38d819ef"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في أساسيات التسويق الرقمي",
                             TitleEn = "Second section in Digital Marketing Basics"
                         },
                         new
                         {
-                            Id = new Guid("f8a6fa75-4bac-442e-a48b-74d7ed8a46cf"),
-                            CourseId = new Guid("49abba9b-2835-404d-afc6-8e0aba80be77"),
+                            Id = new Guid("9fd40f3c-f3d0-4365-8222-7cb8d70a5abf"),
+                            CourseId = new Guid("3cf97955-03da-4889-9c09-d5d72f48cc9c"),
                             IsActive = false,
                             TitleAr = "القسم الأول في أساسيات الهندسة الكهربائية",
                             TitleEn = "First section in Electrical Engineering Basics"
                         },
                         new
                         {
-                            Id = new Guid("ac44bc2b-ad6c-47d0-91fa-757478dbb7ec"),
-                            CourseId = new Guid("49abba9b-2835-404d-afc6-8e0aba80be77"),
+                            Id = new Guid("57a7de8b-4fcd-4325-9066-6b1fac027e8e"),
+                            CourseId = new Guid("3cf97955-03da-4889-9c09-d5d72f48cc9c"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في أساسيات الهندسة الكهربائية",
                             TitleEn = "Second section in Electrical Engineering Basics"
                         },
                         new
                         {
-                            Id = new Guid("8d6ff3d3-f1f8-47b7-8b43-bb5deb974341"),
-                            CourseId = new Guid("56e357a1-bda0-412a-ad68-6ab234fe1502"),
+                            Id = new Guid("755a3ed7-637d-4901-97cd-356b1ca6d15f"),
+                            CourseId = new Guid("2d3b3af2-8f64-4f42-b24c-c3508dec011c"),
                             IsActive = false,
                             TitleAr = "القسم الأول في مبادئ الهندسة الميكانيكية",
                             TitleEn = "First section in Mechanical Engineering Principles"
                         },
                         new
                         {
-                            Id = new Guid("ccde33c0-0bfa-4da5-ac34-d37fa1f2891a"),
-                            CourseId = new Guid("56e357a1-bda0-412a-ad68-6ab234fe1502"),
+                            Id = new Guid("3306604b-a267-4e37-a0ed-5929345c4f40"),
+                            CourseId = new Guid("2d3b3af2-8f64-4f42-b24c-c3508dec011c"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في مبادئ الهندسة الميكانيكية",
                             TitleEn = "Second section in Mechanical Engineering Principles"
                         },
                         new
                         {
-                            Id = new Guid("4673956b-854a-40c2-8532-75213e53b726"),
-                            CourseId = new Guid("9d6d03c0-2bcb-47b4-ad8e-0fcfc3c3c04b"),
+                            Id = new Guid("a7c931f4-8f03-4204-a67e-364d43b548e8"),
+                            CourseId = new Guid("115d0c22-5c7b-439d-b242-ab6ed330afa0"),
                             IsActive = false,
                             TitleAr = "القسم الأول في الهندسة المدنية المتقدمة",
                             TitleEn = "First section in Advanced Civil Engineering"
                         },
                         new
                         {
-                            Id = new Guid("15b40b3f-1104-4820-bb6d-7b14469fbe74"),
-                            CourseId = new Guid("9d6d03c0-2bcb-47b4-ad8e-0fcfc3c3c04b"),
+                            Id = new Guid("2d9f84fe-43d2-4495-8076-b49fbf987256"),
+                            CourseId = new Guid("115d0c22-5c7b-439d-b242-ab6ed330afa0"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في الهندسة المدنية المتقدمة",
                             TitleEn = "Second section in Advanced Civil Engineering"
                         },
                         new
                         {
-                            Id = new Guid("e04addeb-7437-4bdb-a8fb-28f67284d579"),
-                            CourseId = new Guid("ca2f8ee4-68ea-4228-9f72-6179afef271c"),
+                            Id = new Guid("c035f81e-a829-46bc-b802-7bd5cad8811f"),
+                            CourseId = new Guid("f8f5f3c6-4478-476f-8c35-202454dc6635"),
                             IsActive = false,
                             TitleAr = "القسم الأول في أساسيات الفيزياء",
                             TitleEn = "First section in Physics Basics"
                         },
                         new
                         {
-                            Id = new Guid("9085060b-554a-4ce4-99d8-52cdbe3b718c"),
-                            CourseId = new Guid("ca2f8ee4-68ea-4228-9f72-6179afef271c"),
+                            Id = new Guid("a6ec7101-8313-4ad3-835f-e723739db634"),
+                            CourseId = new Guid("f8f5f3c6-4478-476f-8c35-202454dc6635"),
                             IsActive = false,
                             TitleAr = "القسم الثاني في أساسيات الفيزياء",
                             TitleEn = "Second section in Physics Basics"
@@ -775,70 +887,70 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bba9319e-cfa3-4e49-806c-aec8a108af88"),
+                            Id = new Guid("da1a652b-c69d-4984-ab01-bc35ba97452b"),
                             IsActive = false,
                             NameAr = "تطوير البرمجيات",
                             NameEn = "Software Development"
                         },
                         new
                         {
-                            Id = new Guid("9c9dec31-2568-45d2-93e2-b0bd997cf157"),
+                            Id = new Guid("abca8f61-dce5-4cae-9b37-7aa26403d15a"),
                             IsActive = false,
                             NameAr = "تحليل البيانات",
                             NameEn = "Data Analysis"
                         },
                         new
                         {
-                            Id = new Guid("d0c66db6-8b86-4dd2-8852-19baee3b7f3c"),
+                            Id = new Guid("ec458ca3-34c1-41a9-b92d-b9ca0c134c4d"),
                             IsActive = false,
                             NameAr = "الذكاء الاصطناعي",
                             NameEn = "Artificial Intelligence"
                         },
                         new
                         {
-                            Id = new Guid("be2f5b63-7ac1-49d4-ae66-312445025b18"),
+                            Id = new Guid("83fe8e2f-2e20-4632-a929-8145c3a7d8f4"),
                             IsActive = false,
                             NameAr = "الأمن السيبراني",
                             NameEn = "Cyber Security"
                         },
                         new
                         {
-                            Id = new Guid("777da8e0-8571-446c-9ed1-08d365ed3a93"),
+                            Id = new Guid("c598c638-6eb9-4c97-b90c-22b43555ff75"),
                             IsActive = false,
                             NameAr = "التعليم الإلكتروني",
                             NameEn = "E-Learning"
                         },
                         new
                         {
-                            Id = new Guid("0c09e037-1c0e-44f5-847a-9d6843047a47"),
+                            Id = new Guid("5e72101f-8087-4f44-8be7-8bfb3255c905"),
                             IsActive = false,
                             NameAr = "التسويق الرقمي",
                             NameEn = "Digital Marketing"
                         },
                         new
                         {
-                            Id = new Guid("3bad6969-0481-4d1e-9d78-ebf8e1d60b3c"),
+                            Id = new Guid("bc9da5b2-fe12-4e36-8c31-b750748eff43"),
                             IsActive = false,
                             NameAr = "الهندسة الكهربائية",
                             NameEn = "Electrical Engineering"
                         },
                         new
                         {
-                            Id = new Guid("0d95f453-c111-4b67-b884-322d8e4cb89d"),
+                            Id = new Guid("a64813c7-d6ff-4dcd-9f06-0ffa57f08be9"),
                             IsActive = false,
                             NameAr = "الهندسة الميكانيكية",
                             NameEn = "Mechanical Engineering"
                         },
                         new
                         {
-                            Id = new Guid("a17b04ef-f261-4089-b63b-6d512ff7664f"),
+                            Id = new Guid("53fc93df-b393-4e19-9663-ac66d0e35f43"),
                             IsActive = false,
                             NameAr = "الهندسة المدنية",
                             NameEn = "Civil Engineering"
                         },
                         new
                         {
-                            Id = new Guid("ed20f329-4daf-4cdf-ba3d-9d129345ac24"),
+                            Id = new Guid("43200a15-0ce3-407b-982f-5bbb8ad8127a"),
                             IsActive = false,
                             NameAr = "العلوم الفيزيائية",
                             NameEn = "Physical Sciences"
@@ -986,123 +1098,123 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c5be303b-fc25-445d-a9bc-0c9351258ca8"),
-                            CategoryId = new Guid("63464890-61ee-4906-8010-5833ea62bd08"),
-                            CoverPhoto = "programming_basics.jpg",
+                            Id = new Guid("1867dd07-b575-4b81-91ac-370b88f442a4"),
+                            CategoryId = new Guid("e30c911c-b89c-41ea-a4a8-33d29d561a89"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم أساسيات البرمجة",
                             DiscriptionEn = "Learn the basics of programming",
                             IsActive = false,
                             NameAr = "أساسيات البرمجة",
                             NameEn = "Programming Basics",
-                            TopicId = new Guid("bba9319e-cfa3-4e49-806c-aec8a108af88")
+                            TopicId = new Guid("da1a652b-c69d-4984-ab01-bc35ba97452b")
                         },
                         new
                         {
-                            Id = new Guid("0bbc5774-c938-4b62-982e-f770be1c3882"),
-                            CategoryId = new Guid("b2d96a13-883b-435a-bdb2-562be473371d"),
-                            CoverPhoto = "data_analysis.jpg",
+                            Id = new Guid("fb438c6a-ddb7-4b34-a2db-3e46857dd401"),
+                            CategoryId = new Guid("feecb15c-a1dd-4555-9ab0-764727096b13"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم تحليل البيانات المتقدم",
                             DiscriptionEn = "Learn advanced data analysis",
                             IsActive = false,
                             NameAr = "تحليل البيانات المتقدم",
                             NameEn = "Advanced Data Analysis",
-                            TopicId = new Guid("9c9dec31-2568-45d2-93e2-b0bd997cf157")
+                            TopicId = new Guid("abca8f61-dce5-4cae-9b37-7aa26403d15a")
                         },
                         new
                         {
-                            Id = new Guid("a3a9662f-4a77-406c-8171-2fcbb9bdd401"),
-                            CategoryId = new Guid("1210ad0c-0043-47bb-9543-ffe58cd6c3a6"),
-                            CoverPhoto = "ai_intro.jpg",
+                            Id = new Guid("6151a701-53d9-496b-8984-a4e2552b8995"),
+                            CategoryId = new Guid("9e43f36a-4f01-47ff-9e31-5b165ea990ce"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة مقدمة في الذكاء الاصطناعي",
                             DiscriptionEn = "Introduction to Artificial Intelligence",
                             IsActive = false,
                             NameAr = "مقدمة في الذكاء الاصطناعي",
                             NameEn = "Intro to Artificial Intelligence",
-                            TopicId = new Guid("d0c66db6-8b86-4dd2-8852-19baee3b7f3c")
+                            TopicId = new Guid("ec458ca3-34c1-41a9-b92d-b9ca0c134c4d")
                         },
                         new
                         {
-                            Id = new Guid("df8699b0-8b9a-4be5-9639-20e2d9e48d33"),
-                            CategoryId = new Guid("f87b222f-c457-47ac-9a71-d1ce6813af62"),
-                            CoverPhoto = "cyber_security.jpg",
+                            Id = new Guid("886c4ace-103b-4048-a4ba-e94f2da5fda6"),
+                            CategoryId = new Guid("22ae1a1a-fdb4-4df6-9405-1065b63972ef"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم مبادئ الأمن السيبراني",
                             DiscriptionEn = "Learn the fundamentals of cyber security",
                             IsActive = false,
                             NameAr = "مبادئ الأمن السيبراني",
                             NameEn = "Cyber Security Fundamentals",
-                            TopicId = new Guid("be2f5b63-7ac1-49d4-ae66-312445025b18")
+                            TopicId = new Guid("83fe8e2f-2e20-4632-a929-8145c3a7d8f4")
                         },
                         new
                         {
-                            Id = new Guid("72dbc6b0-2f7e-4784-95e6-a276df58839f"),
-                            CategoryId = new Guid("4ba2a722-5622-4b9f-a386-8db07c865c2c"),
-                            CoverPhoto = "e_learning.jpg",
+                            Id = new Guid("c1e4c568-e3d4-4c1b-8a7f-fd62eebaa974"),
+                            CategoryId = new Guid("44e1b923-f445-4b26-bd53-9d1414628df5"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم مبادئ التعليم الإلكتروني",
                             DiscriptionEn = "Introduction to e-learning",
                             IsActive = false,
                             NameAr = "مقدمة في التعليم الإلكتروني",
                             NameEn = "Intro to E-Learning",
-                            TopicId = new Guid("777da8e0-8571-446c-9ed1-08d365ed3a93")
+                            TopicId = new Guid("c598c638-6eb9-4c97-b90c-22b43555ff75")
                         },
                         new
                         {
-                            Id = new Guid("832cee7c-99e5-42ee-af2b-51aa1d3177d9"),
-                            CategoryId = new Guid("f613a892-3833-4ba3-9e80-a4ca965c42d4"),
-                            CoverPhoto = "digital_marketing.jpg",
+                            Id = new Guid("2a8eea04-d170-46e7-9c14-9d0c38d819ef"),
+                            CategoryId = new Guid("810e7c2b-6b70-466a-8eea-bfc2fdb8c5a1"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم أساسيات التسويق الرقمي",
                             DiscriptionEn = "Learn the basics of digital marketing",
                             IsActive = false,
                             NameAr = "أساسيات التسويق الرقمي",
                             NameEn = "Digital Marketing Basics",
-                            TopicId = new Guid("0c09e037-1c0e-44f5-847a-9d6843047a47")
+                            TopicId = new Guid("5e72101f-8087-4f44-8be7-8bfb3255c905")
                         },
                         new
                         {
-                            Id = new Guid("49abba9b-2835-404d-afc6-8e0aba80be77"),
-                            CategoryId = new Guid("fb4ca459-47f5-4619-a6e7-45d17c9bb3f0"),
-                            CoverPhoto = "electrical_engineering.jpg",
+                            Id = new Guid("3cf97955-03da-4889-9c09-d5d72f48cc9c"),
+                            CategoryId = new Guid("7f7d5c32-5d68-4caa-bf04-612dfac0828a"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم أساسيات الهندسة الكهربائية",
                             DiscriptionEn = "Learn the basics of electrical engineering",
                             IsActive = false,
                             NameAr = "أساسيات الهندسة الكهربائية",
                             NameEn = "Electrical Engineering Basics",
-                            TopicId = new Guid("3bad6969-0481-4d1e-9d78-ebf8e1d60b3c")
+                            TopicId = new Guid("bc9da5b2-fe12-4e36-8c31-b750748eff43")
                         },
                         new
                         {
-                            Id = new Guid("56e357a1-bda0-412a-ad68-6ab234fe1502"),
-                            CategoryId = new Guid("aca856cb-bb73-4370-a971-c8fc5103c519"),
-                            CoverPhoto = "mechanical_engineering.jpg",
+                            Id = new Guid("2d3b3af2-8f64-4f42-b24c-c3508dec011c"),
+                            CategoryId = new Guid("e11eed3f-9faf-4212-803a-cacb8e03e492"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم مبادئ الهندسة الميكانيكية",
                             DiscriptionEn = "Learn the principles of mechanical engineering",
                             IsActive = false,
                             NameAr = "مبادئ الهندسة الميكانيكية",
                             NameEn = "Mechanical Engineering Principles",
-                            TopicId = new Guid("0d95f453-c111-4b67-b884-322d8e4cb89d")
+                            TopicId = new Guid("a64813c7-d6ff-4dcd-9f06-0ffa57f08be9")
                         },
                         new
                         {
-                            Id = new Guid("9d6d03c0-2bcb-47b4-ad8e-0fcfc3c3c04b"),
-                            CategoryId = new Guid("591d5b94-cb3d-4c47-8fd7-62dccb6ab239"),
-                            CoverPhoto = "civil_engineering.jpg",
+                            Id = new Guid("115d0c22-5c7b-439d-b242-ab6ed330afa0"),
+                            CategoryId = new Guid("a90f4326-acee-45d9-8a4b-c07f78445357"),
+                            CoverPhoto = "https://localhost:7030/images/data_analysis.jpg",
                             DiscriptionAr = "دورة تعلم الهندسة المدنية المتقدمة",
                             DiscriptionEn = "Learn advanced civil engineering",
                             IsActive = false,
                             NameAr = "الهندسة المدنية المتقدمة",
                             NameEn = "Advanced Civil Engineering",
-                            TopicId = new Guid("a17b04ef-f261-4089-b63b-6d512ff7664f")
+                            TopicId = new Guid("53fc93df-b393-4e19-9663-ac66d0e35f43")
                         },
                         new
                         {
-                            Id = new Guid("ca2f8ee4-68ea-4228-9f72-6179afef271c"),
-                            CategoryId = new Guid("83f11885-011f-4fb1-90e6-35f1098352c9"),
+                            Id = new Guid("f8f5f3c6-4478-476f-8c35-202454dc6635"),
+                            CategoryId = new Guid("33d36c9f-4941-4cb1-8439-4b51667d586d"),
                             CoverPhoto = "physics_basics.jpg",
                             DiscriptionAr = "دورة تعلم أساسيات الفيزياء",
                             DiscriptionEn = "Learn the basics of physics",
                             IsActive = false,
                             NameAr = "أساسيات الفيزياء",
                             NameEn = "Physics Basics",
-                            TopicId = new Guid("ed20f329-4daf-4cdf-ba3d-9d129345ac24")
+                            TopicId = new Guid("43200a15-0ce3-407b-982f-5bbb8ad8127a")
                         });
                 });
 
@@ -1136,8 +1248,8 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3dd73a64-6f78-4e7c-88b4-ca4d1e8a7886"),
-                            FacultyId = new Guid("0da48415-7c80-403b-ae00-e6167c7abfc6"),
+                            Id = new Guid("a00eff10-d45e-4972-87ea-5b28cfd4cc11"),
+                            FacultyId = new Guid("c3de60b5-e4a3-40e1-9d31-b207fea41c6a"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة الولايات المتحدة",
@@ -1145,8 +1257,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3a01dd98-f0a4-49f2-9e2a-0f3c4971e78c"),
-                            FacultyId = new Guid("0da48415-7c80-403b-ae00-e6167c7abfc6"),
+                            Id = new Guid("d5e45d61-5069-4562-87f3-98624f0e4a17"),
+                            FacultyId = new Guid("c3de60b5-e4a3-40e1-9d31-b207fea41c6a"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة الولايات المتحدة",
@@ -1154,8 +1266,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("29e5fba1-014b-4df1-9dfe-a22603130d91"),
-                            FacultyId = new Guid("5704d6d5-913d-4d69-aa5c-ac0f0dd9c8db"),
+                            Id = new Guid("7a2df379-4cef-4a9e-a435-bd8b4f1579ce"),
+                            FacultyId = new Guid("63901c16-0819-4495-889c-48fcb39ca2f3"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة الولايات المتحدة",
@@ -1163,8 +1275,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c0b14ffe-7a00-4ef2-b21b-bb325936b578"),
-                            FacultyId = new Guid("5704d6d5-913d-4d69-aa5c-ac0f0dd9c8db"),
+                            Id = new Guid("9ed2315f-210e-4520-bb26-b97ae61edc6d"),
+                            FacultyId = new Guid("63901c16-0819-4495-889c-48fcb39ca2f3"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة الولايات المتحدة",
@@ -1172,8 +1284,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e50a382e-8960-4fb0-b10f-a0a83ef9541a"),
-                            FacultyId = new Guid("821bd343-34cb-46c3-9a23-c1368ed30032"),
+                            Id = new Guid("50b2e08e-2fe9-4a65-bdc8-d3409495852f"),
+                            FacultyId = new Guid("32bd3138-0804-4437-8392-168feed083cc"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة المملكة المتحدة",
@@ -1181,8 +1293,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cc35130e-c5d5-4a61-aaee-7b52b59350a0"),
-                            FacultyId = new Guid("821bd343-34cb-46c3-9a23-c1368ed30032"),
+                            Id = new Guid("f15ad124-74f8-46e2-a49f-931be94a11db"),
+                            FacultyId = new Guid("32bd3138-0804-4437-8392-168feed083cc"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة المملكة المتحدة",
@@ -1190,8 +1302,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9fccf490-85fe-4b0e-8594-8a8013b7d57c"),
-                            FacultyId = new Guid("293a93de-1b39-4ab1-a497-3e1871593bb2"),
+                            Id = new Guid("b573f321-b45e-4b37-b0ee-3f4bbffb2e3b"),
+                            FacultyId = new Guid("51994137-4260-49b2-ab90-fb2ac64d0fbe"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة المملكة المتحدة",
@@ -1199,8 +1311,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0e1c832e-255d-47b1-9dc6-e03c23da1c45"),
-                            FacultyId = new Guid("293a93de-1b39-4ab1-a497-3e1871593bb2"),
+                            Id = new Guid("793648a4-9d1a-4d96-bcd2-1b61382f72b6"),
+                            FacultyId = new Guid("51994137-4260-49b2-ab90-fb2ac64d0fbe"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة المملكة المتحدة",
@@ -1208,8 +1320,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("49e04076-ea1d-4bd7-bf44-f449d2ee024d"),
-                            FacultyId = new Guid("32aef844-1b6e-4521-a775-06433ce50133"),
+                            Id = new Guid("025da9b1-0b1a-4d29-bf5a-0a0648c24abd"),
+                            FacultyId = new Guid("a0fa1c87-3899-45d3-9a03-d94bd3b95cc1"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة كندا",
@@ -1217,8 +1329,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fbe57a7f-902c-49d2-bb1f-fca792914c22"),
-                            FacultyId = new Guid("32aef844-1b6e-4521-a775-06433ce50133"),
+                            Id = new Guid("5dc64e2d-2866-416e-8e6a-4f5ba9e0c584"),
+                            FacultyId = new Guid("a0fa1c87-3899-45d3-9a03-d94bd3b95cc1"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة كندا",
@@ -1226,8 +1338,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9e5dd471-6f05-434f-9175-77490920ed8f"),
-                            FacultyId = new Guid("efe30e31-9ba3-4ea8-b7f1-a246c9ced7f7"),
+                            Id = new Guid("c89f6a6a-53ec-4074-b053-ee3f12d4ff0a"),
+                            FacultyId = new Guid("8e68d9cf-d771-492c-b7a1-45d6c6729d26"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة كندا",
@@ -1235,8 +1347,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1f090b3e-1474-49bb-bcdd-6a1114dc26d0"),
-                            FacultyId = new Guid("efe30e31-9ba3-4ea8-b7f1-a246c9ced7f7"),
+                            Id = new Guid("003fa36e-29a2-43f2-8b72-15e67ed56322"),
+                            FacultyId = new Guid("8e68d9cf-d771-492c-b7a1-45d6c6729d26"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة كندا",
@@ -1244,8 +1356,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e79dfd14-7c85-414b-b19e-23aac7a0f209"),
-                            FacultyId = new Guid("83739f63-4b59-42ea-9f0e-f05742d8e965"),
+                            Id = new Guid("5df32353-4ef1-453d-921d-9980db971b54"),
+                            FacultyId = new Guid("1165afbf-abba-4aee-becc-52d74627dc1d"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة أستراليا",
@@ -1253,8 +1365,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5509de13-be01-41c5-a8d9-149f8d4ec49b"),
-                            FacultyId = new Guid("83739f63-4b59-42ea-9f0e-f05742d8e965"),
+                            Id = new Guid("78670f97-fe70-4d80-a20f-e700172f292a"),
+                            FacultyId = new Guid("1165afbf-abba-4aee-becc-52d74627dc1d"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة أستراليا",
@@ -1262,8 +1374,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("08854305-81ca-41fb-a060-b063a2b5b2c1"),
-                            FacultyId = new Guid("a5f1fd3f-cb3b-44b2-8d8c-e03ad693720f"),
+                            Id = new Guid("a825fc51-46fd-4dbe-af70-33ea97c2a328"),
+                            FacultyId = new Guid("55a37bbf-7783-4bf9-9eaf-9505077898a8"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة أستراليا",
@@ -1271,8 +1383,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ce67fa4c-286f-4758-9de4-c336458b70b7"),
-                            FacultyId = new Guid("a5f1fd3f-cb3b-44b2-8d8c-e03ad693720f"),
+                            Id = new Guid("d7476e1a-a03a-4028-840a-cf6184ee0782"),
+                            FacultyId = new Guid("55a37bbf-7783-4bf9-9eaf-9505077898a8"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة أستراليا",
@@ -1280,8 +1392,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("88309015-d779-4a64-acc2-4cfa53f1a460"),
-                            FacultyId = new Guid("0706a5b2-01e9-4bec-8c42-68dd382adb00"),
+                            Id = new Guid("f4dc1fbb-bfc9-48d6-9bd4-99354bb2b8b0"),
+                            FacultyId = new Guid("edd94174-8cc8-462c-94ee-6e2068c2656a"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة الهند",
@@ -1289,8 +1401,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("91ad6eb1-1ab4-48d1-985d-d368c590d228"),
-                            FacultyId = new Guid("0706a5b2-01e9-4bec-8c42-68dd382adb00"),
+                            Id = new Guid("22c8ca99-79ff-4602-80d3-eb5b464fe42e"),
+                            FacultyId = new Guid("edd94174-8cc8-462c-94ee-6e2068c2656a"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة الهند",
@@ -1298,8 +1410,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d7273913-8f10-4dc9-9c25-50087c30ae17"),
-                            FacultyId = new Guid("5f543fef-fbd9-44fc-82fe-cb46b7234a54"),
+                            Id = new Guid("268bbcea-61b4-4356-8960-a25e071f18cb"),
+                            FacultyId = new Guid("0423dc46-a804-47c9-bef1-6e2802019279"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة الهند",
@@ -1307,8 +1419,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1c11ef7b-ebc3-4de2-9878-007744b0d50a"),
-                            FacultyId = new Guid("5f543fef-fbd9-44fc-82fe-cb46b7234a54"),
+                            Id = new Guid("f1185066-93d4-4798-a5ac-c578b4db86be"),
+                            FacultyId = new Guid("0423dc46-a804-47c9-bef1-6e2802019279"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة الهند",
@@ -1316,8 +1428,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7a98e3b9-6b45-4a32-ac64-ff09deea02a2"),
-                            FacultyId = new Guid("185df395-22cb-4ef7-90ca-1ae526a07656"),
+                            Id = new Guid("a822074a-ff7b-4c05-858a-dd61054602b5"),
+                            FacultyId = new Guid("b0af6355-924e-47d1-8c8d-20227f037dde"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة ألمانيا",
@@ -1325,8 +1437,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("11d6a90b-5e2b-4605-be20-108393cc476a"),
-                            FacultyId = new Guid("185df395-22cb-4ef7-90ca-1ae526a07656"),
+                            Id = new Guid("f840d319-48b5-43dd-815c-ee768c41d9a2"),
+                            FacultyId = new Guid("b0af6355-924e-47d1-8c8d-20227f037dde"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة ألمانيا",
@@ -1334,8 +1446,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0748877-7c7d-43a9-be0e-247a05b020dc"),
-                            FacultyId = new Guid("f27a1b67-1262-4aad-bb5d-0f3449b4439f"),
+                            Id = new Guid("1747fef2-9b96-4dd0-8f25-8d41b0231c32"),
+                            FacultyId = new Guid("23a9ee11-25a6-4101-b3c1-57f0575ae2ea"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة ألمانيا",
@@ -1343,8 +1455,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("552fd439-53aa-4a9f-aeb4-695d59279a37"),
-                            FacultyId = new Guid("f27a1b67-1262-4aad-bb5d-0f3449b4439f"),
+                            Id = new Guid("c61ff516-e9e2-4eb4-8edc-1e5a018027e0"),
+                            FacultyId = new Guid("23a9ee11-25a6-4101-b3c1-57f0575ae2ea"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة ألمانيا",
@@ -1352,8 +1464,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c00ddbf8-656c-4b07-a093-4400be39b2ee"),
-                            FacultyId = new Guid("c46a057a-3e34-4eee-906e-c53fe957d808"),
+                            Id = new Guid("fbe859f4-5f8f-47ec-abe4-54f7d9eb1788"),
+                            FacultyId = new Guid("965e5a07-0e6f-4d2b-bec4-ca17f9a24abf"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة البرازيل",
@@ -1361,8 +1473,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a90ba18f-880d-4393-b5be-ee4a39791054"),
-                            FacultyId = new Guid("c46a057a-3e34-4eee-906e-c53fe957d808"),
+                            Id = new Guid("313877bc-9495-403a-8cb7-0834778b621c"),
+                            FacultyId = new Guid("965e5a07-0e6f-4d2b-bec4-ca17f9a24abf"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة البرازيل",
@@ -1370,8 +1482,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f4ef9b95-62cf-4eff-b987-e05310c06997"),
-                            FacultyId = new Guid("d03eb6af-a058-42be-80e8-f33414004104"),
+                            Id = new Guid("b31ae140-95b2-4ef5-bc22-621b7da2de4c"),
+                            FacultyId = new Guid("dece56a6-b4c1-442b-843a-ff7a0cd57092"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة البرازيل",
@@ -1379,8 +1491,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a8b12a29-b077-46d7-91f9-ce36587dcfeb"),
-                            FacultyId = new Guid("d03eb6af-a058-42be-80e8-f33414004104"),
+                            Id = new Guid("a24186bc-1cbc-4085-a27d-5de4f1317c9b"),
+                            FacultyId = new Guid("dece56a6-b4c1-442b-843a-ff7a0cd57092"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة البرازيل",
@@ -1388,8 +1500,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("548bb328-7d86-4072-bba5-0d6cb65cf8f8"),
-                            FacultyId = new Guid("d1d58918-7cec-4f60-9d8e-9bd8e316dc49"),
+                            Id = new Guid("716de5d0-0c34-4a79-a33a-5d4884f9773b"),
+                            FacultyId = new Guid("0b6a8694-f7c3-4280-ac0c-2c9870c1e373"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة اليابان",
@@ -1397,8 +1509,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5966ba6c-96c8-4f24-a5a2-8c7a4d44717b"),
-                            FacultyId = new Guid("d1d58918-7cec-4f60-9d8e-9bd8e316dc49"),
+                            Id = new Guid("e87f84e0-630f-4aac-ab96-0bc4f79f8789"),
+                            FacultyId = new Guid("0b6a8694-f7c3-4280-ac0c-2c9870c1e373"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة اليابان",
@@ -1406,8 +1518,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1e75961d-4321-4221-b064-d0363b619913"),
-                            FacultyId = new Guid("83e2d83b-ff9a-4931-bcc8-010e1951aae9"),
+                            Id = new Guid("f7f13de1-c0ad-4368-ba63-ae6d71358134"),
+                            FacultyId = new Guid("e2e95898-7673-4d00-96da-cd5cc4c8d744"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة اليابان",
@@ -1415,8 +1527,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8121fa6e-296e-49aa-970f-936b8db17860"),
-                            FacultyId = new Guid("83e2d83b-ff9a-4931-bcc8-010e1951aae9"),
+                            Id = new Guid("736713c8-1239-427e-98e0-4a403553adeb"),
+                            FacultyId = new Guid("e2e95898-7673-4d00-96da-cd5cc4c8d744"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة اليابان",
@@ -1424,8 +1536,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("65896beb-b573-46dd-ac65-6fe48eb792e9"),
-                            FacultyId = new Guid("d37420c4-c5d8-4bf4-a0d4-e5c2089869b0"),
+                            Id = new Guid("218d5e3d-bce3-47ad-afc6-22becaaead57"),
+                            FacultyId = new Guid("a63cb259-07e6-43dd-be14-2573c7240b03"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة فرنسا",
@@ -1433,8 +1545,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("68bfffed-7357-4631-ade0-344bb5d3d18e"),
-                            FacultyId = new Guid("d37420c4-c5d8-4bf4-a0d4-e5c2089869b0"),
+                            Id = new Guid("b25d5b16-48f2-42e2-88f4-f3a2d3b16c86"),
+                            FacultyId = new Guid("a63cb259-07e6-43dd-be14-2573c7240b03"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة فرنسا",
@@ -1442,8 +1554,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9cf66ed9-5361-4e35-b961-736c0c04f46e"),
-                            FacultyId = new Guid("0905d706-2d5f-46cc-98e1-b8199ea4ed1f"),
+                            Id = new Guid("33c85a65-6bcb-4681-9282-eca2be496e5a"),
+                            FacultyId = new Guid("f499c59b-a5a1-409e-9cc5-55e8db6bf30b"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة فرنسا",
@@ -1451,8 +1563,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c07c5a85-633f-4b0a-9aa4-7a4cb12846ee"),
-                            FacultyId = new Guid("0905d706-2d5f-46cc-98e1-b8199ea4ed1f"),
+                            Id = new Guid("d929b8b1-5b0b-4a1f-8d7d-94242fe96024"),
+                            FacultyId = new Guid("f499c59b-a5a1-409e-9cc5-55e8db6bf30b"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة فرنسا",
@@ -1460,8 +1572,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("03949101-1d7b-49cf-a575-364ad51707a8"),
-                            FacultyId = new Guid("4f448d6d-7eec-42d2-b44f-95fae2256011"),
+                            Id = new Guid("61e0a99f-8e47-46ef-9c5c-c06d49d1e9d5"),
+                            FacultyId = new Guid("bf21d501-0de8-4955-9d45-0975b9a1b514"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية الهندسة في جامعة الإمارات العربية المتحدة",
@@ -1469,8 +1581,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d0a1d44f-04cb-4305-9922-2110d7672517"),
-                            FacultyId = new Guid("4f448d6d-7eec-42d2-b44f-95fae2256011"),
+                            Id = new Guid("a852d1e1-e8ce-4a29-8391-8e701646640b"),
+                            FacultyId = new Guid("bf21d501-0de8-4955-9d45-0975b9a1b514"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية الهندسة في جامعة الإمارات العربية المتحدة",
@@ -1478,8 +1590,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a5694454-7fbc-4c34-9c97-aa6e33def9e8"),
-                            FacultyId = new Guid("8bf93b3a-5521-4bba-9d07-cbc4d7747b71"),
+                            Id = new Guid("00503d3a-4401-4c1f-ae43-bba1f2354db4"),
+                            FacultyId = new Guid("ca8a4e9a-d402-42c5-a9e0-f3b4f3446511"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم علوم الحاسوب في كلية العلوم في جامعة الإمارات العربية المتحدة",
@@ -1487,8 +1599,8 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("020884ae-3139-4929-b1f4-0acba046f88a"),
-                            FacultyId = new Guid("8bf93b3a-5521-4bba-9d07-cbc4d7747b71"),
+                            Id = new Guid("9ac0c25b-6a2e-405f-88e2-a1ef30f77493"),
+                            FacultyId = new Guid("ca8a4e9a-d402-42c5-a9e0-f3b4f3446511"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "قسم الفيزياء في كلية العلوم في جامعة الإمارات العربية المتحدة",
@@ -1526,183 +1638,183 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0da48415-7c80-403b-ae00-e6167c7abfc6"),
+                            Id = new Guid("c3de60b5-e4a3-40e1-9d31-b207fea41c6a"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة الولايات المتحدة",
                             NameEn = "Faculty of Engineering in University of United States",
-                            UniversityId = new Guid("486ec9eb-3a2d-4b29-b4dd-892accb188ec")
+                            UniversityId = new Guid("540d0636-8de8-46fd-9fe6-a93bdac960d3")
                         },
                         new
                         {
-                            Id = new Guid("5704d6d5-913d-4d69-aa5c-ac0f0dd9c8db"),
+                            Id = new Guid("63901c16-0819-4495-889c-48fcb39ca2f3"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة الولايات المتحدة",
                             NameEn = "Faculty of Science in University of United States",
-                            UniversityId = new Guid("486ec9eb-3a2d-4b29-b4dd-892accb188ec")
+                            UniversityId = new Guid("540d0636-8de8-46fd-9fe6-a93bdac960d3")
                         },
                         new
                         {
-                            Id = new Guid("821bd343-34cb-46c3-9a23-c1368ed30032"),
+                            Id = new Guid("32bd3138-0804-4437-8392-168feed083cc"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة المملكة المتحدة",
                             NameEn = "Faculty of Engineering in University of United Kingdom",
-                            UniversityId = new Guid("09463ad4-d48a-424e-8e1d-66fd11d069a8")
+                            UniversityId = new Guid("e6db008a-50a3-4eb1-8750-edb3ea88a626")
                         },
                         new
                         {
-                            Id = new Guid("293a93de-1b39-4ab1-a497-3e1871593bb2"),
+                            Id = new Guid("51994137-4260-49b2-ab90-fb2ac64d0fbe"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة المملكة المتحدة",
                             NameEn = "Faculty of Science in University of United Kingdom",
-                            UniversityId = new Guid("09463ad4-d48a-424e-8e1d-66fd11d069a8")
+                            UniversityId = new Guid("e6db008a-50a3-4eb1-8750-edb3ea88a626")
                         },
                         new
                         {
-                            Id = new Guid("32aef844-1b6e-4521-a775-06433ce50133"),
+                            Id = new Guid("a0fa1c87-3899-45d3-9a03-d94bd3b95cc1"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة كندا",
                             NameEn = "Faculty of Engineering in University of Canada",
-                            UniversityId = new Guid("aaf6723f-4dc3-4971-a7fa-e5b597580d69")
+                            UniversityId = new Guid("70d2b5fc-dd48-4f45-a03b-45ce472747dd")
                         },
                         new
                         {
-                            Id = new Guid("efe30e31-9ba3-4ea8-b7f1-a246c9ced7f7"),
+                            Id = new Guid("8e68d9cf-d771-492c-b7a1-45d6c6729d26"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة كندا",
                             NameEn = "Faculty of Science in University of Canada",
-                            UniversityId = new Guid("aaf6723f-4dc3-4971-a7fa-e5b597580d69")
+                            UniversityId = new Guid("70d2b5fc-dd48-4f45-a03b-45ce472747dd")
                         },
                         new
                         {
-                            Id = new Guid("83739f63-4b59-42ea-9f0e-f05742d8e965"),
+                            Id = new Guid("1165afbf-abba-4aee-becc-52d74627dc1d"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة أستراليا",
                             NameEn = "Faculty of Engineering in University of Australia",
-                            UniversityId = new Guid("e8df9a64-3e8e-48b2-9cff-166a92fa409e")
+                            UniversityId = new Guid("1d6ec7e7-1001-456f-974b-ada49b1ccf50")
                         },
                         new
                         {
-                            Id = new Guid("a5f1fd3f-cb3b-44b2-8d8c-e03ad693720f"),
+                            Id = new Guid("55a37bbf-7783-4bf9-9eaf-9505077898a8"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة أستراليا",
                             NameEn = "Faculty of Science in University of Australia",
-                            UniversityId = new Guid("e8df9a64-3e8e-48b2-9cff-166a92fa409e")
+                            UniversityId = new Guid("1d6ec7e7-1001-456f-974b-ada49b1ccf50")
                         },
                         new
                         {
-                            Id = new Guid("0706a5b2-01e9-4bec-8c42-68dd382adb00"),
+                            Id = new Guid("edd94174-8cc8-462c-94ee-6e2068c2656a"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة الهند",
                             NameEn = "Faculty of Engineering in University of India",
-                            UniversityId = new Guid("298d44bf-6d3c-4095-aff3-c1fd86d7bad0")
+                            UniversityId = new Guid("e44d83a9-4e26-4282-ad99-572ed89e05c9")
                         },
                         new
                         {
-                            Id = new Guid("5f543fef-fbd9-44fc-82fe-cb46b7234a54"),
+                            Id = new Guid("0423dc46-a804-47c9-bef1-6e2802019279"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة الهند",
                             NameEn = "Faculty of Science in University of India",
-                            UniversityId = new Guid("298d44bf-6d3c-4095-aff3-c1fd86d7bad0")
+                            UniversityId = new Guid("e44d83a9-4e26-4282-ad99-572ed89e05c9")
                         },
                         new
                         {
-                            Id = new Guid("185df395-22cb-4ef7-90ca-1ae526a07656"),
+                            Id = new Guid("b0af6355-924e-47d1-8c8d-20227f037dde"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة ألمانيا",
                             NameEn = "Faculty of Engineering in University of Germany",
-                            UniversityId = new Guid("d7bb4edf-86e1-408d-936d-4398f6ae1abe")
+                            UniversityId = new Guid("7cf28bff-6449-456c-b636-9f3d47ad0d9a")
                         },
                         new
                         {
-                            Id = new Guid("f27a1b67-1262-4aad-bb5d-0f3449b4439f"),
+                            Id = new Guid("23a9ee11-25a6-4101-b3c1-57f0575ae2ea"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة ألمانيا",
                             NameEn = "Faculty of Science in University of Germany",
-                            UniversityId = new Guid("d7bb4edf-86e1-408d-936d-4398f6ae1abe")
+                            UniversityId = new Guid("7cf28bff-6449-456c-b636-9f3d47ad0d9a")
                         },
                         new
                         {
-                            Id = new Guid("c46a057a-3e34-4eee-906e-c53fe957d808"),
+                            Id = new Guid("965e5a07-0e6f-4d2b-bec4-ca17f9a24abf"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة البرازيل",
                             NameEn = "Faculty of Engineering in University of Brazil",
-                            UniversityId = new Guid("0031e422-a013-41c6-ba5f-14bac83b55af")
+                            UniversityId = new Guid("5f7f34d3-2dd2-4c35-8b95-84a3039ae12f")
                         },
                         new
                         {
-                            Id = new Guid("d03eb6af-a058-42be-80e8-f33414004104"),
+                            Id = new Guid("dece56a6-b4c1-442b-843a-ff7a0cd57092"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة البرازيل",
                             NameEn = "Faculty of Science in University of Brazil",
-                            UniversityId = new Guid("0031e422-a013-41c6-ba5f-14bac83b55af")
+                            UniversityId = new Guid("5f7f34d3-2dd2-4c35-8b95-84a3039ae12f")
                         },
                         new
                         {
-                            Id = new Guid("d1d58918-7cec-4f60-9d8e-9bd8e316dc49"),
+                            Id = new Guid("0b6a8694-f7c3-4280-ac0c-2c9870c1e373"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة اليابان",
                             NameEn = "Faculty of Engineering in University of Japan",
-                            UniversityId = new Guid("bd47ddec-9d65-4331-a8fc-e8490d3a9042")
+                            UniversityId = new Guid("ca5c18d6-8cd1-4d27-bd27-f601be1febb0")
                         },
                         new
                         {
-                            Id = new Guid("83e2d83b-ff9a-4931-bcc8-010e1951aae9"),
+                            Id = new Guid("e2e95898-7673-4d00-96da-cd5cc4c8d744"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة اليابان",
                             NameEn = "Faculty of Science in University of Japan",
-                            UniversityId = new Guid("bd47ddec-9d65-4331-a8fc-e8490d3a9042")
+                            UniversityId = new Guid("ca5c18d6-8cd1-4d27-bd27-f601be1febb0")
                         },
                         new
                         {
-                            Id = new Guid("d37420c4-c5d8-4bf4-a0d4-e5c2089869b0"),
+                            Id = new Guid("a63cb259-07e6-43dd-be14-2573c7240b03"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة فرنسا",
                             NameEn = "Faculty of Engineering in University of France",
-                            UniversityId = new Guid("ed347594-f1d0-4228-b293-d96cf7a447c1")
+                            UniversityId = new Guid("f9f1d880-5734-4422-b94b-02d32d8065f5")
                         },
                         new
                         {
-                            Id = new Guid("0905d706-2d5f-46cc-98e1-b8199ea4ed1f"),
+                            Id = new Guid("f499c59b-a5a1-409e-9cc5-55e8db6bf30b"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة فرنسا",
                             NameEn = "Faculty of Science in University of France",
-                            UniversityId = new Guid("ed347594-f1d0-4228-b293-d96cf7a447c1")
+                            UniversityId = new Guid("f9f1d880-5734-4422-b94b-02d32d8065f5")
                         },
                         new
                         {
-                            Id = new Guid("4f448d6d-7eec-42d2-b44f-95fae2256011"),
+                            Id = new Guid("bf21d501-0de8-4955-9d45-0975b9a1b514"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية الهندسة في جامعة الإمارات العربية المتحدة",
                             NameEn = "Faculty of Engineering in University of United Arab Emirates",
-                            UniversityId = new Guid("d4648f3d-0413-4e93-8145-ba686c630b3e")
+                            UniversityId = new Guid("67ad9535-ada6-42d8-b0e0-750b09d7787f")
                         },
                         new
                         {
-                            Id = new Guid("8bf93b3a-5521-4bba-9d07-cbc4d7747b71"),
+                            Id = new Guid("ca8a4e9a-d402-42c5-a9e0-f3b4f3446511"),
                             IsActive = false,
                             LookUpStatus = 2,
                             NameAr = "كلية العلوم في جامعة الإمارات العربية المتحدة",
                             NameEn = "Faculty of Science in University of United Arab Emirates",
-                            UniversityId = new Guid("d4648f3d-0413-4e93-8145-ba686c630b3e")
+                            UniversityId = new Guid("67ad9535-ada6-42d8-b0e0-750b09d7787f")
                         });
                 });
 
@@ -1830,7 +1942,7 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("486ec9eb-3a2d-4b29-b4dd-892accb188ec"),
+                            Id = new Guid("540d0636-8de8-46fd-9fe6-a93bdac960d3"),
                             CountryId = 1,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1839,7 +1951,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("09463ad4-d48a-424e-8e1d-66fd11d069a8"),
+                            Id = new Guid("e6db008a-50a3-4eb1-8750-edb3ea88a626"),
                             CountryId = 2,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1848,7 +1960,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aaf6723f-4dc3-4971-a7fa-e5b597580d69"),
+                            Id = new Guid("70d2b5fc-dd48-4f45-a03b-45ce472747dd"),
                             CountryId = 3,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1857,7 +1969,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e8df9a64-3e8e-48b2-9cff-166a92fa409e"),
+                            Id = new Guid("1d6ec7e7-1001-456f-974b-ada49b1ccf50"),
                             CountryId = 4,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1866,7 +1978,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("298d44bf-6d3c-4095-aff3-c1fd86d7bad0"),
+                            Id = new Guid("e44d83a9-4e26-4282-ad99-572ed89e05c9"),
                             CountryId = 5,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1875,7 +1987,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d7bb4edf-86e1-408d-936d-4398f6ae1abe"),
+                            Id = new Guid("7cf28bff-6449-456c-b636-9f3d47ad0d9a"),
                             CountryId = 6,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1884,7 +1996,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0031e422-a013-41c6-ba5f-14bac83b55af"),
+                            Id = new Guid("5f7f34d3-2dd2-4c35-8b95-84a3039ae12f"),
                             CountryId = 7,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1893,7 +2005,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bd47ddec-9d65-4331-a8fc-e8490d3a9042"),
+                            Id = new Guid("ca5c18d6-8cd1-4d27-bd27-f601be1febb0"),
                             CountryId = 8,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1902,7 +2014,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ed347594-f1d0-4228-b293-d96cf7a447c1"),
+                            Id = new Guid("f9f1d880-5734-4422-b94b-02d32d8065f5"),
                             CountryId = 9,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1911,7 +2023,7 @@ namespace FlexBook.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d4648f3d-0413-4e93-8145-ba686c630b3e"),
+                            Id = new Guid("67ad9535-ada6-42d8-b0e0-750b09d7787f"),
                             CountryId = 10,
                             IsActive = false,
                             LookUpStatus = 2,
@@ -1920,11 +2032,47 @@ namespace FlexBook.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FlexBook.Domain.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("730961a5-f501-4458-b179-f9bdacb5e640"),
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = new Guid("9d0d52c3-5b4d-4aa3-8d69-bb74bf91eeff"),
+                            Name = "Manager"
+                        });
+                });
+
             modelBuilder.Entity("FlexBook.Domain.Entities.UsersAggregate.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AcademicYear")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
@@ -1983,8 +2131,17 @@ namespace FlexBook.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("RegisterAt")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SpecializationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("StudyLevel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UniversityId")
                         .HasColumnType("uniqueidentifier");
@@ -2003,6 +2160,8 @@ namespace FlexBook.Infrastructure.Migrations
 
                     b.HasIndex("FacultyId");
 
+                    b.HasIndex("RoleId");
+
                     b.HasIndex("UniversityId");
 
                     b.ToTable("Users", (string)null);
@@ -2010,151 +2169,161 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("08cf98b1-41ed-4a48-affc-5f280b632070"),
+                            Id = new Guid("78bcfddb-d47d-4268-ac33-58c1f4848df7"),
                             CountryId = 2,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(8965),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1842),
                             Email = "user1@example.com",
                             FirstName = "User1",
                             IsSuperAdmin = false,
                             LastName = "LastName1",
                             MobileNumber = "1234567891",
                             Password = "password1",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(8892), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1767), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("730961a5-f501-4458-b179-f9bdacb5e640"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("aac40201-6f3f-4b45-881d-e734d742504e"),
+                            Id = new Guid("3a0854ca-a00d-4bd4-9eaa-da0f80ef70d3"),
                             CountryId = 3,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(8983),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1872),
                             Email = "user2@example.com",
                             FirstName = "User2",
                             IsSuperAdmin = false,
                             LastName = "LastName2",
                             MobileNumber = "1234567892",
                             Password = "password2",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(8979), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1864), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("9d0d52c3-5b4d-4aa3-8d69-bb74bf91eeff"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("3f9ea1d3-54b2-46c8-b26b-188c2703828e"),
+                            Id = new Guid("173bfea2-e65c-4ea7-9ab8-af039c97c482"),
                             CountryId = 4,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(8991),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1883),
                             Email = "user3@example.com",
                             FirstName = "User3",
                             IsSuperAdmin = false,
                             LastName = "LastName3",
                             MobileNumber = "1234567893",
                             Password = "password3",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(8988), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1879), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("5530ac02-7f1a-49a2-90fb-742bb873aa7d"),
+                            Id = new Guid("66d15f16-e658-4113-a5ba-87aa1a23235f"),
                             CountryId = 5,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9002),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1895),
                             Email = "user4@example.com",
                             FirstName = "User4",
                             IsSuperAdmin = false,
                             LastName = "LastName4",
                             MobileNumber = "1234567894",
                             Password = "password4",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(8999), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1891), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("730961a5-f501-4458-b179-f9bdacb5e640"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("0b7a7461-287a-4f8a-8668-92c8906c07ed"),
+                            Id = new Guid("70095d9f-e973-4b6a-9005-823dde11d25d"),
                             CountryId = 6,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9043),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1909),
                             Email = "user5@example.com",
                             FirstName = "User5",
                             IsSuperAdmin = false,
                             LastName = "LastName5",
                             MobileNumber = "1234567895",
                             Password = "password5",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(9007), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1905), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("9d0d52c3-5b4d-4aa3-8d69-bb74bf91eeff"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("5fd02879-31ea-487a-b68b-1700b3d27798"),
+                            Id = new Guid("500227b0-a21c-4e62-8573-7eebdc82badc"),
                             CountryId = 7,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9053),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1921),
                             Email = "user6@example.com",
                             FirstName = "User6",
                             IsSuperAdmin = false,
                             LastName = "LastName6",
                             MobileNumber = "1234567896",
                             Password = "password6",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(9050), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1916), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("cf400225-260c-4e01-8f29-382f2b0cbfce"),
+                            Id = new Guid("8e2c693a-d86a-498d-a81e-d60692508611"),
                             CountryId = 8,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9062),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1931),
                             Email = "user7@example.com",
                             FirstName = "User7",
                             IsSuperAdmin = false,
                             LastName = "LastName7",
                             MobileNumber = "1234567897",
                             Password = "password7",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(9058), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1926), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("730961a5-f501-4458-b179-f9bdacb5e640"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("94aa3d9b-c547-4ff9-8c10-c6de8a01b1a9"),
+                            Id = new Guid("d68844be-d888-4c75-844b-61623bf1c082"),
                             CountryId = 9,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9070),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1943),
                             Email = "user8@example.com",
                             FirstName = "User8",
                             IsSuperAdmin = false,
                             LastName = "LastName8",
                             MobileNumber = "1234567898",
                             Password = "password8",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(9066), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1939), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("9d0d52c3-5b4d-4aa3-8d69-bb74bf91eeff"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("14e78d9c-38d8-41a5-ad6d-771f27737d29"),
+                            Id = new Guid("650220e4-fc7b-44b8-bce4-848896f9371f"),
                             CountryId = 10,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9078),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1952),
                             Email = "user9@example.com",
                             FirstName = "User9",
                             IsSuperAdmin = false,
                             LastName = "LastName9",
                             MobileNumber = "1234567899",
                             Password = "password9",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(9074), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1949), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("fcb739f8-f505-4bdb-901b-46d862745bb1"),
                             Status = 2,
                             UserType = 1
                         },
                         new
                         {
-                            Id = new Guid("ef58cc66-522e-4f4a-83d2-de3778bc890f"),
+                            Id = new Guid("c1b6a06b-3bb9-4252-b4a6-d8fd5cfdb6bb"),
                             CountryId = 1,
-                            Created = new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Local).AddTicks(9087),
+                            Created = new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Local).AddTicks(1965),
                             Email = "user10@example.com",
                             FirstName = "User10",
                             IsSuperAdmin = false,
                             LastName = "LastName10",
                             MobileNumber = "12345678910",
                             Password = "password10",
-                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 5, 18, 35, 38, 925, DateTimeKind.Unspecified).AddTicks(9084), new TimeSpan(0, 3, 0, 0, 0)),
+                            RegisterAt = new DateTimeOffset(new DateTime(2024, 10, 11, 16, 55, 47, 148, DateTimeKind.Unspecified).AddTicks(1960), new TimeSpan(0, 3, 0, 0, 0)),
+                            RoleId = new Guid("730961a5-f501-4458-b179-f9bdacb5e640"),
                             Status = 2,
                             UserType = 1
                         });
@@ -2194,72 +2363,72 @@ namespace FlexBook.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CourseId = new Guid("c5be303b-fc25-445d-a9bc-0c9351258ca8"),
+                            CourseId = new Guid("1867dd07-b575-4b81-91ac-370b88f442a4"),
                             IsActive = false,
-                            UserId = new Guid("08cf98b1-41ed-4a48-affc-5f280b632070")
+                            UserId = new Guid("78bcfddb-d47d-4268-ac33-58c1f4848df7")
                         },
                         new
                         {
                             Id = 2,
-                            CourseId = new Guid("0bbc5774-c938-4b62-982e-f770be1c3882"),
+                            CourseId = new Guid("fb438c6a-ddb7-4b34-a2db-3e46857dd401"),
                             IsActive = false,
-                            UserId = new Guid("aac40201-6f3f-4b45-881d-e734d742504e")
+                            UserId = new Guid("3a0854ca-a00d-4bd4-9eaa-da0f80ef70d3")
                         },
                         new
                         {
                             Id = 3,
-                            CourseId = new Guid("a3a9662f-4a77-406c-8171-2fcbb9bdd401"),
+                            CourseId = new Guid("6151a701-53d9-496b-8984-a4e2552b8995"),
                             IsActive = false,
-                            UserId = new Guid("3f9ea1d3-54b2-46c8-b26b-188c2703828e")
+                            UserId = new Guid("173bfea2-e65c-4ea7-9ab8-af039c97c482")
                         },
                         new
                         {
                             Id = 4,
-                            CourseId = new Guid("df8699b0-8b9a-4be5-9639-20e2d9e48d33"),
+                            CourseId = new Guid("886c4ace-103b-4048-a4ba-e94f2da5fda6"),
                             IsActive = false,
-                            UserId = new Guid("5530ac02-7f1a-49a2-90fb-742bb873aa7d")
+                            UserId = new Guid("66d15f16-e658-4113-a5ba-87aa1a23235f")
                         },
                         new
                         {
                             Id = 5,
-                            CourseId = new Guid("72dbc6b0-2f7e-4784-95e6-a276df58839f"),
+                            CourseId = new Guid("c1e4c568-e3d4-4c1b-8a7f-fd62eebaa974"),
                             IsActive = false,
-                            UserId = new Guid("0b7a7461-287a-4f8a-8668-92c8906c07ed")
+                            UserId = new Guid("70095d9f-e973-4b6a-9005-823dde11d25d")
                         },
                         new
                         {
                             Id = 6,
-                            CourseId = new Guid("832cee7c-99e5-42ee-af2b-51aa1d3177d9"),
+                            CourseId = new Guid("2a8eea04-d170-46e7-9c14-9d0c38d819ef"),
                             IsActive = false,
-                            UserId = new Guid("5fd02879-31ea-487a-b68b-1700b3d27798")
+                            UserId = new Guid("500227b0-a21c-4e62-8573-7eebdc82badc")
                         },
                         new
                         {
                             Id = 7,
-                            CourseId = new Guid("49abba9b-2835-404d-afc6-8e0aba80be77"),
+                            CourseId = new Guid("3cf97955-03da-4889-9c09-d5d72f48cc9c"),
                             IsActive = false,
-                            UserId = new Guid("cf400225-260c-4e01-8f29-382f2b0cbfce")
+                            UserId = new Guid("8e2c693a-d86a-498d-a81e-d60692508611")
                         },
                         new
                         {
                             Id = 8,
-                            CourseId = new Guid("56e357a1-bda0-412a-ad68-6ab234fe1502"),
+                            CourseId = new Guid("2d3b3af2-8f64-4f42-b24c-c3508dec011c"),
                             IsActive = false,
-                            UserId = new Guid("94aa3d9b-c547-4ff9-8c10-c6de8a01b1a9")
+                            UserId = new Guid("d68844be-d888-4c75-844b-61623bf1c082")
                         },
                         new
                         {
                             Id = 9,
-                            CourseId = new Guid("9d6d03c0-2bcb-47b4-ad8e-0fcfc3c3c04b"),
+                            CourseId = new Guid("115d0c22-5c7b-439d-b242-ab6ed330afa0"),
                             IsActive = false,
-                            UserId = new Guid("14e78d9c-38d8-41a5-ad6d-771f27737d29")
+                            UserId = new Guid("650220e4-fc7b-44b8-bce4-848896f9371f")
                         },
                         new
                         {
                             Id = 10,
-                            CourseId = new Guid("ca2f8ee4-68ea-4228-9f72-6179afef271c"),
+                            CourseId = new Guid("f8f5f3c6-4478-476f-8c35-202454dc6635"),
                             IsActive = false,
-                            UserId = new Guid("ef58cc66-522e-4f4a-83d2-de3778bc890f")
+                            UserId = new Guid("c1b6a06b-3bb9-4252-b4a6-d8fd5cfdb6bb")
                         });
                 });
 
@@ -2272,6 +2441,25 @@ namespace FlexBook.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserTypes", (string)null);
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Authorization.RolePermission", b =>
+                {
+                    b.HasOne("FlexBook.Domain.Entities.Authorization.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlexBook.Domain.Entities.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Category", b =>
@@ -2371,6 +2559,11 @@ namespace FlexBook.Infrastructure.Migrations
                         .WithMany("UserList")
                         .HasForeignKey("FacultyId");
 
+                    b.HasOne("FlexBook.Domain.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FlexBook.Domain.Entities.LookUps.University", "University")
                         .WithMany("UserList")
                         .HasForeignKey("UniversityId");
@@ -2380,6 +2573,8 @@ namespace FlexBook.Infrastructure.Migrations
                     b.Navigation("Department");
 
                     b.Navigation("Faculty");
+
+                    b.Navigation("Role");
 
                     b.Navigation("University");
                 });
@@ -2405,6 +2600,11 @@ namespace FlexBook.Infrastructure.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Authorization.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.Catalog.Category", b =>
@@ -2460,6 +2660,13 @@ namespace FlexBook.Infrastructure.Migrations
                     b.Navigation("FacultyList");
 
                     b.Navigation("UserList");
+                });
+
+            modelBuilder.Entity("FlexBook.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FlexBook.Domain.Entities.UsersAggregate.User", b =>

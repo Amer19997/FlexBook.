@@ -11,6 +11,11 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
+    public Guid GetUserRoleId()
+    {
+        var roleClaim = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Role);
+        return Guid.TryParse(roleClaim, out var roleId) ? roleId : Guid.Empty;
+    }
     public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
     public string? profieId => _httpContextAccessor.HttpContext?.User?.FindFirstValue("ProfileId");

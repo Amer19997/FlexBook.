@@ -2,11 +2,14 @@
 using FlexBook.Application.Common.Exceptions;
 using FlexBook.Application.Common.Models;
 using FlexBook.Application.Common.Models.Dtos;
+using FlexBook.Application.Features.Admin.Commnds.DashBoardLoginCommand;
 using FlexBook.Application.Users.Commands.ForgetPasswordAdminCommand;
 using FlexBook.Application.Users.Commands.LoginAdminCommand;
+using FlexBook.Application.Users.Commands.PortalSignInCommand;
 using FlexBook.Application.Users.Commands.SetPasswordCommand;
 using FlexBook.Application.Users.Commands.SignUpCommand;
 using FlexBook.Application.Users.Queries.CheckResetOTP;
+using FlexBook.Domain.Entities.Catalog.Dtos;
 using FlexBook.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +18,24 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class AuthController : ApiControllerBase
 {
-    [HttpPost("Login")]
-    public async Task<ActionResult<TResponse<LoginResponeDto>>> Login([FromBody] LoginAdminCommand command)
-       => Ok(await Mediator.Send(command));
+    //[HttpPost("Login")]
+    //public async Task<ActionResult<TResponse<LoginResponeDto>>> Login([FromBody] LoginAdminCommand command)
+    //   => Ok(await Mediator.Send(command));
+
+
+
+    [HttpPost("Portallogin")]
+    public async Task<ActionResult<TResponse<AuthResponseDto>>> PortalLogin(PortalSignInCommand command)
+    {
+        var result = await Mediator.Send(command);
+        if (!result.success)
+        {
+            // Return the error response with its status code
+            return StatusCode(result.StatusCode, result);
+        }
+
+        return Ok(result);
+    }
 
     [HttpPost("ForgetPassword")]
     public async Task<ActionResult<TResponse<LoginResponeDto>>> ForgetPassword([FromBody] ForgetPasswordAdminCommand command)

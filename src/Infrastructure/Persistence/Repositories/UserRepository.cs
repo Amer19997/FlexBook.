@@ -64,6 +64,11 @@ public class UserRepository : Repository<User>, IUserRepository
     public async Task<User?> GetUserAndHisRolesByEmail(string email)
         => await _context.Users.Where(x => x.Email == email && x.Status == UserStatus.Active).FirstOrDefaultAsync();
 
-    
-    
+
+    // Implementation of GetUserByEmailOrNameAsync
+    public async Task<User?> GetUserByEmailOrNameAsync(string emailOrName)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == emailOrName || u.FirstName == emailOrName || u.LastName == emailOrName);
+    }
 }

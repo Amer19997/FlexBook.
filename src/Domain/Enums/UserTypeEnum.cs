@@ -11,6 +11,10 @@ public enum UserTypeEnum
 {
     [Display(Name = "Student")]
     Student = 1,
+
     [Display(Name = "Instructor")]
-    Instructor = 2
+    Instructor = 2,
+
+    [Display(Name = "Dashboard User")]
+    DashboardUser = 3
 }
